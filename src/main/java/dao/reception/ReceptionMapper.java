@@ -6,25 +6,44 @@ import org.apache.ibatis.annotations.Param;
 
 import pojo.Dictionarydate;
 import pojo.Hotel;
+import pojo.House;
+import pojo.HouseImage;
 import pojo.Level;
 import pojo.User;
 
 public interface ReceptionMapper {
-	
+
 	//注册
-	public int getRegister(User user);
-	
+	int getRegister(User user);
+
 	//验证手机号是否存在 
-	public int getphoneName(@Param("phone")String phone);
+	int getphoneName(@Param("phone")String phone);
+
+	List<Level> first(Level level);
+
+	List<Level> second(Level level);
+
+	List<Dictionarydate> getPrice();
+
+	List<Dictionarydate> getStar();
+
+	List<Hotel> getImages();
+	/**
+	 * 查询某一个酒店
+	 * @param hotelId
+	 * @return
+	 */
+	Hotel getHotel(@Param("hotelId")Integer hotelId);
+	/**
+	 * 查某一个酒店下的房型
+	 */
+	List<House> getHouseList(@Param("hotelId")Integer hotelId);
+	/**
+	 * 查询房型图片
+	 */
+	List<HouseImage> getHouseImageList(@Param("houseId")Integer houseId);
 	
-	public List<Level> first(Level level);
 	
-	public List<Level> second(Level level);
 	
-	public List<Dictionarydate> getPrice();
-	
-	public List<Dictionarydate> getStar();
-	
-	public List<Hotel> getImages();
 	
 }

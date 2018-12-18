@@ -1,12 +1,12 @@
 package controller.reception;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import pojo.Dictionarydate;
 import pojo.Hotel;
+import pojo.House;
+import pojo.HouseImage;
 import pojo.Level;
 import pojo.User;
 import service.reception.ReceptionService;
@@ -25,7 +27,7 @@ public class ReceptionController {
 
 	@Autowired
 	private ReceptionService receptionService;
-	
+
 	/**
 	 * 图片验证码
 	 */
@@ -41,7 +43,7 @@ public class ReceptionController {
 		imageUtil.write(response.getOutputStream());
 		return null;
 	}
-	
+
 	@RequestMapping("reception.do")
 	@ResponseBody
 	public String getRegister(@RequestParam(value = "phone", required = false) String phone,
@@ -51,7 +53,7 @@ public class ReceptionController {
 		User user = new User();
 		user.setPhone(phone);
 		user.setPwd(pwd);
-		
+
 		String verification = (String) request.getSession().getAttribute("code");// 正确验证码
 		if (verification != null && verification.equalsIgnoreCase(yanzma)) {
 			int phoneName = receptionService.getphoneName(phone);
@@ -100,5 +102,36 @@ public class ReceptionController {
 		request.setAttribute("getstar", getstar);
 		request.setAttribute("images", getimages);
 		return "index";
+	}
+	/**
+	 * 三级页面显示
+	 */
+	@RequestMapping("hotelDetails")
+	public String hotelDetails(@RequestParam("hotelId")Integer hotelId,HttpServletRequest request) {
+		int index = 0;
+		//查询酒店
+		Hotel hotel = receptionService.getHotel(hotelId);
+		//查询房型
+		List<House> houseList = receptionService.getHouseList(hotel.getHotelId());
+		//查询房型图片
+		List<HouseImage> houseImageList = new ArrayList<HouseImage>();
+		for (House house : houseList) {
+			List<HouseImage> houImage = receptionService.getHouseImageList(house.getHouseId());
+			for (HouseImage item : houImage) {
+				index++;
+				houseImageList.add(item);
+				if(index >= 4) {
+					break;
+				}
+			}
+			if(houseImageList.size() > 4) {
+				break;
+			}	
+		}
+		
+		request.setAttribute("hotel",hotel );
+		request.setAttribute("houseList",houseList );
+		request.setAttribute("houseImageList",houseImageList );
+		return "hotelDetails";
 	}
 }

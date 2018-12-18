@@ -29,4 +29,5 @@
 	<mvc:resources location="/member_files/" mapping="/member_files/**"/>
 	<mvc:resources location="/memberDetails_files/" mapping="/memberDetails_files/**"/>
 	<mvc:resources location="/static/images/" mapping="/static/images/**"/>
+	<mvc:resources location="/My97DatePicker/" mapping="/My97DatePicker/**"/>
 </beans>

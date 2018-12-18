@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import dao.reception.ReceptionMapper;
 import pojo.Dictionarydate;
 import pojo.Hotel;
+import pojo.House;
+import pojo.HouseImage;
 import pojo.Level;
 import pojo.User;
 import service.reception.ReceptionService;
@@ -47,4 +49,25 @@ public class ReceptionServiceImpl implements ReceptionService {
 	public List<Hotel> getImages() {
 		return receptionMapper.getImages();
 	}
+	/**
+	 * 查询酒店三级页面
+	 */
+	public Hotel getHotel(Integer hotelId) {
+		return receptionMapper.getHotel(hotelId);
+	}
+	/**
+	 * 查某一个酒店下的房型
+	 */
+	public List<House> getHouseList(Integer houseId) {
+		
+		return receptionMapper.getHouseList(houseId);
+	}
+	/**
+	 * 查询房型图片
+	 */
+	public List<HouseImage> getHouseImageList(Integer houseId) {
+		// TODO Auto-generated method stub
+		return receptionMapper.getHouseImageList(houseId);
+	}
+	
 }

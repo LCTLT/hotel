@@ -42,5 +42,17 @@
 	<select id="getImages" resultType="pojo.Hotel">
 		SELECT hotelId,hotelName,hotelPrice,fileUrl from hotel order by hotelRatings desc limit 0,7
 	</select>
-
+	
+	<!-- 酒店详情查询 -->
+	<select id="getHotel" resultType="pojo.Hotel">
+		select hotelId,productNo,hotelName,hotelAddress,hotelPrice,hotelIntro,fileUrl from hotel where hotelId=#{hotelId}
+	</select>
+	<!-- 查某一个酒店下的房型 -->
+	<select id="getHouseList" resultType="pojo.House">
+		select houseId,houseType from house where hotelId=#{hotelId}
+	</select>
+	<!-- 查询房型图片 -->
+	<select id="getHouseImageList" resultType="pojo.HouseImage">
+		select id,houseImage from house_image where houseId = #{houseId}
+	</select>
 </mapper>

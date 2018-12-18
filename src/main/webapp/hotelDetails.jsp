@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +47,7 @@
 					<div class="jdtp" style="overflow: hidden;">
 						<div class="tp">
 							<img style="width: 500px; height: 375px;"
-								src="images/wz.png"
+								src="${hotel.fileUrl}"
 								title=""
 								onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'">
 							<span class="left_button"></span> <span class="right_button"></span>
@@ -57,23 +58,12 @@
 						<div class="modal-content">
 							<div class="modal-body no-padding">
 								<div class="hh-calendar clearfix" style="width: 500px;">
-									<img style="width: 250px; height: 140px;"
-										src="images/wz.png"
-										title=""
-										onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'">
+								<c:forEach var="img" items="${houseImageList}">
 									<img style="width: 245px; height: 140px;"
-										src="images/wz.png"
+										src="${img.houseImage}"
 										title=""
 										onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'">
-
-									<img style="width: 50%; height: 140px;"
-										src="images/wz.png"
-										title=""
-										onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'">
-									<img style="width: 245px; height: 140px;"
-										src="images/wz.png"
-										title=""
-										onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'">
+								</c:forEach>
 								</div>
 							</div>
 						</div>
@@ -82,11 +72,11 @@
 				</div>
 				<form id="form">
 					<div class="cp-right">
-						<p>乌镇大墅HOTEL民宿</p>
-						<span class="price">¥<b>300</b><em>起</em></span>
+						<p>${hotel.hotelName}</p>
+						<span class="price">¥<b>${hotel.hotelPrice}</b><em>起</em></span>
 						<div class="cpxxxx">
 							<ul>
-								<li>详细地址： <i>桐乡 慈云路537号至543号 ，近西栅景区南门售票点约800处</i>
+								<li>详细地址： <i>${hotel.hotelAddress}</i>
 								</li>
 							</ul>
 						</div>
@@ -107,6 +97,9 @@
 								<li><span>房&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型：</span>
 									<select name="" id="">
 										<option value="" selected="selected">请选择</option>
+										<c:forEach var="house" items="${houseList}">
+											<option value="${house.houseId}">${house.houseType}</option>
+										</c:forEach>
 								</select></li>
 								<li><span>退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订：</span></li>
 								<li><span>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</span><label
@@ -192,9 +185,7 @@
 				<div class="one">
 					<div id="cpmd">
 						<h3>酒店详情</h3>
-						<p style="font-size: 14px;">&nbsp;&nbsp;&nbsp;&nbsp;乌镇大墅HOTEL民宿位于乌镇西栅南门约800米处，是一家现代感装修风格的民宿，占地面积约1000平方，
-							共20间客房，小店经营者是时装设计师出身，有着自己对时尚的理解。从前期硬装的装修图纸规划到后期一凳一椅
-							的软装都是从上海杭州等地请来的专业团队悉心打造。用心做人，用良心做事，是小店的宗旨。期待与您的合作。</p>
+						<p style="font-size: 14px;">&nbsp;&nbsp;&nbsp;&nbsp;${hotel.hotelIntro}</p>
 					</div>
 				</div>
 				<div id="xxxc">
