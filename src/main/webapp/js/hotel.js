@@ -1,16 +1,15 @@
 //删除条件
 function del(obj){
 	$(obj).parent().remove();
-	//访问服务器
-	//window.location.href="";
+	querylist();
 }
 //添加条件
-function add(obj,id){
+function add(obj,id,xlqy,ssfl,ywbm){
 	if($(obj).text() != "全部"){
 		var fig = true;
 		$("#"+id+"").each(function(index,i){
 			$("#spans").children("#"+id).replaceWith('<span style="color: red; margin-left: 10px;"'+
-					'name="sp" id="'+id+'">'+$(obj).text()+'<a href="javascript:void(0)" onclick="del(this)">'+
+					'name="'+$(obj).attr("id")+'" id="'+id+'">'+$(obj).text()+'<a href="javascript:void(0)" onclick="del(this)">'+
 					'<img src="images/x.png" alt="删除" style="padding-left: 4px; height: 14px;" />'+
 			'</a></span>');
 			fig = false;
@@ -18,34 +17,112 @@ function add(obj,id){
 		attrCss(obj);
 		if(fig){
 			$("#spans").append('<span style="color: red; margin-left: 10px;"'+
-					'name="sp" id="'+id+'">'+$(obj).text()+'<a href="javascript:void(0)" onclick="del(this)">'+
+					'name="'+$(obj).attr("id")+'" id="'+id+'">'+$(obj).text()+'<a href="javascript:void(0)" onclick="del(this)">'+
 					'<img src="images/x.png" alt="删除" style="padding-left: 4px; height: 14px;" />'+
 			'</a></span>');
 		}
 	}
-	//window.location.href="";
+	
+	querylist();
+	//window.location.href="/hotels/multipleQuery?mk="+xlqy+"&mktype="+ssfl+"&ywbm="+ywbm;
 }
 //全部
 function ddAll(obj,id){
-	//删除所有同级元素样式
+	// 删除所有同级元素样式
 	$(obj).parent().children("dd").removeClass();
-
-	//设置样式
+	// 设置样式
 	$(obj).addClass("current");
 	
 	var spans = $("#spans").children("span");
-	//删除条件
-	if(spans.attr("id") == id){
-		$("#"+id).remove();
-	}
+	spans.each(function(index,item){
+		if($(item).attr("id")==id){
+			$(item).remove();
+		}
+	});
+	querylist();
+	// 删除条件
+	
 }
 //设置样式默认选中
 function attrCss(obj){
-	//删除所有同级元素样式
+	// 删除所有同级元素样式
 	$(obj).parent().children("dd").removeClass();
 
-	//设置样式
+	// 设置样式
 	$(obj).addClass("current");
+}
+function querylist(){
+	var price = $("#price").attr("name");
+	var star = $("#star").attr("name");
+	var hotelsdd = $("#hotelsdd").attr("name");
+	var citysdd = $("#citysdd").attr("name");
+	
+	var array = new Array(price,star,hotelsdd,citysdd);
+	//json
+	var options = "{";
+	var fig = false;
+	for (var i = 0; i < array.length; i++) {
+		if(i == 0){
+			options += "\"price\":\""+array[i]+"\"";
+		}else if(i == 1){
+			options += "\"star\":\""+array[i]+"\"";
+		}else if(i == 2){
+			options += "\"hotelsdd\":\""+array[i]+"\"";
+		}else if(i == 3){
+			options += "\"citysdd\":\""+array[i]+"\"";
+		}
+		
+		if(array.length == (i+1)){
+			options += "}";
+		}else{
+			options +=",";
+		}
+	}
+
+	$.getJSON("multipleQuery",
+			{options:options},
+			function(data){
+				//显示容器
+				var optlist = $("#cplist");
+				//清空原来的内容
+				optlist.html("");
+				var showopt = '';
+				if(data.length == 0){
+					showopt += '<span'
+					+' style="display: block; width: 418px; position: absolute; top: 45%; left: 50%; margin-left: -209px; margin-top: -143px;"><img'
+					+' src="index_files/cplb_zwcp.jpg" width="418"></span>';
+					optlist.html(showopt);
+					return;
+				}
+				for (var i = 0; i < data.length; i++) {
+					showopt += '<div class="cpzs">'
+						+'<a'
+						+'href="/hotels/hotelDetails?hotelId='+data[i].hotelId+'"'
+						+'target="_blank"> <img src="'+data[i].fileUrl+'"'
+						+'onerror="this.src="/xtfsq/themes/images/default.jpg?timestamp=2015090216"">'
+					+'</a>'
+					+'<div class="cpmc">'
+						+'<div class="cppic">'
+							+'<a href="/hotels/hotelDetails?hotelId='+data[i].hotelId+'" target="_blank">'+data[i].hotelName+''
+							+'</a>'
+						+'</div>'
+						+'<div class="clear"></div>'
+						+'<p>酒店详情：'+data[i].hotelIntro+'</p>'
+						+'<div class="cpxqnr">'
+							+'<p>酒店地址：'+data[i].hotelAddress+'</p>'
+							+'<p>酒店房型：'+data[i].houseTypes+'</p>'
+						+'</div>'
+					+'</div>'
+					+'<div class="jg">'
+						+'<span><em>¥</em><b>'+data[i].hotelPrice+'</b>起</span>'
+						+'<button style="outline: none; margin-top: 15px;" type="button"'
+						+'onclick="javascript:window.open("/hotels/hotelDetails?hotelId='+data[i].hotelId+'")">立即预订</button>'
+					+'</div>'
+				+'</div>'
+				}
+				//添加
+				optlist.html(showopt);
+			});
 }
 
 var page = "1"==""?1:"1";
@@ -80,7 +157,8 @@ function ljgl(map){
 function init(){
 	if(""!="")$("#yxzdscj a").html($("#zdscj").find("#").html()).parent().show();
 	if(""!="")$("#yxxcts a").html($("#xcts").find("#").html()).parent().show();
-	//中文带有特殊符号使用$("#yxmdd a").html($("#mdd").find($('[id="' + "" + '"]')).html()).parent().show();
+	// 中文带有特殊符号使用$("#yxmdd a").html($("#mdd").find($('[id="' + "" +
+	// '"]')).html()).parent().show();
 	if(""!="")$("#yxmdd a").html($("#mdd").find("#").html()).parent().show();
 	if(""!="")$("#yxdjbq a").html($("#djbq").find("#").html()).parent().show();
 	if(""!="")$("#yxztbq a").html($("#ztbq").find("#").html()).parent().show();
@@ -109,15 +187,15 @@ function init(){
 		url:ljgl({'p':''})
 		});
 	}
-//	查询url地址参数
+	/// / 查询url地址参数
 	function GetQueryString(name){
-		//获得页面url某个参数参数
+		/// /获得页面url某个参数参数
 		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
 		var r = window.location.search.substr(1).match(reg);
-		if(r!=null)return unescape(r[2]);  //unescape() 来解码字符串
+		if(r!=null)return unescape(r[2]);  /// /unescape() 来解码字符串
 		return null;
 	}
-//	清空条件
+//	/ / 清空条件
 	function qktj(){
 		window.location.reload();
 	}
@@ -193,7 +271,6 @@ function init(){
 			window.location.href=url;
 		})
 		$("dd").click(function(){
-			alert(1);
 			var map = {'p':''};
 			if($(this).parent().attr("id")=="zdscj")map['zdscj']=$(this).attr('id');
 			else if($(this).parent().attr("id")=="xcts")map['xcts']=$(this).attr('id');
@@ -202,7 +279,7 @@ function init(){
 			else if($(this).parent().attr("id")=="ztbq")map['ztbq']=$(this).attr('id');
 			else if($(this).parent().attr("id")=="ppbq")map['ppbq']=$(this).attr('id');
 			else return;
-			window.location.href= ljgl(map);
+			/// /window.location.href= ljgl(map);获取后台的值来进行条件查询
 		});
 		$(".px ul li").click(function(){
 			px=$(this).attr("id");
@@ -238,18 +315,16 @@ function init(){
 			handlerflag=true;
 		}
 	}
-	function xzxllb(lbid,xlqy){
+	function xzxllb(lbid,xlqy,ssfl,ywbm){
 		var mk="";
-		if(xlqy=="01")mk="zby";
-		else if(xlqy=="02")mk="gny";
-		else if(xlqy=="03")mk="cjy";
-		window.location.href="/module/cpgl/page.do?page=list&mdd="+lbid+"&mk="+mk;
+		var mktype="";
+		window.location.href="/hotels/cpss?cpss=&mdd="+lbid+"&mk="+xlqy+"&mktype="+ssfl+"&ywbm="+ywbm;
 	}
-//	产品搜索
+//	/ / 产品搜索
 	function cpss(){
-		var pattern=new RegExp("\\\\","g");//查找所有的"\"
+		var pattern=new RegExp("\\\\","g");/// /查找所有的"\"
 		var cpss=$("#kw").val().replace(pattern,"");
-		window.location.href="/module/cpgl/page.do?page=list&cpss="+cpss;
+		window.location.href="/hotels/cpss?cpss="+cpss;
 	}
 	function ljgl2(href,lmid){
 		if(href.indexOf("?") > 0 ){
@@ -263,7 +338,7 @@ function init(){
 	function rad(d){
 		return d*PI/180.0;
 	}
-//	自动定位
+//	/ / 自动定位
 	function zddw(){
 		$.ajax({
 			type:"GET",
@@ -470,12 +545,11 @@ function init(){
 			error:function(){xzfb('');}
 		});
 	}
-//	头部微商城图片加载失败，隐藏微商城字样
+//	/ / 头部微商城图片加载失败，隐藏微商城字样
 	function hidewsc(){
 		$(".wsc").hide();
 	}
 	$(function(){
-		if("酒店"!="") $("#kw").val("酒店");
 		$(".xllb").mouseenter(function(e) {
 			$(this).children(".xllb-mb").css({"display":"block"});
 		});

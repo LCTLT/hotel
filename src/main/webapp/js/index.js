@@ -52,19 +52,21 @@ $(function(){
 		}
 	}
 	
-	function xzxllb(lbid,xlqy){
+	function xzxllb(lbid,xlqy,ssfl,ywbm){
 		var mk="";
-		if(xlqy=="01")mk="zby";
-		else if(xlqy=="02")mk="gny";
-		else if(xlqy=="03")mk="cjy";
-		window.location.href="/HotelSystem/hotel.jsp";
+		var mktype="";
+		window.location.href="/hotels/cpss?cpss=&mk="+xlqy+"&mktype="+ssfl+"&ywbm="+ywbm;
 	}
 	
-	//产品搜索
+	// 产品搜索
 	function cpss(){
-		var pattern=new RegExp("\\\\","g");//查找所有的"\"
+		var mk = "";
+		var mktype="";
+		var ywbm="";
+		//+"&mk="+mk+"&mktype="+mktype+"&ywbm="+ywbm
+		var pattern=new RegExp("\\\\","g");// 查找所有的"\"
 		var cpss=$("#kw").val().replace(pattern,"");
-		window.location.href="/module/cpgl/page.do?page=list&cpss="+cpss;
+		window.location.href="/hotels/cpss?cpss="+cpss;
 	}
 	
 	function ljgl2(href,lmid){
@@ -81,7 +83,7 @@ $(function(){
 	    return d*PI/180.0;
 	}
 	
-	//自动定位
+	// 自动定位
 	function zddw(){
 		$.ajax({
 			type:"GET",
@@ -300,7 +302,7 @@ $(function(){
 		});
 	}
 	
-	//头部微商城图片加载失败，隐藏微商城字样
+	// 头部微商城图片加载失败，隐藏微商城字样
 	function hidewsc(){
 		$(".wsc").hide();
 	}
@@ -446,3 +448,22 @@ $(function(){
 			$(this).children(".xllb-mb").css({"display":"block"});
 	    });
 	});
+	
+	
+	
+	$(function() {
+		var phone = $("#phoneM");
+		var item = phone.text();
+		phone.text(item.substring(0,3)+"****"+item.substring(7,11));
+		
+	});
+
+	function loginout() {
+		if(confirm("确认退出登录吗？")){
+			location.href="loginout";
+		}
+	}
+
+	
+	
+	

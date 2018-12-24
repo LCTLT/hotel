@@ -189,5 +189,22 @@
 	<img id="img-buffer" style="display: none;"
 		src="/xtfsq/themes/images/weixin.png?timestamp=2015090216">
 	<script src="/xtfsq/themes/jquery.pagination.js?timestamp=2015090216"></script>
+	
+	
+	
+	<script type="text/javascript">
+	$(function() {
+		var phone = $("#phoneM");
+		var item = phone.text();
+		phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
+
+	});
+
+	function loginout() {
+		if (confirm("确认退出登录吗？")) {
+			location.href = "loginout";
+		}
+	}
+</script>
 </body>
 </html>

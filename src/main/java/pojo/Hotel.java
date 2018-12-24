@@ -26,6 +26,12 @@ public class Hotel {
 	private Date hotelCheckoutTime; //退房时间
 	private String fileUrl;  //酒店图片
 	private String hotelphone;  //酒店电话
+	private String houseTypes; //酒店房型
+	
+	
+	private String levelName;//查询酒店所在地
+	private double priceF;//价格区间（前）
+	private double priceL;//价格区间（后）
 	
 	
 	public int getHotelId() {
@@ -123,6 +129,30 @@ public class Hotel {
 	}
 	public void setHotelCheckoutTime(Date hotelCheckoutTime) {
 		this.hotelCheckoutTime = hotelCheckoutTime;
+	}
+	public String getHouseTypes() {
+		return houseTypes;
+	}
+	public void setHouseTypes(String houseTypes) {
+		this.houseTypes = houseTypes;
+	}
+	public double getPriceF() {
+		return priceF;
+	}
+	public void setPriceF(double priceF) {
+		this.priceF = priceF;
+	}
+	public double getPriceL() {
+		return priceL;
+	}
+	public void setPriceL(double priceL) {
+		this.priceL = priceL;
+	}
+	public String getLevelName() {
+		return levelName;
+	}
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
 	}
 	
 	

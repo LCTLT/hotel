@@ -59,15 +59,29 @@ public class ReceptionServiceImpl implements ReceptionService {
 	 * 查某一个酒店下的房型
 	 */
 	public List<House> getHouseList(Integer houseId) {
-		
 		return receptionMapper.getHouseList(houseId);
 	}
 	/**
 	 * 查询房型图片
 	 */
 	public List<HouseImage> getHouseImageList(Integer houseId) {
-		// TODO Auto-generated method stub
 		return receptionMapper.getHouseImageList(houseId);
+	}
+
+	public List<Hotel> getCpss(Hotel hotel) {
+		return receptionMapper.getCpss(hotel);
+	}
+
+	public List<Level> allLevel(Integer lid) {
+		return receptionMapper.allLevel(lid);
+	}
+
+	public List<Hotel> getAllHotels(Hotel hotel) {
+		return receptionMapper.getAllHotels(hotel);
+	}
+
+	public int allHotelCount(Hotel hotel) {
+		return receptionMapper.allHotelCount(hotel);
 	}
 	
 }

@@ -2,57 +2,137 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dao.reception.ReceptionMapper">
-	
+
+	<!-- 注册 -->
 	<insert id="getRegister" parameterType="pojo.User">
-		insert into user(phone,pwd) VALUES(#{phone},#{pwd});
+		insert into
+		user(phone,pwd) VALUES(#{phone},#{pwd});
 	</insert>
-	
+
+	<!-- 验证手机号是否存在 -->
 	<select id="getphoneName" resultType="int">
 		select COUNT(id) from user
 		<trim prefix="where" prefixOverrides="and | or">
-			<if test="phone != null">
+			<if test="phone != ''">
 				phone = #{phone}
 			</if>
 		</trim>
 	</select>
-	
-	<select id="first" resultType="pojo.Level">
-		select * from `level` WHERE type =1
-			<if test="parentId != null">
-				and parentId = #{parentId}
-			</if>
-		
+
+	<!-- 搜索栏 -->
+	<select id="getCpss" resultType="pojo.Hotel"
+		parameterType="pojo.Hotel">
+		SELECT *,
+		(SELECT houseType FROM house a WHERE a.houseId =
+		hotel.hotelId) as houseTypes
+		FROM hotel where 1=1
+		<if test="hotelName != '' and hotelName !=null">
+			and hotelName LIKE CONCAT ('%',#{hotelName},'%')
+		</if>
+		<if test="levelName !='' and levelName !=null">
+			or level2=(SELECT id FROM `level` WHERE `name`=#{levelName})
+		</if>
+		<if test="level1 != '' and level1 != null">
+			and `level1` = #{level1}
+		</if>
+		<if test="level2 != '' and level2 != null">
+			and `level2` = #{level2}
+		</if>
+		<if test="level3 != '' and level3 != null">
+			and `level3` = #{level3}
+		</if>
+		<if test="priceF!='' and priceF!=null or priceL!='' and priceL!=null">
+			AND hotelPrice BETWEEN #{priceF} and #{priceL}
+		</if>
+		<if test="hotelRating!='' and hotelRating!=null">
+			and hotelRating=#{hotelRating}
+		</if>
+			<!-- LIMIT #{currentPageNo},#{totalPageCount} -->
 	</select>
 	
+	<select id="allHotelCount" resultType="int">
+		select COUNT(1) from hotel where 1=1
+		<if test="hotelName != '' and hotelName !=null">
+			and hotelName LIKE CONCAT ('%',#{hotelName},'%')
+		</if>
+		<if test="levelName !='' and levelName !=null">
+			or level2=(SELECT id FROM `level` WHERE `name`=#{levelName})
+		</if>
+		<if test="level1 != '' and level1 != null">
+			and `level1` = #{level1}
+		</if>
+		<if test="level2 != '' and level2 != null">
+			and `level2` = #{level2}
+		</if>
+		<if test="level3 != '' and level3 != null">
+			and `level3` = #{level3}
+		</if>
+		<if test="priceF!='' and priceF!=null or priceL!='' and priceL!=null">
+			AND hotelPrice BETWEEN #{priceF} and #{priceL}
+		</if>
+		<if test="hotelRating!='' and hotelRating!=null">
+			and hotelRating=#{hotelRating}
+		</if>
+	</select>
+
+
+	<select id="allLevel" resultType="pojo.Level">
+		SELECT * FROM level where 1=1
+		<if test="lid != '' and  lid !=null">
+			and id = #{lid}
+		</if>
+	</select>
+
+	<!-- 查询酒店类型 -->
+	<select id="first" resultType="pojo.Level">
+		select * from `level` WHERE type =1
+		<if test="parentId != ''">
+			and parentId = #{parentId}
+		</if>
+
+	</select>
+
+	<!-- 查询所在城市 -->
 	<select id="second" resultType="pojo.Level">
 		SELECT * FROM `level` WHERE type =2 AND parentId=1
 		<trim prefix="where" prefixOverrides="and | or">
-			
+
 		</trim>
 	</select>
-	
-	<select id="getPrice" resultType="pojo.Dictionarydate" parameterType="pojo.Dictionarydate">
+
+	<!-- 查询价格范围 -->
+	<select id="getPrice" resultType="pojo.Dictionarydate"
+		parameterType="pojo.Dictionarydate">
 		SELECT * FROM dictionarydate WHERE typeCode='price'
 	</select>
-	
-	<select id="getStar" resultType="pojo.Dictionarydate" parameterType="pojo.Dictionarydate">
+
+	<!-- 查询星级档次 -->
+	<select id="getStar" resultType="pojo.Dictionarydate"
+		parameterType="pojo.Dictionarydate">
 		SELECT * from dictionarydate WHERE typeCode='star'
 	</select>
-	
+
+	<!-- 获取其他酒店图片 -->
 	<select id="getImages" resultType="pojo.Hotel">
-		SELECT hotelId,hotelName,hotelPrice,fileUrl from hotel order by hotelRatings desc limit 0,7
+		SELECT
+		hotelId,hotelName,hotelPrice,fileUrl from hotel order by hotelRatings
+		desc limit 0,7
 	</select>
-	
+
 	<!-- 酒店详情查询 -->
 	<select id="getHotel" resultType="pojo.Hotel">
-		select hotelId,productNo,hotelName,hotelAddress,hotelPrice,hotelIntro,fileUrl from hotel where hotelId=#{hotelId}
+		select
+		hotelId,productNo,hotelName,hotelAddress,hotelPrice,hotelIntro,fileUrl
+		from hotel where hotelId=#{hotelId}
 	</select>
 	<!-- 查某一个酒店下的房型 -->
 	<select id="getHouseList" resultType="pojo.House">
-		select houseId,houseType from house where hotelId=#{hotelId}
+		select houseId,houseType
+		from house where hotelId=#{hotelId}
 	</select>
 	<!-- 查询房型图片 -->
 	<select id="getHouseImageList" resultType="pojo.HouseImage">
-		select id,houseImage from house_image where houseId = #{houseId}
+		select id,houseImage
+		from house_image where houseId = #{houseId}
 	</select>
 </mapper>

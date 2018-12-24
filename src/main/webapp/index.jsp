@@ -35,22 +35,22 @@
 								width="770" height="460" /></a><span class="gg_img">广告</span></li>
 						<li><a
 							href="javascript:ckcp('2d77b4d840c34d04b432ff4231a5d207','01');"><img
-								src="index_files/95d98226f5134587b7ec07193410de83.jpg"
+								src="static/images/北京京都信苑饭店.jpg"
 								onerror="this.src='/xtfsq/themes/images/banner.jpg?timestamp=2015090216'"
 								width="770" height="460" /></a><span class="gg_img">广告</span></li>
 						<li><a
 							href="javascript:ckcp('5acab775bb244ba6832cfdb31262b707','01');"><img
-								src="index_files/33f204ed7a844eca910e64138108a0d1.jpg"
+								src="static/images/创业大酒店(上海外滩中心店).jpg"
 								onerror="this.src='/xtfsq/themes/images/banner.jpg?timestamp=2015090216'"
 								width="770" height="460" /></a><span class="gg_img">广告</span></li>
 						<li><a
 							href="javascript:ckcp('14a1c65114624ce3a39311a78ef67c07','01');"><img
-								src="index_files/7abb7b2c118648c8b8884dcb14fb12f2.jpg"
+								src="static/images/昆明航湾半岛观光酒店.jpg"
 								onerror="this.src='/xtfsq/themes/images/banner.jpg?timestamp=2015090216'"
 								width="770" height="460" /></a><span class="gg_img">广告</span></li>
 						<li><a
 							href="javascript:ckcp('2a38ee2c282c4040ac86d67f1b7f8c86','01');"><img
-								src="index_files/b12b88166fcd4fdc86f8041bb83298cd.jpg"
+								src="static/images/长春和润艺术酒店.jpg"
 								onerror="this.src='/xtfsq/themes/images/banner.jpg?timestamp=2015090216'"
 								width="770" height="460" /></a><span class="gg_img">广告</span></li>
 					</ul>
@@ -101,8 +101,7 @@
 							<div class="dacp_tp">
 								<a
 									href="/module/cpgl/view.do?cpid=313c8ad4ddcf4cc0b4b4df98b223bddb&amp;mk=zby"
-									target="_blank"><img
-									src="${hotel.fileUrl }"
+									target="_blank"><img src="${hotel.fileUrl }"
 									onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'"
 									width="585"></a>
 							</div>
@@ -113,31 +112,30 @@
 							</div>
 						</li>
 						<c:forEach items="${images}" var="img">
-						<li style="margin-top: 0;">
-							<div class="cptp">
-								<a
-									href="/module/cpgl/view.do?cpid=c95a069d52cf4e4c87e6179d48b0c3d5&amp;mk=zby"
-									target="_blank"><img
-									src="${img.fileUrl }"
-									onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'"
-									width="284" height="212"></a>
-							</div>
-							<div class="cpmc">
-								<a
-									href="/module/cpgl/view.do?cpid=c95a069d52cf4e4c87e6179d48b0c3d5&amp;mk=zby"
-									target="_blank"><p>${img.hotelName }</p></a>
-							</div>
-							<p class="cpjs">
-								<i>¥<b>${img.hotelPrice}</b><em>起</em></i>
-							</p>
-						</li>
+							<li style="margin-top: 0;">
+								<div class="cptp">
+									<a
+										href="/module/cpgl/view.do?cpid=c95a069d52cf4e4c87e6179d48b0c3d5&amp;mk=zby"
+										target="_blank"><img src="${img.fileUrl }"
+										onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'"
+										width="284" height="212"></a>
+								</div>
+								<div class="cpmc">
+									<a
+										href="/module/cpgl/view.do?cpid=c95a069d52cf4e4c87e6179d48b0c3d5&amp;mk=zby"
+										target="_blank"><p>${img.hotelName }</p></a>
+								</div>
+								<p class="cpjs">
+									<i>¥<b>${img.hotelPrice}</b><em>起</em></i>
+								</p>
+							</li>
 						</c:forEach>
 					</ul>
 					<div class="clear"></div>
 				</div>
 			</div>
-			</div>
-			</div>
+		</div>
+	</div>
 	<!--页面内容结束-->
 
 	<!-- 嵌入页面底部 -->
@@ -153,21 +151,7 @@
 	</div>
 </body>
 
-<script type="text/javascript">
-	$(function() {
-		var phone = $("#phoneM");
-		var item = phone.text();
-		phone.text(item.substring(0,3)+"****"+item.substring(7,11));
-		
-	});
 
-	function loginout() {
-		if(confirm("确认退出登录吗？")){
-			location.href="loginout";
-		}
-	}
-
-</script>
 
 
 </html>

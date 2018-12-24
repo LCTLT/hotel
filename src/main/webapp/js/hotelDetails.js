@@ -23,7 +23,7 @@ var DDGL = {
 			jsonstr += ']';
 			var data = $.parseJSON(jsonstr);
 			DDGL.createCalendarData(data);
-			Calendar.Init(data.length ? data[0].DEPARTUREDATE : null); //载入日历
+			Calendar.Init(data.length ? data[0].DEPARTUREDATE : null); // 载入日历
 		},
 		createCalendarData : function(data) {
 			CalendarData = new Object();
@@ -108,7 +108,7 @@ $(function() {
 				}
 			});
 
-	//收藏
+	// 收藏
 	$("#sc")
 	.on(
 			"click",
@@ -212,7 +212,7 @@ $(function() {
 
 	DDGL.init();
 
-	//加载图片模块
+	// 加载图片模块
 	var tpmap = new Map();
 
 	tpmap
@@ -327,7 +327,7 @@ $(function() {
 				}
 			});
 
-	//选择省份事件
+	// 选择省份事件
 	$("#lygw_province")
 	.on(
 			"change",
@@ -358,7 +358,7 @@ $(function() {
 											+ data[i].qyzw
 											+ "</option>");
 								}
-								//$("#city").trigger("change");
+								// $("#city").trigger("change");
 							}
 						},
 						error : function(result) {
@@ -375,7 +375,7 @@ $(function() {
 				}
 			});
 
-	//选择城市事件
+	// 选择城市事件
 	$("#lygw_city").on(
 			"change",
 			function() {
@@ -408,7 +408,7 @@ $(function() {
 				});
 			});
 
-	//选择城市事件
+	// 选择城市事件
 	$("#lygw_mdid").on("change", function() {
 		mdjc = $(this).text();
 		$.ajax({
@@ -453,7 +453,7 @@ $(function() {
 				DDGL.calcPrice();
 			});
 
-	islogin = "false" == "true" ? true : false;//true-登录
+	islogin = "false" == "true" ? true : false;// true-登录
 
 	$("#submitOrder").on("click", function() {
 		if (!ydclick)
@@ -488,7 +488,7 @@ $(function() {
 		timer = setInterval(getqgsj, 1000);
 	}
 
-	//微店二维码
+	// 微店二维码
 	$("#qrcode")
 	.qrcode(
 			{
@@ -499,7 +499,7 @@ $(function() {
 				text : "http://wd.loyoyo.com/weixin/cpgl/view.do?cpid=b210ea079b7b4f4a9e2632b04426fb5c"
 			});
 
-	//分享产品二维码
+	// 分享产品二维码
 	$("#qrcode2")
 	.qrcode(
 			{
@@ -510,7 +510,7 @@ $(function() {
 				text : "http://wd.loyoyo.com/weixin/cpgl/view.do?cpid=b210ea079b7b4f4a9e2632b04426fb5c"
 			});
 
-	//验证码登录页面初始化
+	// 验证码登录页面初始化
 	$("#yzmdldxyzm").on("keyup", function(e) {
 		var tmptxt = $(this).val();
 		$(this).val(tmptxt.replace(/\D/g, ''));
@@ -549,7 +549,7 @@ function submitOrder() {
 		$("#lygw_mdid").prop("disabled", false);
 		$("#zflx").prop("disabled", false);
 
-		if (!islogin) { //未登录
+		if (!islogin) { // 未登录
 			yzmdlym($("#sj").val());
 		} else {
 			$
@@ -577,16 +577,16 @@ function submitOrder() {
 	}
 }
 
-//验证码登录页面
+// 验证码登录页面
 function yzmdlym(sj) {
 	$(".zz,.hy").hide().show();
 	$(".yzmdl input[type=reset]").trigger("click");
 	if (sj != null)
-		$("#yzmdlsjh").val(sj);//默认联系人手机
+		$("#yzmdlsjh").val(sj);// 默认联系人手机
 	$(".yzmdl").show();
 }
 
-//获取验证码
+// 获取验证码
 function hqyzm() {
 	if (handlerflag) {
 		handlerflag = false;
@@ -632,7 +632,7 @@ function hqyzm() {
 	}
 }
 
-//重新获取验证码时间
+// 重新获取验证码时间
 function settime(time, fn) {
 	var timer = setInterval(function() {
 		if (!dxfsxz && time >= 0) {
@@ -645,7 +645,7 @@ function settime(time, fn) {
 	}, 1000);
 }
 
-//验证码登录
+// 验证码登录
 function yzmdl() {
 	if (handlerflag) {
 		handlerflag = false;
@@ -666,9 +666,9 @@ function yzmdl() {
 				dataType : "json",
 				async : false,
 				success : function(result) {
-					if (result.key == "1") { //验证码登录
-						islogin = true;//已登录
-						submitOrder();//提交订单
+					if (result.key == "1") { // 验证码登录
+						islogin = true;// 已登录
+						submitOrder();// 提交订单
 					} else if (result.key == "2")
 						toast("手机号与短信验证码不匹配");
 					else if (result.key == "3")
@@ -683,13 +683,13 @@ function yzmdl() {
 	}
 }
 
-//抢购时间
+// 抢购时间
 function getqgsj() {
-	var now = new Date().getTime();//当前时间
+	var now = new Date().getTime();// 当前时间
 	var kssjstr = "";
 	var jssjstr = "";
-	var kssj = new Date(kssjstr.replace(/-/g, "/")).getTime();//开始时间
-	var jssj = new Date(jssjstr.replace(/-/g, "/")).getTime();//结束时间
+	var kssj = new Date(kssjstr.replace(/-/g, "/")).getTime();// 开始时间
+	var jssj = new Date(jssjstr.replace(/-/g, "/")).getTime();// 结束时间
 	var djs = 0;
 	var temp = 0;
 	var flag = false;
@@ -703,13 +703,13 @@ function getqgsj() {
 		flag = true;
 	}
 	if (flag) {
-		var days = Math.floor(djs / 1000 / 60 / 60 / 24);//天
-		var hours = Math.floor(djs / 1000 / 60 / 60 % 24);//时
-		var minutes = Math.floor(djs / 1000 / 60 % 60);//分
-		var seconds = Math.floor(djs / 1000 % 60);//秒
+		var days = Math.floor(djs / 1000 / 60 / 60 / 24);// 天
+		var hours = Math.floor(djs / 1000 / 60 / 60 % 24);// 时
+		var minutes = Math.floor(djs / 1000 / 60 % 60);// 分
+		var seconds = Math.floor(djs / 1000 % 60);// 秒
 		if (temp == 1) {
 			$(".dbox").show();
-			ydclick = false;//用于判断点击预订按钮是否可操作
+			ydclick = false;// 用于判断点击预订按钮是否可操作
 			$("#submitOrder").removeClass("ydan ydan2")
 			.addClass("ydan_hui");
 			$(".tsy").html("距抢购开始 ");
@@ -735,7 +735,7 @@ function getqgsj() {
 		.html("抢购已结束").click(function(event) {
 			toast("抢购已结束")
 		});
-		clearInterval(timer);//清除定时器
+		clearInterval(timer);// 清除定时器
 	}
 }
 var handlerflag = true;
@@ -763,24 +763,20 @@ function xzfb(fbid) {
 	}
 }
 
-function xzxllb(lbid, xlqy) {
-	var mk = "";
-	if (xlqy == "01")
-		mk = "zby";
-	else if (xlqy == "02")
-		mk = "gny";
-	else if (xlqy == "03")
-		mk = "cjy";
-	window.location.href = "/HotelSystem/page.do?page=list&mdd=" + lbid
-	+ "&mk=" + mk;
+function xzxllb(lbid, xlqy,ssfl,ywbm) {
+	var mk="";
+	var mktype="";
+	window.location.href="/hotels/cpss?cpss=&mk="+xlqy+"&mktype="+ssfl+"&ywbm="+ywbm;
 }
 
-//产品搜索
+// 产品搜索
 function cpss() {
-	var pattern = new RegExp("\\\\", "g");//查找所有的"\"
+	var mk = "";
+	var mktype="";
+	var ywbm="";
+	var pattern = new RegExp("\\\\", "g");// 查找所有的"\"
 	var cpss = $("#kw").val().replace(pattern, "");
-	window.location.href = "/module/cpgl/page.do?page=list&cpss="
-		+ cpss;
+	window.location.href="/hotels/cpss?cpss="+cpss;
 }
 
 function ljgl2(href, lmid) {
@@ -799,7 +795,7 @@ function rad(d) {
 	return d * PI / 180.0;
 }
 
-//自动定位
+// 自动定位
 function zddw() {
 	$
 	.ajax({
@@ -1203,7 +1199,7 @@ function zddw() {
 	});
 }
 
-//头部微商城图片加载失败，隐藏微商城字样
+// 头部微商城图片加载失败，隐藏微商城字样
 function hidewsc() {
 	$(".wsc").hide();
 }
@@ -1405,8 +1401,9 @@ $(function() {
 				"bdText" : "五星泰国海景沙美版6天5晚跟团游，1晚沙美岛豪华度假酒店小别墅+2晚芭提雅国五海景房布莱顿酒店海景房+1晚曼谷皇家喜来登酒店180°落地河景房+1晚曼谷高人气绿宝石酒店",
 				"bdUrl" : "http://wd.loyoyo.com/weixin/cpgl/view.do?cpid=b210ea079b7b4f4a9e2632b04426fb5c",
 				"bdPic" : document.getElementById('imgurl').content,
-				/* "bdMini":"1",
-		"bdMiniList":["weixin","sqq","qzone","tsina"], */
+				/*
+				 * "bdMini":"1", "bdMiniList":["weixin","sqq","qzone","tsina"],
+				 */
 				"bdStyle" : "0",
 				"bdSize" : "16",
 				"onBeforeClick" : function(cmd, config) {

@@ -10,7 +10,7 @@ public class Level {
 	private int id;//分类id
 	private String name;//分类名称
 	private int parentId;//父级分类
-	private String type;//所属分类
+	private int type;//所属分类
 	
 	
 	public int getId() {
@@ -31,10 +31,10 @@ public class Level {
 	public void setParentId(int parentId) {
 		this.parentId = parentId;
 	}
-	public String getType() {
+	public int getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 }

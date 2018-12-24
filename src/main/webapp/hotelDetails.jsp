@@ -54,21 +54,6 @@
 						</div>
 					</div>
 
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-body no-padding">
-								<div class="hh-calendar clearfix" style="width: 500px;">
-								<c:forEach var="img" items="${houseImageList}">
-									<img style="width: 245px; height: 140px;"
-										src="${img.houseImage}"
-										title=""
-										onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'">
-								</c:forEach>
-								</div>
-							</div>
-						</div>
-					</div>
-
 				</div>
 				<form id="form">
 					<div class="cp-right">
@@ -249,4 +234,20 @@
 		</div>
 </body>
 <script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
+
+
+<script type="text/javascript">
+	$(function() {
+		var phone = $("#phoneM");
+		var item = phone.text();
+		phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
+
+	});
+
+	function loginout() {
+		if (confirm("确认退出登录吗？")) {
+			location.href = "loginout";
+		}
+	}
+</script>
 </html>
