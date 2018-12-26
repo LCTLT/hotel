@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +31,9 @@
 <link rel="stylesheet" href="hotelDetails_files/share_style0_16.css">
 <!-- 引入js -->
 <script type="text/javascript" src="js/hotelDetails.js"></script>
+<!-- 您的密钥 -->
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
 </head>
 <body>
 	<!-- 嵌入头部 -->
@@ -46,16 +49,16 @@
 				<div class="cp-left">
 					<div class="jdtp" style="overflow: hidden;">
 						<div class="tp">
-							<img style="width: 500px; height: 375px;"
-								src="${hotel.fileUrl}"
+							<img style="width: 500px; height: 375px;" src="${hotel.fileUrl}"
 								title=""
 								onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'">
 							<span class="left_button"></span> <span class="right_button"></span>
 						</div>
 					</div>
-
+					<div id="container" style="width: 500px; height: 300px;"></div>
 				</div>
 				<form id="form">
+				<input type="hidden" id="hotelAddress" value="${hotel.hotelAddress}">
 					<div class="cp-right">
 						<p>${hotel.hotelName}</p>
 						<span class="price">¥<b>${hotel.hotelPrice}</b><em>起</em></span>
@@ -235,6 +238,26 @@
 </body>
 <script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 
+<script type="text/javascript">
+var hotelAddress = $("#hotelAddress").val();
+		//创建地图实例 
+		var map = new BMap.Map("container");
+		var point = new BMap.Point(116.331398,39.897445);
+		//开启鼠标滚轮缩放
+		map.enableScrollWheelZoom(true);
+		map.centerAndZoom(point,20);
+		// 创建地址解析器实例
+		var myGeo = new BMap.Geocoder();
+		// 将地址解析结果显示在地图上,并调整地图视野
+		myGeo.getPoint(hotelAddress, function(point){
+			if (point) {
+				map.centerAndZoom(point, 20);
+				map.addOverlay(new BMap.Marker(point));
+			}else{
+				alert("您选择地址没有解析到结果!");
+			}
+		});
+</script>
 
 <script type="text/javascript">
 	$(function() {
