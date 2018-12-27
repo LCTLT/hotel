@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import pojo.User;
 import service.login.UserService;
+import util.CheckUtil;
 
 /*
- * 用户控制类
+ *鐧诲綍
  */
 @Controller
 public class UserController {
@@ -23,7 +24,7 @@ public class UserController {
 	@ResponseBody
 	public String login(@RequestParam("phone") String phone, @RequestParam("password") String password,
 			HttpServletRequest request) {
-		User user = userService.loginInfo(phone, password);
+		User user = userService.loginInfo(phone, CheckUtil.getSha1(password));
 		if (user != null) {
 			request.getSession().setAttribute("user", user);
 			return "1";

@@ -2,6 +2,7 @@ package service.reception.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,6 @@ import dao.reception.ReceptionMapper;
 import pojo.Dictionarydate;
 import pojo.Hotel;
 import pojo.House;
-import pojo.HouseImage;
 import pojo.Level;
 import pojo.User;
 import service.reception.ReceptionService;
@@ -49,26 +49,22 @@ public class ReceptionServiceImpl implements ReceptionService {
 	public List<Hotel> getImages() {
 		return receptionMapper.getImages();
 	}
-	/**
-	 * ²éÑ¯¾ÆµêÈı¼¶Ò³Ãæ
-	 */
+
 	public Hotel getHotel(Integer hotelId) {
 		return receptionMapper.getHotel(hotelId);
 	}
-	/**
-	 * ²éÄ³Ò»¸ö¾ÆµêÏÂµÄ·¿ĞÍ
-	 */
+
 	public List<House> getHouseList(Integer houseId) {
 		return receptionMapper.getHouseList(houseId);
 	}
-	/**
-	 * ²éÑ¯·¿ĞÍÍ¼Æ¬
-	 */
-	public List<HouseImage> getHouseImageList(Integer houseId) {
-		return receptionMapper.getHouseImageList(houseId);
-	}
 
 	public List<Hotel> getCpss(Hotel hotel) {
+		if(hotel.getPageNo() != null) {
+			if(hotel.getPageNo() == 0) {
+				hotel.setPageNo(1);
+			}
+			hotel.setPageNo((hotel.getPageNo()-1)*hotel.getPageSize()); //å½“å‰é¡µ
+		}
 		return receptionMapper.getCpss(hotel);
 	}
 
@@ -82,6 +78,12 @@ public class ReceptionServiceImpl implements ReceptionService {
 
 	public int allHotelCount(Hotel hotel) {
 		return receptionMapper.allHotelCount(hotel);
+	}
+	/*
+	 * åŠ è½½æˆ¿å‹è¯¦æƒ…
+	 */
+	public House getQueryDetails(@Param("houseId")Integer houseId) {
+		return receptionMapper.getQueryDetails(houseId);
 	}
 	
 }

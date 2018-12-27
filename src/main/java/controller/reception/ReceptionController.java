@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.annotations.Param;
 import org.eclipse.jdt.internal.compiler.apt.util.EclipseFileManager;
 import org.jcp.xml.dsig.internal.MacOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,11 @@ import com.alibaba.fastjson.JSON;
 import pojo.Dictionarydate;
 import pojo.Hotel;
 import pojo.House;
-import pojo.HouseImage;
 import pojo.Level;
-import pojo.Paging;
 import pojo.User;
 import service.reception.ReceptionService;
+import util.BoolIsUtil;
+import util.CheckUtil;
 import util.ImageUtil;
 
 @Controller
@@ -36,14 +37,17 @@ public class ReceptionController {
 
 	@Autowired
 	private ReceptionService receptionService;
+	
+	//酒店显示的数量
+	private static Integer count;
 
 	/**
-	 * ͼƬ��֤��
+	 * 
 	 */
 	@RequestMapping("code.do")
 	public String getCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setContentType("image/jpeg");
-		// ��ֹͼ�񻺴�
+		
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Cache-Control", "no-cache");
 		response.setDateHeader("Expires", 0);
@@ -53,32 +57,15 @@ public class ReceptionController {
 		return null;
 	}
 
-	/**
-	 ** ������(�������ҳ��)
-	 * 
-	 * @param request
-	 * @param hotelName ��������ѯ
-	 * @param id �������ҳ���idֵ
-	 * @param typeId ����
-	 * @param ywbm �жϼ۸�Χ���Ǽ�
-	 * @return
-	 */
+
 	@SuppressWarnings("unlikely-arg-type")
 	@RequestMapping("cpss")
 	public String getCpss(HttpServletRequest request, @RequestParam(value = "cpss", required = false) String hotelName,
 			@RequestParam(value = "mk", required = false) String id,
 			@RequestParam(value = "mktype", required = false) String typeId,
 			@RequestParam(value = "ywbm", required = false) Integer ywbm) {
-		System.out.println("-------------------------------------------------------------------------------�������ҳ��");
 		Level level = new Level();
 		Hotel hotel = new Hotel();
-		//Paging paging = new Paging();
-
-		System.out.println("cpss:---->" + hotelName+"\t---<<"+hotel.getLevelName()+">>---");
-		System.out.println(">>>>>>>>����ҳ����Ҫ��idֵ<<---mk---<<<<<<��" + id);
-		System.err.println("ҳ�洫�����ͣ�" + typeId);
-		System.err.println("ҳ�洫�ĵȼ���" + ywbm);
-		System.out.println("hotelName:" + hotel.getHotelName());
 
 		if (hotel.getHotelName() != "" || hotel.getHotelName() != null) {
 			hotel.setHotelName(hotelName);
@@ -86,7 +73,6 @@ public class ReceptionController {
 
 		if (id != null && !"".equals(id) || typeId != null && !"".equals(typeId)) {
 			if ("price".equals(typeId.toString())) {
-				System.err.println("price11111");
 				if (ywbm == 0) {
 					hotel.setPriceF(0);
 					hotel.setPriceL(Integer.valueOf(id));
@@ -94,7 +80,7 @@ public class ReceptionController {
 					String[] array = id.split("-");
 					if (array.length > 1) {
 						hotel.setPriceF(Double.valueOf(array[0]));
-						hotel.setPriceL(Double.valueOf(array[1]));
+						hotel.setPriceL(Double.valueOf(array[1])-1);
 					} else {
 						hotel.setPriceF(Integer.valueOf(id));
 						hotel.setPriceL(999999999);
@@ -102,25 +88,14 @@ public class ReceptionController {
 				}
 
 			} else if ("star".equals(typeId.toString())) {
-				System.err.println("star111111");
-				System.out.println("id.substring(2):-->" + id.substring(0, 3));
 				hotel.setHotelRating(id.substring(0, 3));
 			} else {
-				List<Level> levellist = receptionService.allLevel(Integer.valueOf(id));
-				for (int i = 0; i < levellist.size(); i++) {
-					System.out.println("aaaaaa:" + levellist.size());
-					System.out.println("<<<<<<<<level---type>>>>>>>>>>:" + levellist.get(i).getType());
-				}
 				if (Integer.valueOf(typeId) == 1) {
-					System.out.println("111111111111111");
 					hotel.setLevel1(Integer.valueOf(id));
 				} else if (Integer.valueOf(typeId) == 2) {
-					System.out.println("222222222222222");
 					if (!"".trim().equals(hotel.getLevel1())) {
 						hotel.setLevel2(Integer.valueOf(id));
-						System.out.println("222222222����");
 					} else if (!"".trim().equals(hotel.getLevel2())) {
-						System.out.println("33333333333333");
 						hotel.setLevel3(Integer.valueOf(id));
 					}
 				}
@@ -129,7 +104,6 @@ public class ReceptionController {
 		List<Hotel> lists = receptionService.getCpss(hotel);
 		if(lists.size()==0) {
 			hotel.setLevelName(hotelName);
-			System.out.println("------<<"+hotel.getLevelName()+">>------");
 			lists = receptionService.getCpss(hotel);
 		}
 
@@ -137,7 +111,10 @@ public class ReceptionController {
 		List<Level> list2 = receptionService.second(level);
 		List<Dictionarydate> getprice = receptionService.getPrice();
 		List<Dictionarydate> getstar = receptionService.getStar();
-		
+		//总页数
+		//计算酒店数量
+		count = receptionService.allHotelCount(hotel);
+		hotel.setTotal(count % hotel.getPageSize() == 0? count / hotel.getPageSize() : (count/hotel.getPageSize())+1);
 		request.setAttribute("first", list);
 		request.setAttribute("second", list2);
 		request.setAttribute("getprice", getprice);
@@ -145,46 +122,90 @@ public class ReceptionController {
 		request.setAttribute("list", lists);
 		request.setAttribute("hotel", hotel);
 		request.setAttribute("cpsss", hotelName);
-
+		request.setAttribute("count", count);
+		request.setAttribute("sign", "hotel");
+		request.setAttribute("mk", id);
+		
 		return "hotel";
 	}
-
+	/**
+	 * 二级页面
+	 * @param options
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	@RequestMapping("multipleQuery")
-	public void multiple(@RequestParam("options")String options,HttpServletRequest request,HttpServletResponse response) throws IOException {
+	public void multiple(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		
-		Map mapTypes = JSON.parseObject(options); 
+		String price = request.getParameter("price");
+		String hotelRating = request.getParameter("hotelRating");
+		String level1 = request.getParameter("level1");
+		String level2 = request.getParameter("level2");
+		String hotelName = request.getParameter("hotelName");
+		String pageNo = request.getParameter("pageNo");
+		String attr = request.getParameter("attr");
 		Hotel hotel = new Hotel();
-		for (Object obj : mapTypes.keySet()){  
-			if(obj.equals("price") && !(mapTypes.get(obj).toString()).equals("undefined")) {
-				//hotel.setHotelPrice(Double.parseDouble(mapTypes.get(obj).toString()));
-				String[] array = mapTypes.get(obj).toString().split("-");
-				if (array.length > 1) {
-					hotel.setPriceF(Double.valueOf(array[0]));
-					hotel.setPriceL(Double.valueOf(array[1]));
-				} else {
-					hotel.setPriceL(Double.valueOf(array[0]));
-					if(hotel.getPriceL() == 200) {
-						hotel.setPriceF(0);
-					}else {
-						hotel.setPriceF(Double.valueOf(Double.valueOf(array[0])));
-						hotel.setPriceL(999999999);
-					}
+		//价格取值
+		if(BoolIsUtil.isBool(price)) {
+			String[] array = price.split("-");
+			if (array.length > 1) {
+				hotel.setPriceF(Double.valueOf(array[0]));
+				hotel.setPriceL(Double.valueOf(array[1])-1);
+			} else {
+				hotel.setPriceL(Double.valueOf(array[0]));
+				if(hotel.getPriceL() == 200) {
+					hotel.setPriceF(hotel.getPriceL()-1);
+					hotel.setPriceF(0);
+				}else {
+					hotel.setPriceF(Double.valueOf(Double.valueOf(array[0])));
+					hotel.setPriceL(999999999);
 				}
-			}else if(obj.equals("star") && !(mapTypes.get(obj).toString()).equals("undefined")) {
-				hotel.setHotelRating(mapTypes.get(obj).toString());
-			}else if(obj.equals("hotelsdd") && !(mapTypes.get(obj).toString()).equals("undefined")) {
-				hotel.setLevel1(Integer.valueOf(mapTypes.get(obj).toString()));
-			}else if(obj.equals("citysdd") && !(mapTypes.get(obj).toString()).equals("undefined")) {
-				hotel.setLevel2(Integer.valueOf(mapTypes.get(obj).toString()));
 			}
-		} 
-		out.print(JSON.toJSONString(receptionService.getCpss(hotel)));
+		}
+		//星级取值
+		if(BoolIsUtil.isBool(hotelRating)) {
+			hotel.setHotelRating(hotelRating);
+		}
+		//分类一级取值
+		if(BoolIsUtil.isBool(level1)) {
+			hotel.setLevel1(Integer.valueOf(level1));
+		}
+		//分类二级取值
+		if(BoolIsUtil.isBool(level2)) {
+			hotel.setLevel2(Integer.valueOf(level2));
+		}
+		//酒店名称取值
+		if(BoolIsUtil.isBool(hotelName)) {
+			hotel.setHotelName(hotelName);
+		}
+		//分页数据取值
+		if(BoolIsUtil.isBool(pageNo)) {
+			hotel.setPageNo(Integer.valueOf(pageNo));
+		}
+		//排序取值
+		if(BoolIsUtil.isBool(attr)) {
+			hotel.setAttr(attr);
+		}
+		//计算符合条件的酒店
+		count = receptionService.allHotelCount(hotel);
+		List<Hotel> list = receptionService.getCpss(hotel);
+		if(list.size() == 0) {
+			hotel.setLevelName(hotelName);
+			count = receptionService.allHotelCount(hotel);
+			list = receptionService.getCpss(hotel);
+		}
+		System.out.println("size="+list.size());
+		out.print(JSON.toJSONString(list));
 	}
-
+	@RequestMapping("counts")
+	@ResponseBody
+	public String counts() {
+		return ""+count;
+	}
 	/**
-	 ** ע����֤
+	 ** 注册
 	 * 
 	 * @param phone
 	 * @param pwd
@@ -203,32 +224,30 @@ public class ReceptionController {
 			HttpServletResponse response) throws ServletException, IOException {
 		User user = new User();
 		user.setPhone(phone);
-		user.setPwd(pwd);
+		//对密码进行加密
+		user.setPwd(CheckUtil.getSha1(pwd));
+		System.out.println("加密后="+user.getPwd());
 
-		String verification = (String) request.getSession().getAttribute("code");// ��ȷ��֤��
+		String verification = (String) request.getSession().getAttribute("code");// 锟斤拷确锟斤拷证锟斤拷
 		if (verification != null && verification.equalsIgnoreCase(yanzma)) {
 			int phoneName = receptionService.getphoneName(phone);
-			System.out.println("phoneName���:" + phoneName);
 			if (phoneName > 0) {
-				System.out.println("�ֻ����Ѵ���");
-				return "1";// �ֻ��Ŵ���
+				return "1";
 			} else {
 				int i = receptionService.getRegister(user);
-				System.out.println("���1��" + i);
 				if (i > 0) {
-					System.out.println("ע��ɹ���");
 					request.getSession().setAttribute("phoneName", phone);
-					return "2";// �ɹ�ע��
+					return "2";
 				}
 				return null;
 			}
 		} else {
-			return "3";// ��֤�����
+			return "3";
 		}
 	}
 
 	/**
-	 * ��ҳ��ѯ
+	 * 进入首页
 	 * 
 	 * @param request
 	 * @param response
@@ -260,7 +279,7 @@ public class ReceptionController {
 	}
 
 	/**
-	 * ����ҳ����ʾ
+	 * 进入酒店详情
 	 */
 	@RequestMapping("hotelDetails")
 	public String hotelDetails(@RequestParam("hotelId") Integer hotelId,
@@ -269,26 +288,11 @@ public class ReceptionController {
 			@RequestParam(value = "mktype", required = false) String typeId,
 			@RequestParam(value = "ywbm", required = false) Integer ywbm,
 			HttpServletRequest request) {
-		int index = 0;
-		// ��ѯ�Ƶ�
+
 		Hotel hotel = receptionService.getHotel(hotelId);
-		// ��ѯ����
+
 		List<House> houseList = receptionService.getHouseList(hotel.getHotelId());
-		// ��ѯ����ͼƬ
-		List<HouseImage> houseImageList = new ArrayList<HouseImage>();
-		for (House house : houseList) {
-			List<HouseImage> houImage = receptionService.getHouseImageList(house.getHouseId());
-			for (HouseImage item : houImage) {
-				index++;
-				houseImageList.add(item);
-				if (index >= 4) {
-					break;
-				}
-			}
-			if (houseImageList.size() > 4) {
-				break;
-			}
-		}
+		
 		Level level = new Level();
 		List<Level> list = receptionService.first(level);
 		List<Level> list2 = receptionService.second(level);
@@ -303,8 +307,18 @@ public class ReceptionController {
 
 		request.setAttribute("hotel", hotel);
 		request.setAttribute("houseList", houseList);
-		request.setAttribute("houseImageList", houseImageList);
 		return "hotelDetails";
+	}
+	/*
+	 * 房型下拉框选中加载房型数据
+	 */
+	@RequestMapping("houseDetails")
+	public void houseDetails(@RequestParam("houseId")Integer houseId,HttpServletResponse response) throws IOException {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		House house = receptionService.getQueryDetails(houseId);
+		out.print(JSON.toJSONString(house));
 	}
 
 }

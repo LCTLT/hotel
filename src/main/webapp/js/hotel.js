@@ -1,7 +1,28 @@
+/**********************多条件查询js开始******************************/
 //删除条件
 function del(obj){
+	//变为全部
+	var name = $(obj).parent().attr("id");
+	if(name == "price"){
+		all("#priceAll");
+	}else if(name == "star"){
+		all("#starAll");
+	}else if(name == "hotelsdd"){
+		all("#hotelsddAll");
+	}else{
+		all("#citysddAll");
+	}
+	
 	$(obj).parent().remove();
-	querylist();
+	
+	querylist('');
+}
+//删除条件，全部默认为红色
+function all(id){
+	//删除所有同级元素样式
+	$(id).parent().children("dd").removeClass();
+	//设置样式
+	$(id).addClass("current");
 }
 //添加条件
 function add(obj,id,xlqy,ssfl,ywbm){
@@ -23,8 +44,7 @@ function add(obj,id,xlqy,ssfl,ywbm){
 		}
 	}
 	
-	querylist();
-	//window.location.href="/hotels/multipleQuery?mk="+xlqy+"&mktype="+ssfl+"&ywbm="+ywbm;
+	querylist('');
 }
 //全部
 function ddAll(obj,id){
@@ -32,16 +52,14 @@ function ddAll(obj,id){
 	$(obj).parent().children("dd").removeClass();
 	// 设置样式
 	$(obj).addClass("current");
-	
+	//删除条件
 	var spans = $("#spans").children("span");
 	spans.each(function(index,item){
 		if($(item).attr("id")==id){
 			$(item).remove();
 		}
 	});
-	querylist();
-	// 删除条件
-	
+	querylist('');	
 }
 //设置样式默认选中
 function attrCss(obj){
@@ -51,36 +69,76 @@ function attrCss(obj){
 	// 设置样式
 	$(obj).addClass("current");
 }
-function querylist(){
+//评分排序样式选中
+var attr = null;
+function attrLiCss(obj){
+	var className = $(obj).attr("class");
+	// 删除所有同级元素样式
+	$(obj).parent().children("li").removeClass();
+	var names = $(obj).text();
+	if(names.length == 2){
+		names = $(obj).next().text().replace("↓","↑");
+		$(obj).next().text(names);
+		names = $(obj).next().next().text().replace("↓","↑");
+		$(obj).next().next().text(names);
+	}else{
+		if(names.lastIndexOf("↑") >= 2 && className == "currentup"){ //样式选中才可变更
+			names = names.replace("↑","↓");
+			$(obj).text(names);
+		}else{
+			names = names.replace("↓","↑");
+			$(obj).text(names);
+		}
+	}
+	// 设置样式
+	$(obj).addClass("currentup");
+	
+	//异步访问数据库所需要的参数
+	var textName = $(obj).text();
+	var textNameSub = textName.substring(2,3);
+	if(textNameSub == "↑"){ //升序
+		attr = $(obj).attr("id")+"1";
+	}else{
+		attr = $(obj).attr("id")+"2";
+	}
+	querylist('');
+}
+//异步加载酒店
+function querylist(obj){
 	var price = $("#price").attr("name");
 	var star = $("#star").attr("name");
 	var hotelsdd = $("#hotelsdd").attr("name");
 	var citysdd = $("#citysdd").attr("name");
-	
-	var array = new Array(price,star,hotelsdd,citysdd);
-	//json
-	var options = "{";
-	var fig = false;
-	for (var i = 0; i < array.length; i++) {
-		if(i == 0){
-			options += "\"price\":\""+array[i]+"\"";
-		}else if(i == 1){
-			options += "\"star\":\""+array[i]+"\"";
-		}else if(i == 2){
-			options += "\"hotelsdd\":\""+array[i]+"\"";
-		}else if(i == 3){
-			options += "\"citysdd\":\""+array[i]+"\"";
-		}
-		
-		if(array.length == (i+1)){
-			options += "}";
+	var kw = $("#kw").val();
+	//var array = null;
+	var pageNo = null;
+	//分页参数
+	if(obj != null && obj != ''){ //首页
+		pageNo = $("#pageNo").val();
+		if(obj == "home"){
+			pageNo = 1;
+		}else if(obj == "upper"){ //上页
+			if(pageNo <=1){
+				toast("已经是第一页了");
+				return;
+			}else{
+				pageNo = parseInt(pageNo)-1;
+			}
+		}else if(obj == "next"){ //下页
+			if(pageNo >= $("#total").val()){
+				toast("已经是最后一页了");
+				return;
+			}else{
+				pageNo = parseInt(pageNo)+1;
+			}
 		}else{
-			options +=",";
+			pageNo = $("#total").val(); //尾页
 		}
+		//设置当前页
+		$("#pageNo").val(pageNo);	
 	}
-
 	$.getJSON("multipleQuery",
-			{options:options},
+			{price:price,hotelRating:star,level1:hotelsdd,level2:citysdd,hotelName:kw,pageNo:pageNo,attr:attr},
 			function(data){
 				//显示容器
 				var optlist = $("#cplist");
@@ -108,9 +166,9 @@ function querylist(){
 						+'</div>'
 						+'<div class="clear"></div>'
 						+'<p>酒店详情：'+data[i].hotelIntro+'</p>'
+						+'<p>酒店星级：'+data[i].hotelRating+'<span style="margin-left:60px;">酒店评分：'+data[i].hotelRatings+'</span></p>'
 						+'<div class="cpxqnr">'
 							+'<p>酒店地址：'+data[i].hotelAddress+'</p>'
-							+'<p>酒店房型：'+data[i].houseTypes+'</p>'
 						+'</div>'
 					+'</div>'
 					+'<div class="jg">'
@@ -120,10 +178,41 @@ function querylist(){
 					+'</div>'
 				+'</div>'
 				}
+				//添加分页
+				showopt += '<div class="M-box2" style="margin: 0 0 20px">'
+					+'<a href="javascript:querylist(\'home\');" class="next" style="color: #000;">首页</a>'
+					+'<a href="javascript:querylist(\'upper\');"'	
+					+' style="color: #000;" class="next">上页</a>'
+					+'<a href="javascript:querylist(\'next\');"'	
+					+' style="color: #000;" class="next">下页</a>'
+					+'<a href="javascript:querylist(\'end\');" style="color: #000;" class="next">末页</a>'
+			        +'</div>'
 				//添加
 				optlist.html(showopt);
+				count();
 			});
 }
+//异步加载酒店数量并添加到页面
+function count(){
+	$.post("counts",{},function(data){
+		$("#spans").children("sp").html(data);
+		//根据酒店数加载总页数
+		var pageSize = $("#pageSize").val();
+		var totalAll = parseInt(data) % parseInt(pageSize) == 0? (parseInt(data)/parseInt(pageSize)) : (parseInt(data)/parseInt(pageSize))+1;
+		$("#total").val(parseInt(totalAll));
+	});
+}
+//清空条件
+function qktj(){
+	var kw = $("#kw").val();
+	window.location = "cpss?cpss="+kw;
+}
+/**********************多条件查询js结束******************************/
+
+
+
+
+
 
 var page = "1"==""?1:"1";
 function ljgl(map){
@@ -195,10 +284,7 @@ function init(){
 		if(r!=null)return unescape(r[2]);  /// /unescape() 来解码字符串
 		return null;
 	}
-//	/ / 清空条件
-	function qktj(){
-		window.location.reload();
-	}
+	
 	$(function(){
 		init();
 		var mddNum = 0;
@@ -280,20 +366,6 @@ function init(){
 			else if($(this).parent().attr("id")=="ppbq")map['ppbq']=$(this).attr('id');
 			else return;
 			/// /window.location.href= ljgl(map);获取后台的值来进行条件查询
-		});
-		$(".px ul li").click(function(){
-			px=$(this).attr("id");
-			$(this).siblings().removeClass();
-			if($(this).attr("id")=="zdscj"){
-				if($(this).attr("class")=="currentup")px+="_desc";
-				else px+="_asc";
-			}else if($(this).attr("id")=="xcts"){
-				if($(this).attr("class")=="currentup")px+="_desc";
-				else px+="_asc";
-			}else{
-				$(this).addClass("currentup");
-			}
-			window.location.href=ljgl({'p':'','px':px});
 		});
 	});
 	var handlerflag=true;

@@ -32,8 +32,16 @@
 <!-- 引入js -->
 <script type="text/javascript" src="js/hotelDetails.js"></script>
 <!-- 您的密钥 -->
-<script type="text/javascript"
-	src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
+	<!-- 外部地图引入 -->
+	<link href="http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.js"></script>
+	
+	<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+	<!-- 外部地图引入 -->
+	<script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 	<!-- 嵌入头部 -->
@@ -55,10 +63,17 @@
 							<span class="left_button"></span> <span class="right_button"></span>
 						</div>
 					</div>
-					<div id="container" style="width: 500px; height: 300px;"></div>
+					<div id="allmap" style="width: 500px; height: 300px;"></div>
 				</div>
 				<form id="form">
-				<input type="hidden" id="hotelAddress" value="${hotel.hotelAddress}">
+					<!-- 地址 -->
+					<input type="hidden" id="hotelAddress" value="${hotel.hotelAddress}">
+					<!-- 酒店名称 -->
+					<input type="hidden" id="hotelNames" value="${hotel.hotelName}">
+					<!-- 电话 -->
+					<input type="hidden" id="hotelPhones" value="${hotel.hotelphone}">
+					<!-- 简介 -->
+					<input type="hidden" id="hotelIntros" value="${hotel.hotelIntro}">
 					<div class="cp-right">
 						<p>${hotel.hotelName}</p>
 						<span class="price">¥<b>${hotel.hotelPrice}</b><em>起</em></span>
@@ -76,15 +91,15 @@
 										<option value="1c4b4a222b264c41aff39bed41377e5a"
 											selected="selected">长沙市</option>
 								</select></li>
-								<li><span>入住日期：</span> <input name="" id="" type="text"
-									onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"
+								<li><span>入住日期：</span> <input name="" id="dateOpen"
+									type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"
 									placeholder="不能小于当前日期" /></li>
-								<li><span>退房日期：</span> <input name="" id="" type="text"
-									onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"
+								<li><span>退房日期：</span> <input name="" id="dateExit"
+									type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"
 									placeholder="不能小于入住日期" /></li>
 								<li><span>房&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型：</span>
-									<select name="" id="">
-										<option value="" selected="selected">请选择</option>
+									<select name="" id="houseList">
+										<option value="0" selected>请选择</option>
 										<c:forEach var="house" items="${houseList}">
 											<option value="${house.houseId}">${house.houseType}</option>
 										</c:forEach>
@@ -92,56 +107,29 @@
 								<li><span>退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订：</span></li>
 								<li><span>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</span><label
 									id="crjg">0</label></li>
-								<li><span>剩余库存：</span><label id="sykc_label">0</label></li>
+								<li><span>剩余库存：</span><label id="sykc_label">1</label></li>
 								<li><span>订购数量：</span><select id="crrs" name="crrs"
-									style="width: 70px; vertical-align: middle;">
+									 style="width: 70px; vertical-align: middle;">
 										<option value="0" selected="selected">0</option>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
-										<option value="6">6</option>
-										<option value="7">7</option>
-										<option value="8">8</option>
-										<option value="9">9</option>
-										<option value="10">10</option>
-										<option value="11">11</option>
-										<option value="12">12</option>
-										<option value="13">13</option>
-										<option value="14">14</option>
-										<option value="15">15</option>
-										<option value="16">16</option>
-										<option value="17">17</option>
-										<option value="18">18</option>
-										<option value="19">19</option>
-										<option value="20">20</option>
 								</select>
 							</ul>
 						</div>
 						<div class="lxxx">
 							<h4>联系信息</h4>
 							<ul>
-								<li>姓名：<input type="text" class="texts " id="xm" name="xm"
-									maxlength="30"></li>
-								<li>手机：<input type="text" class="texts " id="sj" name="sj"
-									maxlength="11"></li>
-								<li>邮箱：<input type="email" class="texts " id="yx" name="yx"
-									maxlength="100"></li>
-							</ul>
-							<ul>
-								<li>备注：<input type="text" class="texts "
-									style="width: 588px;" placeholder="如果您有其他要求，请在这里留言" id="bz"
-									name="bz" maxlength="1000"></li>
+								<li>手机：<input type="text" class="texts " id="ssj" name="sj"
+									value="${sessionScope.user.phone}" maxlength="11" readonly></li>
 							</ul>
 						</div>
 						<div class="yd">
 							支付方式 <select name="zflx" id="zflx" class="default twins"
 								style="margin-right: 5px;">
-								<option value="03" selected="selected">支付宝</option>
-							</select> 合计：<span>¥<b id="totalPrice">0</b></span> <a class="ydan"
-								id="submitOrder" style="font-size: 16px; color: #fff;"> 立即预订
-							</a>
+								<option value="0" selected="selected">请选择</option>
+								<option value="1">支付宝</option>
+								<option value="2">微信</option>
+							</select> 合计：<span>¥<b id="totalPrice">0</b></span> <a href="javascript:;"
+								class="ydan" id="submitOrder"
+								style="font-size: 16px; color: #fff;"> 立即预订 </a>
 							<div class="dbox" style="display: none;">
 								<p class="box tsy" style="padding-top: 2px; font-size: 15px"></p>
 								<p style="font-weight: normal;" class="box djs"></p>
@@ -177,12 +165,9 @@
 					</div>
 				</div>
 				<div id="xxxc">
-					<h3>详细信息</h3>
+					<h3>房间详细信息</h3>
 					<div class="dtxc">
-						<div class="jt-yc-zs-jd">
-							<span><i>宽带：</i>WIFI</span> <span><i>房型：</i>标准单人间、标准双人间、大床房
-							</span> <span><i>用餐：</i>早餐(无)</span> <span></span>
-						</div>
+						<div class="jt-yc-zs-jd" id="houseDet"></div>
 						<div class="dtjtxc">
 							<p style="font-size: 14px;">温馨提示： 到达后与酒店前台人员办理入住。</p>
 						</div>
@@ -190,32 +175,21 @@
 				</div>
 			</div>
 		</div>
-		<div id="qrcode_div"
-			style="position: relative; width: 240px; height: 275px; padding: 10px; border: solid 1px #d8d8d8; display: none; position: absolute; top: 50%; left: 50%; margin-left: -120px; margin-top: -120px; background: #FFFFFF; z-index: 999;">
-			<label
-				style="font-weight: bold; display: inline-block; font-size: 12px; line-height: 16px;">分享到微信朋友圈</label>
-			<div id="qrcode2" style="margin: 0 auto; padding: 2px 10px 0;">
-				<canvas width="220" height="220"></canvas>
-			</div>
-			<p style="line-height: 20px; color: #666;">
-				打开微信，点击底部的“发现”，<br>使用“扫一扫”即可将网页分享至朋友圈。
-			</p>
-			<span class="qrcode_close"
-				style="position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 16px; color: #999; font-weight: bold;">×</span>
-		</div>
 		<!-- 验证码登录页面开始 -->
-		<div class="zz"
+		<div class="zz" id="zz"
 			style="width: 100%; height: 100%; background-color: #000; background: rgba(0, 0, 0, 0.5); filter: alpha(opacity = 50); /*IE8支持*/ position: fixed; left: 0; top: 0; /*  filter:alpha(Opacity=20);  */ z-index: 9998; display: none;"></div>
-		<div class="hy"
+		<div class="hy" id="hy"
 			style="position: fixed; left: 50%; top: 50%; margin-left: -250px; margin-top: -125px; background: #fff; z-index: 9999; display: none;">
 			<h3>确定提交</h3>
-			<em id="cancle"></em>
+			<em id="cancle"><img src="images/hotelx.jpg" alt="关闭"/></em>
 			<div style="margin-bottom: 1rem;">
-				<div class="yzmdl" style="display: none;">
+				<div class="yzmdl" id="yzmdl" style="display: none;">
 					<ul>
-						<li><input id="yzmdlsjh" type="text" name="sjh"
+						<li>手机号：<input id="phone" type="text" name="sjh"
 							style="width: 255px;" placeholder="手机号" maxlength="11"></li>
-						<li><button class="three" onclick="yzmdl();return false;"
+						<li>密&nbsp;&nbsp;&nbsp;&nbsp;码：<input id="pwd" type="password" name="sjh"
+							style="width: 255px;" placeholder="密码" maxlength="11"></li>
+						<li><button class="three" onclick="yzmdl();"
 								style="width: 260px; margin-top: 15px;">确&nbsp;&nbsp;&nbsp;定</button></li>
 					</ul>
 					<input type="reset" name="reset" style="display: none;">
@@ -236,13 +210,20 @@
 			</div>
 		</div>
 </body>
+
 <script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 
 <script type="text/javascript">
 var hotelAddress = $("#hotelAddress").val();
+var hotelNames = $("#hotelNames").val();
+
+var hotelPhones = $("#hotelPhones").val();
+//hotelPhones.text(hotelphonee.substring(0,3)+"-"+hotelphonee.substring(4,8));
+
+var hotelIntros = $("#hotelIntros").val();
 		//创建地图实例 
-		var map = new BMap.Map("container");
-		var point = new BMap.Point(116.331398,39.897445);
+		var map = new BMap.Map("allmap");
+		var point = new BMap.Point(113.03770447,25.78226398);
 		//开启鼠标滚轮缩放
 		map.enableScrollWheelZoom(true);
 		map.centerAndZoom(point,20);
@@ -253,6 +234,35 @@ var hotelAddress = $("#hotelAddress").val();
 			if (point) {
 				map.centerAndZoom(point, 20);
 				map.addOverlay(new BMap.Marker(point));
+				
+				var poi = new BMap.Point(point.lng,point.lat);
+			    map.centerAndZoom(poi, 20);
+			    map.enableScrollWheelZoom();
+		
+			    var content = '<div style="margin:0;line-height:20px;padding:2px;">' +
+			                    '地址：'+hotelAddress+'<br/>电话：'+(hotelPhones.substring(0,4)+'-'+hotelPhones.substring(4,8))+'<br/>简介：'+hotelIntros+'' +
+			                  '</div>';
+		
+			    //创建检索信息窗口对象
+			    var searchInfoWindow = null;
+				searchInfoWindow = new BMapLib.SearchInfoWindow(map, content, {
+						title  : hotelNames,      //标题
+						width  : 100,             //宽度
+						height : 95,              //高度
+						panel  : "panel",         //检索结果面板
+						enableAutoPan : true,     //自动平移
+						searchTypes   :[
+							BMAPLIB_TAB_SEARCH,   //周边检索
+							BMAPLIB_TAB_TO_HERE,  //到这里去
+							BMAPLIB_TAB_FROM_HERE //从这里出发
+						]
+					});
+			    var marker = new BMap.Marker(poi); //创建marker对象
+			    marker.addEventListener("click", function(e){
+				    searchInfoWindow.open(marker);
+			    })
+			    searchInfoWindow.open(marker);
+			    map.addOverlay(marker); //在地图中添加marker
 			}else{
 				alert("您选择地址没有解析到结果!");
 			}
@@ -261,12 +271,80 @@ var hotelAddress = $("#hotelAddress").val();
 
 <script type="text/javascript">
 	$(function() {
-		var phone = $("#phoneM");
-		var item = phone.text();
-		phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
+		//根据库存加载房间数量下拉框
+		var count = $("#sykc_label").text();
+		var options = '';
+		for(var i=1;i<=count;i++){
+			options = '<option value="'+i+'">'+i+'</option>';
+		}
+		$("#crrs").append(options);
+
+		$("#houseList")
+				.change(
+						function() {
+							var houseId = $(this).val();
+							if (houseId == 0) {
+								return;
+							}
+							$
+									.post(
+											"houseDetails",
+											{
+												houseId : houseId
+											},
+											function(result) {
+												result = JSON.parse(result);
+												//获取房型容器
+												var houseDet = $("#houseDet");
+												//获得价格容器
+												var crjg = $("#crjg");
+												//动态加载价格
+												crjg.html(result.housePrice);
+												houseDet.html("");
+												if (result.isHavingBreakfast == "0") {
+													result.isHavingBreakfast = "早餐(无)";
+												} else {
+													result.isHavingBreakfast = "早餐(有)";
+												}
+												var option = '<span><i>房型设施：</i>'
+														+ result.contentOne
+														+ '</span><br/>'
+														+ '<span><i>媒体科技：</i>'
+														+ result.contentTow
+														+ '</span><br/>'
+														+ '<span><i>早&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;餐：</i>'
+														+ result.isHavingBreakfast
+														+ '</span><br/>'
+														+ '<span><i>浴&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;室：</i>'
+														+ result.contentFour
+														+ '</span><br/>'
+														+ '<span><i>室外景观：</i>'
+														+ result.contentFive
+														+ '</span>';
+												houseDet.html(option);
+
+											});
+						});
+		
+		//房间数量选中事件
+		$("#crrs").change(function() {
+			sumPrice();
+		});
 
 	});
+	function sumPrice() {
+		//总计价格
+		var totalPrice = $("#totalPrice");
+		//房间数量
+		var count = $("#crrs").val();
+		//单间价格
+		var crjg = $("#crjg").text();
+		//计算总价格
+		var sum = parseInt(count) * parseInt(crjg);
 
+		totalPrice.html(sum);
+
+	}
 	function loginout() {
 		if (confirm("确认退出登录吗？")) {
 			location.href = "loginout";
@@ -274,3 +352,11 @@ var hotelAddress = $("#hotelAddress").val();
 	}
 </script>
 </html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var ctrl = new BMapLib.TrafficControl({
+		showPanel: true //是否显示路况提示面板
+	});      
+	map.addControl(ctrl);
+	ctrl.setAnchor(BMAP_ANCHOR_BOTTOM_RIGHT);  
+</script>

@@ -35,9 +35,18 @@
 						class="icon_arrow"
 						style="background: url(/xtfsq/themes/images/header_jt.jpg) no-repeat;"></span>
 				</div>
-				<input type="text" class="search_text" placeholder="产品名称、景点名称、目的地"
-					id="kw" onkeydown="if(event.keyCode == 13){cpss();}" value="${cpsss}"> <a
-					class="search_button" href="javascript:cpss();">搜索</a>
+				<c:choose>
+					<c:when test="${empty sign}">
+						<input type="text" class="search_text" placeholder="酒店省份、酒店名称"
+						id="kw" onkeydown="if(event.keyCode == 13){cpss();}" value="${cpsss}"> <a
+						class="search_button" href="javascript:cpss();">搜索</a>
+					</c:when>
+					<c:otherwise>
+						<input type="text" class="search_text" placeholder="酒店省份"
+						id="kw" onkeydown="if(event.keyCode == 13){querylist('');}" value="${cpsss}"> <a
+						class="search_button" href="javascript:querylist('')">搜索</a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 		<div class="ewm">

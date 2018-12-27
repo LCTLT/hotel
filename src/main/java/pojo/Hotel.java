@@ -28,17 +28,48 @@ public class Hotel {
 	private String hotelphone;  //酒店电话
 	private String houseTypes; //酒店房型
 	
-	
 	private String levelName;//查询酒店所在地
 	private double priceF;//价格区间（前）
 	private double priceL;//价格区间（后）
 	
+	//排序参数
+	private String attr;
 	
+	//分页参数
+	private Integer pageNo =1;
+	private Integer pageSize=7;
+	private Integer total;
+	
+	
+	public String getAttr() {
+		return attr;
+	}
+	public void setAttr(String attr) {
+		this.attr = attr;
+	}
+	public Integer getTotal() {
+		return total;
+	}
+	public void setTotal(Integer total) {
+		this.total = total;
+	}
 	public int getHotelId() {
 		return hotelId;
 	}
 	public void setHotelId(int hotelId) {
 		this.hotelId = hotelId;
+	}
+	public Integer getPageNo() {
+		return pageNo;
+	}
+	public void setPageNo(Integer pageNo) {
+		this.pageNo = pageNo;
+	}
+	public Integer getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
 	}
 	public String getProductNo() {
 		return productNo;

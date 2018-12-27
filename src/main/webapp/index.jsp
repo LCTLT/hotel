@@ -100,14 +100,14 @@
 						<li class="dacp" style="margin-top: 0;">
 							<div class="dacp_tp">
 								<a
-									href="/module/cpgl/view.do?cpid=313c8ad4ddcf4cc0b4b4df98b223bddb&amp;mk=zby"
+									href="/hotels/hotelDetails?hotelId=${hotel.hotelId}"
 									target="_blank"><img src="${hotel.fileUrl }"
 									onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'"
 									width="585"></a>
 							</div>
 							<div class="dacpmc">
 								<a
-									href="/module/cpgl/view.do?cpid=313c8ad4ddcf4cc0b4b4df98b223bddb&amp;mk=zby"
+									href="/hotels/hotelDetails?hotelId=${hotel.hotelId}"
 									target="_blank"><p>${hotel.hotelName }</p></a> <i>¥<b>${hotel.hotelPrice}</b><em>起</em></i>
 							</div>
 						</li>
@@ -115,14 +115,14 @@
 							<li style="margin-top: 0;">
 								<div class="cptp">
 									<a
-										href="/module/cpgl/view.do?cpid=c95a069d52cf4e4c87e6179d48b0c3d5&amp;mk=zby"
+										href="/hotels/hotelDetails?hotelId=${img.hotelId}"
 										target="_blank"><img src="${img.fileUrl }"
 										onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'"
 										width="284" height="212"></a>
 								</div>
 								<div class="cpmc">
 									<a
-										href="/module/cpgl/view.do?cpid=c95a069d52cf4e4c87e6179d48b0c3d5&amp;mk=zby"
+										href="/hotels/hotelDetails?hotelId=${img.hotelId}"
 										target="_blank"><p>${img.hotelName }</p></a>
 								</div>
 								<p class="cpjs">

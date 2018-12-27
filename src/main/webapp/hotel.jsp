@@ -17,8 +17,16 @@
 <link rel="stylesheet" type="text/css" href="hotel_files/cpgllist.css">
 <link rel="stylesheet" type="text/css" href="hotel_files/pagination.css">
 <link rel="stylesheet" type="text/css" href="css/hotel.css">
+<link rel="stylesheet" type="text/css" href="css/paging.css">
 <script type="text/javascript" src="js/hotel.js"></script>
-
+<!-- 分页插件js css -->
+<script src="js/paging.js"></script>
+<link rel="stylesheet" type="text/css" href="css/paging.css">
+<style>
+.px ul li:hover {
+	color: red;
+}
+</style>
 </head>
 <body>
 	<!-- 嵌入头部 -->
@@ -54,49 +62,50 @@
 						<a href="javascript:qktj();" style="color: #333; font-size: 16px;">清空条件</a>
 					</dl>
 				</div>
-				<div id="spans">0家酒店符合您选择的条件:</div>
+				<div id="spans">
+					<sp>${count}</sp>
+					家酒店符合您选择的条件:
+				</div>
 				<ul>
 					<li>
 						<div class="xzbt">价格区间</div>
 						<dl id="zdscj">
-							<dd id="" class="current" onClick="ddAll(this,'price');">全部</dd>
+							<dd id="priceAll" class="current" onClick="ddAll(this,'price');">全部</dd>
 							<c:forEach items="${getprice}" var="pp" varStatus="index">
-								<dd id="${pp.info }" class="" onClick="add(this,'price','${pp.info}','${pp.typeCode}','${pp.dictCode}');">${pp.info }元
-									<c:if test="${index.first}">
-		                           		以下
-		                            </c:if>
-									<c:if test="${index.last}">
-		                           		以上
-		                            </c:if>
-								</dd>
-
+								<dd id="${pp.info }"
+									onClick="add(this,'price','${pp.info}','${pp.typeCode}','${pp.dictCode}');">${pp.info }元<c:if test="${index.first}">以下</c:if><c:if test="${index.last}">以上</c:if></dd>
 							</c:forEach>
 						</dl>
 					</li>
 					<li>
 						<div class="xzbt">星级档次</div>
 						<dl id="">
-							<dd id="" class="current" onClick="ddAll(this,'star');">全部</dd>
+							<dd id="starAll" class="current" onClick="ddAll(this,'star');">全部</dd>
 							<c:forEach items="${getstar}" var="st">
-								<dd id="${st.info}" class="" onClick="add(this,'star','${st.info }','${st.typeCode }','${st.dictCode }');">${st.info}</dd>
+								<dd id="${st.info}"
+									onClick="add(this,'star','${st.info }','${st.typeCode }','${st.dictCode }');">${st.info}</dd>
 							</c:forEach>
 						</dl>
 					</li>
 					<li>
 						<div class="xzbt">酒店类型</div>
 						<dl id="">
-							<dd id="" class="current" onClick="ddAll(this,'hotelsdd');">全部</dd>
+							<dd id="hotelsddAll" class="current"
+								onClick="ddAll(this,'hotelsdd');">全部</dd>
 							<c:forEach items="${first}" var="fir">
-								<dd id="${fir.id}" class="" onClick="add(this,'hotelsdd','${fir.id }','${fir.type }','');">${fir.name}</dd>
+								<dd id="${fir.id}"
+									onClick="add(this,'hotelsdd','${fir.id }','${fir.type }','');">${fir.name}</dd>
 							</c:forEach>
 						</dl>
 					</li>
 					<li id="xzmdd">
 						<div class="xzbt">所在城市</div>
 						<dl id="mdd" class="more">
-							<dd id="" class="current" onClick="ddAll(this,'citysdd');">全部</dd>
+							<dd id="citysddAll" class="current"
+								onClick="ddAll(this,'citysdd');">全部</dd>
 							<c:forEach items="${second}" var="se">
-								<dd id="${se.id}" class="" onClick="add(this,'citysdd','${se.id }','${se.type }','');">${se.name}</dd>
+								<dd id="${se.id}"
+									onClick="add(this,'citysdd','${se.id }','${se.type }','');">${se.name}</dd>
 							</c:forEach>
 							<span class="mdd_gd" id="mdd_gd" style="">更多 <i></i></span>
 						</dl>
@@ -106,9 +115,9 @@
 			<div class="content">
 				<div class="px">
 					<ul>
-						<li id="zh" class="currentup">综合</li>
-						<li id="zdscj" class="">价格<em></em></li>
-						<li id="xcts" class="">天数<em></em></li>
+						<li class="currentup" onclick="attrLiCss(this)">综合</li>
+						<li id="zdscj" class="" onclick="attrLiCss(this)">价格↑</li>
+						<li id="pin" class="" onclick="attrLiCss(this)">评分↑</li>
 					</ul>
 				</div>
 				<div id="cplist" style="position: relative; min-height: 520px;">
@@ -120,22 +129,23 @@
 					<c:if test="${not empty list}">
 						<c:forEach items="${list }" var="hotelx">
 							<div class="cpzs">
-								<a
-									href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}"
+								<a href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}"
 									target="_blank"> <img src="${hotelx.fileUrl }"
 									onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'">
 									<!-- <div class="cpbq">跟团游</div> -->
 								</a>
 								<div class="cpmc">
 									<div class="cppic">
-										<a href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}" target="_blank">${hotelx.hotelName }
-										</a>
+										<a href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}"
+											target="_blank">${hotelx.hotelName } </a>
 									</div>
 									<div class="clear"></div>
 									<p>酒店详情：${hotelx.hotelIntro }</p>
+									<p>
+										酒店星级：${hotelx.hotelRating}<span style="margin-left: 60px;">酒店评分：${hotelx.hotelRatings}</span>
+									</p>
 									<div class="cpxqnr">
 										<p>酒店地址：${hotelx.hotelAddress }</p>
-										<p>酒店房型：${hotelx.houseTypes }</p>
 									</div>
 								</div>
 								<div class="jg">
@@ -145,13 +155,21 @@
 								</div>
 							</div>
 						</c:forEach>
-
+						<!-- **********************分页开始******************* -->
 						<div class="M-box2" style="margin: 0 0 20px">
-							<span class="active">1</span><a href="#" data-page="2">2</a><a
-								href="#" class="next">下页</a>
+							<a href="javascript:querylist('home')" style="color: #000;"
+								class="next">首页</a> <a href="javascript:querylist('upper')"
+								style="color: #000;" class="next">上页</a> <a
+								href="javascript:querylist('next')" style="color: #000;"
+								class="next">下页</a> <a href="javascript:querylist('end')"
+								style="color: #000;" class="next">末页</a>
 						</div>
 					</c:if>
+					<!-- **********************分页结束******************* -->
 				</div>
+				<input type="hidden" id="pageNo" value="1"> <input
+					type="hidden" id="total" value="${hotel.total}"> <input
+					type="hidden" id="pageSize" value="${hotel.pageSize}">
 			</div>
 		</div>
 	</div>
@@ -168,13 +186,14 @@
 		</div>
 	</div>
 	<script src="hotel_files/jquery.js"></script>
-
+	<input type="hidden" value="${mk}" id="mk">
 	<script type="text/javascript">
 		$(function() {
 			var phone = $("#phoneM");
 			var item = phone.text();
-			phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
-
+			if(item != ''){
+				phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
+			}
 		});
 
 		function loginout() {
