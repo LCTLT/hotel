@@ -131,7 +131,7 @@
 							<div class="cpzs">
 								<a href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}"
 									target="_blank"> <img src="${hotelx.fileUrl }"
-									onerror="this.src='/xtfsq/themes/images/default.jpg?timestamp=2015090216'">
+									onerror="hotels/hotelDetails?hotelId=${hotelx.hotelId}">
 									<!-- <div class="cpbq">跟团游</div> -->
 								</a>
 								<div class="cpmc">

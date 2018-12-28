@@ -1,7 +1,6 @@
 /My97DatePicker/
 /WEB-INF/
 /common/
-/controller/
 /css/
 /dao/
 /hotel.jsp
@@ -21,9 +20,11 @@
 /memberMydata.jsp
 /member_files/
 /memeberMyPassword.jsp
-/pojo/
 /register.jsp
 /register_files/
-/service/
 /static/
+/controller/
+/pojo/
+/service/
+/test.jsp
 /util/

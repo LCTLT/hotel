@@ -155,7 +155,12 @@ function yzmdl(){
 	}
 }
 
-
+// 产品搜索
+function cpss(){
+	var pattern=new RegExp("\\\\","g");/// /查找所有的"\"
+	var cpss=$("#kw").val().replace(pattern,"");
+	window.location.href="/hotels/cpss?cpss="+cpss;
+}
 
 
 

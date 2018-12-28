@@ -17,13 +17,8 @@
 	href="member_files/hygl.css?timestamp=2015090216">
 <script type="text/javascript">
 	$(function() {
-		if ("" == "1") {
-			parent.toast('修改成功');
-		}
 		var handlerflag = true;
-		$("#save")
-				.click(
-						function() {
+		$("#save").click(function() {
 							if (handlerflag) {
 								handlerflag = false;
 								if ($.trim($("#ymm").val()) == "") {
@@ -42,24 +37,22 @@
 								} else if ($("#xmm").val() != $("#qrmm").val()) {
 									parent.toast("新密码和确认新密码不一致");
 								} else {
-									$
-											.ajax({
+	 								$.ajax({
 												type : "POST",
-												url : "/module/hygl/xgmm.do",
+												url : "/",
 												data : $("#form").serialize(),
-												dataType : "json",
+												dataType : "text",
 												async : false,
 												success : function(result) {
 													if (result.key == "1")
-														window.location.href = "/module/hygl/page.do?page=xgmm&toast=1";
+														window.location.href = "/";
 													else if (result.key == "2")
-														parent
-																.toast(result.value);
+														parent.toast(result.value);
 												},
 												error : function() {
 													parent.toast("系统繁忙，请稍后重试");
 												}
-											});
+											}); 
 								}
 								handlerflag = true;
 							}

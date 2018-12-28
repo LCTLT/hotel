@@ -196,6 +196,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 		<!-- 验证码登录页面结束 -->
 		<!-- 嵌入页面底部 -->
 		<%@ include file="common/bottom.jsp"%>
@@ -351,7 +352,6 @@ var hotelIntros = $("#hotelIntros").val();
 		}
 	}
 </script>
-</html>
 <script type="text/javascript">
 	// 百度地图API功能
 	var ctrl = new BMapLib.TrafficControl({
@@ -360,3 +360,4 @@ var hotelIntros = $("#hotelIntros").val();
 	map.addControl(ctrl);
 	ctrl.setAnchor(BMAP_ANCHOR_BOTTOM_RIGHT);  
 </script>
+</html>

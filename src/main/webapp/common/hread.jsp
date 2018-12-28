@@ -1,6 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script>
+$(function() {
+	var phone = $("#phoneM");
+	var item = phone.text();
+	phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
+
+});
+
+function loginout() {
+	if (confirm("确认退出登录吗？")) {
+		location.href = "loginout";
+	}
+}
+</script>
 <!--页面顶部开始-->
 <div class="headpiece">
 	<div class="headpiece-in">
@@ -10,7 +24,7 @@
 			</c:if> <c:if test="${not empty user}">
 				您好，<a class="dl" id="phoneM" href="javaScript:void(0);">${user.phone}</a>
 				<a href="javascript:loginout();" class="zc">退出</a>
-			</c:if> <a class="hyzx" href="member.jsp">会员中心</a></span> <span class="right">
+			</c:if> <a class="hyzx" href="memberOrder">会员中心</a></span> <span class="right">
 			<a href="#" target="_blank">关于乐游</a> <a href="#" target="_blank">乐游模式</a>
 			<a href="#" target="_blank">乐游动态</a> <a href="#" target="_blank">加入乐游</a>
 			<a href="#" target="_blank">帮助中心</a>
