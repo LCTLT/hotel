@@ -15,12 +15,10 @@
 	href="http://www.loyoyo.com/favicon.ico?timestamp=2015090216">
 <link rel="stylesheet" type="text/css"
 	href="member_files/hygl.css?timestamp=2015090216">
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		var handlerflag = true;
 		$("#save").click(function() {
-							if (handlerflag) {
-								handlerflag = false;
 								if ($.trim($("#ymm").val()) == "") {
 									parent.toast("请输入原密码");
 								} else if ($.trim($("#xmm").val()) == "") {
@@ -37,25 +35,30 @@
 								} else if ($("#xmm").val() != $("#qrmm").val()) {
 									parent.toast("新密码和确认新密码不一致");
 								} else {
-	 								$.ajax({
-												type : "POST",
-												url : "/",
-												data : $("#form").serialize(),
-												dataType : "text",
-												async : false,
-												success : function(result) {
-													if (result.key == "1")
-														window.location.href = "/";
-													else if (result.key == "2")
-														parent.toast(result.value);
-												},
-												error : function() {
-													parent.toast("系统繁忙，请稍后重试");
-												}
-											}); 
+									$.ajax({
+										type : "POST",
+										url : "modifyPwd",
+										data : $("#form").serialize(),
+										dataType : "text",
+										async : false,//将异步同步化
+										success : function(data) {
+											if (data == 1) {
+												parent.toast("已成功更新密码");
+												location.reload();
+											} else if (data == 2) {
+												parent.toast("操作有误，导致无法更新密码");
+												parent.toast(result.value);
+											}else if(data == 3){
+												parent.toast("原密码有错误");
+												$("#ymm").focus();
+												$("#ymm").val("");
+											}
+										},
+										error : function() {
+											parent.toast("1系统繁忙，请稍后重试1");
+										}
+									});
 								}
-								handlerflag = true;
-							}
 						});
 	});
 </script>
@@ -69,6 +72,7 @@
 		</ul>
 		<div class="xgmm">
 			<form id="form">
+			<input type="hidden" name="phoneT" value="${user.phone}">
 				<ul>
 					<li><div>原密码</div> <input id="ymm" name="ymm" type="password"
 						placeholder="原密码" maxlength="100"></li>

@@ -9,6 +9,18 @@ $(function() {
 
 });
 
+function sessionphone() {
+		var sj = $("#sj").val();
+		if (sj != "") {
+			location.href = "memberOrder";
+		} else {
+			if (confirm("您还未登录,是否去登录？")) {
+				location.href = "login.jsp";
+			}
+		}
+	}
+
+
 function loginout() {
 	if (confirm("确认退出登录吗？")) {
 		location.href = "loginout";
@@ -18,13 +30,14 @@ function loginout() {
 <!--页面顶部开始-->
 <div class="headpiece">
 	<div class="headpiece-in">
+	<input type="hidden" id="sj" value="${user.phone}">
 		<span class="left"> <c:if test="${empty user}">
 				<a class="dl" href="login.jsp">请登录</a>
 				<a href="register.jsp" class="zc">快速注册</a>
 			</c:if> <c:if test="${not empty user}">
 				您好，<a class="dl" id="phoneM" href="javaScript:void(0);">${user.phone}</a>
 				<a href="javascript:loginout();" class="zc">退出</a>
-			</c:if> <a class="hyzx" href="memberOrder">会员中心</a></span> <span class="right">
+			</c:if> <a class="hyzx" href="javascript:sessionphone();">会员中心</a></span> <span class="right">
 			<a href="#" target="_blank">关于乐游</a> <a href="#" target="_blank">乐游模式</a>
 			<a href="#" target="_blank">乐游动态</a> <a href="#" target="_blank">加入乐游</a>
 			<a href="#" target="_blank">帮助中心</a>

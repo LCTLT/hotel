@@ -43,5 +43,8 @@ public interface ReceptionMapper {
 	 */
 	House getQueryDetails(@Param("houseId")Integer houseId);
 	
+	int modifyPwds(@Param("newPwd")String newPwd,
+			@Param("oldPwd")String oldPwd,@Param("phoneT")String phoneT);
 	
+	int pdpassword(@Param("pdpass")String pdpass,@Param("phonees")String phonees);
 }

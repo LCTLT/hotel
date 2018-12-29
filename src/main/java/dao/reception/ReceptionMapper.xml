@@ -147,4 +147,14 @@
 			houseType,housePrice,isHavingBreakfast,contentOne,contentTow,contentThree,contentFour,contentFive
 		from house where houseId = #{houseId};
 	</select>
+	
+	
+	<!-- 修改密码 -->
+	<update id="modifyPwds">
+		UPDATE `user` SET pwd=#{newPwd} WHERE pwd=#{oldPwd} AND phone=#{phoneT}
+	</update>
+	<!-- 判断原密码是否一致 -->
+	<select id="pdpassword" resultType="int">
+		SELECT COUNT(pwd) FROM `user` WHERE pwd=#{pdpass} AND phone=#{phonees}
+	</select>
 </mapper>

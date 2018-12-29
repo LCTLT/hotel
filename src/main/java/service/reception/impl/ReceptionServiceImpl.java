@@ -85,5 +85,13 @@ public class ReceptionServiceImpl implements ReceptionService {
 	public House getQueryDetails(@Param("houseId")Integer houseId) {
 		return receptionMapper.getQueryDetails(houseId);
 	}
+
+	public int modifyPwds(String newPwd, String oldPwd, String phoneT) {
+		return receptionMapper.modifyPwds(newPwd, oldPwd, phoneT);
+	}
+
+	public int pdpassword(String pdpass, String phonees) {
+		return receptionMapper.pdpassword(pdpass, phonees);
+	}
 	
 }

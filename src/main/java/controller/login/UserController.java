@@ -37,7 +37,7 @@ public class UserController {
 	public String loginout(HttpServletRequest request) {
 		request.getSession().removeAttribute("user");
 
-		return "login";
+		return "index";
 	}
 
 	@RequestMapping("loginUser")
