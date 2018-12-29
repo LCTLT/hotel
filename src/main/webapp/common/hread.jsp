@@ -64,7 +64,7 @@ function loginout() {
 				</div>
 				<c:choose>
 					<c:when test="${empty sign}">
-						<input type="text" class="search_text" placeholder="酒店省份、酒店名称"
+						<input type="text" class="search_text" placeholder="酒店所在省份、酒店名称"
 						id="kw" onkeydown="if(event.keyCode == 13){cpss();}" value="${cpsss}"> <a
 						class="search_button" href="javascript:cpss();">搜索</a>
 					</c:when>

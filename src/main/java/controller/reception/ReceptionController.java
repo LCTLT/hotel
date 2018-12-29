@@ -29,8 +29,8 @@ public class ReceptionController {
 
 	@Autowired
 	private ReceptionService receptionService;
-	
-	//酒店显示的数量
+
+	// 酒店显示的数量
 	private static Integer count;
 
 	/**
@@ -39,7 +39,7 @@ public class ReceptionController {
 	@RequestMapping("code.do")
 	public String getCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setContentType("image/jpeg");
-		
+
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Cache-Control", "no-cache");
 		response.setDateHeader("Expires", 0);
@@ -48,7 +48,6 @@ public class ReceptionController {
 		imageUtil.write(response.getOutputStream());
 		return null;
 	}
-
 
 	@SuppressWarnings("unlikely-arg-type")
 	@RequestMapping("cpss")
@@ -87,7 +86,9 @@ public class ReceptionController {
 				} else if (Integer.valueOf(typeId) == 2) {
 					if (!"".trim().equals(hotel.getLevel1())) {
 						hotel.setLevel2(Integer.valueOf(id));
-					} else if (!"".trim().equals(hotel.getLevel2())) {
+					}
+				}else if(Integer.valueOf(typeId) == 3) {
+					if (!"".trim().equals(hotel.getLevel2())) {
 						hotel.setLevel3(Integer.valueOf(id));
 					}
 				}
@@ -120,82 +121,86 @@ public class ReceptionController {
 		
 		return "hotel";
 	}
+
 	/**
 	 * 二级页面
+	 * 
 	 * @param options
 	 * @param request
 	 * @param response
 	 * @throws IOException
 	 */
 	@RequestMapping("multipleQuery")
-	public void multiple(HttpServletRequest request,HttpServletResponse response) throws IOException {
+	public void multiple(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		String price = request.getParameter("price");
 		String hotelRating = request.getParameter("hotelRating");
 		String level1 = request.getParameter("level1");
-		String level2 = request.getParameter("level2");
+		String level3 = request.getParameter("level3");
 		String hotelName = request.getParameter("hotelName");
 		String pageNo = request.getParameter("pageNo");
 		String attr = request.getParameter("attr");
 		Hotel hotel = new Hotel();
-		//价格取值
-		if(BoolIsUtil.isBool(price)) {
+		// 价格取值
+		if (BoolIsUtil.isBool(price)) {
 			String[] array = price.split("-");
 			if (array.length > 1) {
 				hotel.setPriceF(Double.valueOf(array[0]));
-				hotel.setPriceL(Double.valueOf(array[1])-1);
+				hotel.setPriceL(Double.valueOf(array[1]) - 1);
 			} else {
 				hotel.setPriceL(Double.valueOf(array[0]));
-				if(hotel.getPriceL() == 200) {
-					hotel.setPriceF(hotel.getPriceL()-1);
+				if (hotel.getPriceL() == 200) {
+					hotel.setPriceF(hotel.getPriceL() - 1);
 					hotel.setPriceF(0);
-				}else {
+				} else {
 					hotel.setPriceF(Double.valueOf(Double.valueOf(array[0])));
 					hotel.setPriceL(999999999);
 				}
 			}
 		}
-		//星级取值
-		if(BoolIsUtil.isBool(hotelRating)) {
+		// 星级取值
+		if (BoolIsUtil.isBool(hotelRating)) {
 			hotel.setHotelRating(hotelRating);
 		}
-		//分类一级取值
-		if(BoolIsUtil.isBool(level1)) {
+		// 分类一级取值
+		if (BoolIsUtil.isBool(level1)) {
 			hotel.setLevel1(Integer.valueOf(level1));
 		}
-		//分类二级取值
-		if(BoolIsUtil.isBool(level2)) {
-			hotel.setLevel2(Integer.valueOf(level2));
+		// 分类三级取值（所在城市的值）
+		if (BoolIsUtil.isBool(level3)) {
+			hotel.setLevel3(Integer.valueOf(level3));
 		}
-		//酒店名称取值
-		if(BoolIsUtil.isBool(hotelName)) {
+		// 酒店名称取值
+		if (BoolIsUtil.isBool(hotelName)) {
 			hotel.setHotelName(hotelName);
 		}
-		//分页数据取值
-		if(BoolIsUtil.isBool(pageNo)) {
+		// 分页数据取值
+		if (BoolIsUtil.isBool(pageNo)) {
 			hotel.setPageNo(Integer.valueOf(pageNo));
 		}
-		//排序取值
-		if(BoolIsUtil.isBool(attr)) {
+		// 排序取值
+		if (BoolIsUtil.isBool(attr)) {
 			hotel.setAttr(attr);
 		}
-		//计算符合条件的酒店
+		// 计算符合条件的酒店
 		count = receptionService.allHotelCount(hotel);
 		List<Hotel> list = receptionService.getCpss(hotel);
-		if(list.size() == 0) {
+		if (list.size() == 0) {
 			hotel.setLevelName(hotelName);
 			count = receptionService.allHotelCount(hotel);
 			list = receptionService.getCpss(hotel);
 		}
-		System.out.println("size="+list.size());
+		System.out.println("size=" + list.size());
 		out.print(JSON.toJSONString(list));
 	}
+
 	@RequestMapping("counts")
 	@ResponseBody
 	public String counts() {
-		return ""+count;
+		return "" + count;
 	}
+
 	/**
 	 ** 注册
 	 * 
@@ -216,9 +221,9 @@ public class ReceptionController {
 			HttpServletResponse response) throws ServletException, IOException {
 		User user = new User();
 		user.setPhone(phone);
-		//对密码进行加密
+		// 对密码进行加密
 		user.setPwd(CheckUtil.getSha1(pwd));
-		System.out.println("加密后="+user.getPwd());
+		System.out.println("加密后=" + user.getPwd());
 
 		String verification = (String) request.getSession().getAttribute("code");// 锟斤拷确锟斤拷证锟斤拷
 		if (verification != null && verification.equalsIgnoreCase(yanzma)) {
@@ -278,13 +283,12 @@ public class ReceptionController {
 			@RequestParam(value = "cpss", required = false) String hotelName,
 			@RequestParam(value = "mk", required = false) String id,
 			@RequestParam(value = "mktype", required = false) String typeId,
-			@RequestParam(value = "ywbm", required = false) Integer ywbm,
-			HttpServletRequest request) {
+			@RequestParam(value = "ywbm", required = false) Integer ywbm, HttpServletRequest request) {
 
 		Hotel hotel = receptionService.getHotel(hotelId);
 
 		List<House> houseList = receptionService.getHouseList(hotel.getHotelId());
-		
+
 		Level level = new Level();
 		List<Level> list = receptionService.first(level);
 		List<Level> list2 = receptionService.second(level);
@@ -301,14 +305,16 @@ public class ReceptionController {
 		request.setAttribute("houseList", houseList);
 		return "hotelDetails";
 	}
+
 	/*
 	 * 房型下拉框选中加载房型数据
 	 */
 	@RequestMapping("houseDetails")
-	public void houseDetails(@RequestParam("houseId")Integer houseId,HttpServletResponse response) throws IOException {
+	public void houseDetails(@RequestParam("houseId") Integer houseId, HttpServletResponse response)
+			throws IOException {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		
+
 		House house = receptionService.getQueryDetails(houseId);
 		out.print(JSON.toJSONString(house));
 	}

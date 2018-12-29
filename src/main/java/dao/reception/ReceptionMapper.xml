@@ -104,7 +104,7 @@
 
 	<!-- 查询所在城市 -->
 	<select id="second" resultType="pojo.Level">
-		SELECT * FROM `level` WHERE type =2 AND parentId=1
+		SELECT * FROM `level` WHERE type =3 
 		<trim prefix="where" prefixOverrides="and | or">
 
 		</trim>
