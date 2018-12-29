@@ -24,11 +24,11 @@
 <body>
 	<div class="content-right" style="padding: 20px 30px 40px 30px">
 		<ul class="ddzt">
-			<li class="current" onclick="liCurrent(this)">全部</li>
-			<li onclick="liCurrent(this)">待支付</li>
-			<li onclick="liCurrent(this)">已支付</li>
-			<li onclick="liCurrent(this)">已超时</li>
-			<li onclick="liCurrent(this)">已取消</li>
+			<li class="current" onclick="liCurrent(this)" value="-1">全部</li>
+			<li onclick="liCurrent(this)" value="0">待支付</li>
+			<li onclick="liCurrent(this)" value="1">已支付</li>
+			<li onclick="liCurrent(this)" value="2">已超时</li>
+			<li onclick="liCurrent(this)" value="3">已取消</li>
 		</ul>
 		<div>
 			<ul class="ddxx-tou">
@@ -39,51 +39,8 @@
 				<li>退房日期</li>
 				<li class="ddxx-cz">操作</li>
 			</ul>
-			<ul class="ddxx">
-				<li><span style="background: #f7f7f7;">订单编号：DDCS18122810432119</span>
-					<div>
-						<a
-							href="#"
-							target="_blank"> <img
-							src="#"
-							onerror="#"></a>
-						<p>
-							<a
-								href="#"
-								style="text-decoration: none" target="_blank">坐火车泡酒店---曼巴6天5晚游</a>
-						</p>
-						<span>2019-01-31</span><span class="orange">¥12000.00</span><span
-							class="orange">待支付</span><span class="sj">2018-12-28<br>14:08:06
-						</span><span class="ddxx-box" style="margin-left: 0"><button
-								ddid="75373f0ecef14469a0995a04d20b4e06"
-								appid="wxbdc6d42e39fb5642"
-								ssfb="e756a3d11075413cac20f1a9675dcca6" class="zf">立即支付</button>
-							<a
-							href="/module/ddgl/page.do?page=view&amp;ddid=75373f0ecef14469a0995a04d20b4e06"
-							style="margin-left: 13px; height: 28px; line-height: 30px; display: inline-block;"
-							target="_blank">订单详情</a></span>
-					</div></li>
-				<li><span style="background: #f7f7f7;">订单编号：DDCS18112710416163</span>
-					<div>
-						<a
-							href="/module/cpgl/view.do?cpid=b210ea079b7b4f4a9e2632b04426fb5c"
-							target="_blank"> <img
-							src="http://sc-fx-fxtfsq.cloudtravel.net/fxtfsq/xltt/2018/10/25/9fd1ee780a7c4d539322c7ea1d79c0a4.jpg"
-							onerror="this.src='/xtfsq/themes/images/default.jpg?cachesj=2015090217'"></a>
-						<p>
-							<a
-								href="/module/cpgl/view.do?cpid=b210ea079b7b4f4a9e2632b04426fb5c"
-								style="text-decoration: none" target="_blank">五星泰国海景沙美版6天5晚跟团游，1晚沙美岛豪华度假酒店小别墅+2晚芭提雅国五海景房布莱顿酒店海景房+1晚曼谷皇家喜来登酒店180°落地河景房+1晚曼谷高人气绿宝石酒店</a>
-						</p>
-						<span>2018-11-28</span><span class="orange">¥3990.00</span><span
-							class="orange">已取消</span><span class="sj">2018-11-27<br>11:27:39
-						</span><span class="ddxx-box" style="margin-left: 0"><button
-								onclick="bllk('700c1c5090324592abd04cac7f4f80fa','d8b27d38407f48d097e2bfac2b317970');">补录旅客</button>
-							<a
-							href="/module/ddgl/page.do?page=view&amp;ddid=d8b27d38407f48d097e2bfac2b317970"
-							style="margin-left: 13px; height: 28px; line-height: 30px; display: inline-block;"
-							target="_blank">订单详情</a></span>
-					</div></li>
+			<ul class="ddxx" id="ddxx">
+				
 			</ul>
 		</div>
 	</div>
@@ -91,6 +48,9 @@
 		src="/xtfsq/themes/images/weixin.png?timestamp=2015090216">
 	<script type="text/javascript" src="member_files/jquery.js"></script>
 	<script type="text/javascript">
+	$(function(){
+		queryOrder(-1);
+	})
 	//选择不同的订单状态
 	function liCurrent(obj){
 		$(obj).parent().children("li").removeClass();
@@ -98,6 +58,19 @@
 		$(obj).addClass("current");
 		//访问数据库获得订单信息
 		
+	}
+	//加载订单数据
+	function queryOrder(orderStatus){
+		$.getJSON("queryOrder",{status:orderStatus},function(data){
+			var ddxx = $("#ddxx");
+			var option = '';
+			alert(data.length);
+			for (var i = 0; i < data.length; i++) {
+				data[i].hotelName = data[i].hotelName.substring(0,5)+"...";
+				option += '<li><span style="background: #f7f7f7;">订单编号：'+data[i].orderNo+'</span><div><a href="#" target="_blank"> <img src="'+data[i].fileUrl+'" onerror="" style="text-decoration:none" target="_blank">'+data[i].hotelName+'</a></p><span style="margin-left:-70px;">'+data[i].checkInDates+'<br/>'+data[i].checkInTime+'</span><span class="orange">¥'+data[i].payAmount+'</span><span class="orange">'+data[i].info+'</span><span class="sj">'+data[i].checkOutDates+'<br/>'+data[i].checkOutTime+'</span><span class="ddxx-box" style="margin-left:0"><button class="zf">立即支付</button><a href="#" style="margin-left:13px;height:28px; line-height:30px;display: inline-block;" target="_blank">订单详情</a></span></div></li>';
+			}
+			ddxx.html(option);
+		});
 	}
 </script>
 </body>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.reception.OrderMapper">
+	<!-- 查询订单 -->
+	<select id="getQueryOrderList" resultType="pojo.Order">
+		select
+		a.id,a.orderNo,b.hotelName,a.checkInDate,a.checkOutDate,a.payAmount,a.orderStatus,c.info,b.fileUrl
+		from `order` a INNER JOIN hotel b on a.hotelId = b.hotelId
+		Inner join dictionarydate c on a.orderStatus = c.dictCode
+		where c.typeCode = 'orderStatus'
+		<if test="status != -1">
+			and a.orderStatus = #{status}
+		</if>
+	</select>
+</mapper>
