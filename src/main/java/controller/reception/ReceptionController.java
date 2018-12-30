@@ -34,7 +34,7 @@ public class ReceptionController {
 	private static Integer count;
 
 	/**
-	 * 
+	 * 验证码
 	 */
 	@RequestMapping("code.do")
 	public String getCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -49,6 +49,7 @@ public class ReceptionController {
 		return null;
 	}
 
+	//搜索栏（进入二级页面）
 	@SuppressWarnings("unlikely-arg-type")
 	@RequestMapping("cpss")
 	public String getCpss(HttpServletRequest request, @RequestParam(value = "cpss", required = false) String hotelName,

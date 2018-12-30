@@ -107,7 +107,7 @@
 								<li><span>退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订：</span></li>
 								<li><span>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</span><label
 									id="crjg">0</label></li>
-								<li><span>剩余库存：</span><label id="sykc_label">1</label></li>
+								<li><span>剩余库存：</span><label id="sykc_label">2</label></li>
 								<li><span>订购数量：</span><select id="crrs" name="crrs"
 									 style="width: 70px; vertical-align: middle;">
 										<option value="0" selected="selected">0</option>
@@ -279,17 +279,17 @@ var hotelIntros = $("#hotelIntros").val();
 			options = '<option value="'+i+'">'+i+'</option>';
 		}
 		$("#crrs").append(options);
-
-		$("#houseList")
-				.change(
-						function() {
+		//获得价格容器
+		var crjg = $("#crjg");
+		$("#houseList") .change(function() {
 							var houseId = $(this).val();
 							if (houseId == 0) {
+								
+								$("#crjg").html("0");
+								$("#totalPrice").html("0");
 								return;
 							}
-							$
-									.post(
-											"houseDetails",
+							$.post("houseDetails",
 											{
 												houseId : houseId
 											},
@@ -297,8 +297,6 @@ var hotelIntros = $("#hotelIntros").val();
 												result = JSON.parse(result);
 												//获取房型容器
 												var houseDet = $("#houseDet");
-												//获得价格容器
-												var crjg = $("#crjg");
 												//动态加载价格
 												crjg.html(result.housePrice);
 												houseDet.html("");
@@ -323,7 +321,7 @@ var hotelIntros = $("#hotelIntros").val();
 														+ result.contentFive
 														+ '</span>';
 												houseDet.html(option);
-
+												sumPrice();
 											});
 						});
 		
@@ -333,19 +331,28 @@ var hotelIntros = $("#hotelIntros").val();
 		});
 
 	});
+	
 	function sumPrice() {
 		//总计价格
 		var totalPrice = $("#totalPrice");
-		//房间数量
+		//房间订购数量
 		var count = $("#crrs").val();
 		//单间价格
 		var crjg = $("#crjg").text();
 		//计算总价格
-		var sum = parseInt(count) * parseInt(crjg);
-
-		totalPrice.html(sum);
+		var sum=0;
+		if(crjg =="0"){
+			sum = parseInt(crjg);
+		}
+		if(count=="0"){
+			sum = parseInt(count);
+		}else{
+			sum = parseInt(count) * parseInt(crjg);
+		}
+			totalPrice.html(sum);
 
 	}
+	
 	function loginout() {
 		if (confirm("确认退出登录吗？")) {
 			location.href = "loginout";
