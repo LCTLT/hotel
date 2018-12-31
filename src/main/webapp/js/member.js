@@ -173,11 +173,5 @@ $(function(){
 });
 $(function(){
 	$(".sidebar .top").on("click",function(){ $('body,html').animate({scrollTop: "0px"}, 300); });	
-	$(".sidebar .dd").on("click",function(e){
-		window.location.href="/module/hygl/page.do?page=index";
-	});
-	$(".sidebar .sc").on("click",function(e){
-		window.location.href="/module/hygl/page.do?page=index&lm=sc";
-	});
 	$("#tccancle").on("click",function(e){$(".tczz,.tc").hide()});
 });

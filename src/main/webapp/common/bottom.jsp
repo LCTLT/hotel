@@ -1,4 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<script>
+function infomember(){
+	var sj = $("#sj").val();
+	if (sj != "") {
+		location.href = "memberOrder";
+	} else {
+		if (confirm("您还未登录,是否去登录？")) {
+			location.href = "login.jsp";
+		}else{
+			location.href="#";
+		}
+	}
+}
+
+</script>
 <!--页面底部开始-->
 <div class="footer-top">
 	<div class="footer-wxbox">
