@@ -64,7 +64,6 @@
 		$.getJSON("queryOrder",{status:orderStatus},function(data){
 			var ddxx = $("#ddxx");
 			var option = '';
-			alert(data.length);
 			for (var i = 0; i < data.length; i++) {
 				data[i].hotelName = data[i].hotelName.substring(0,5)+"...";
 				option += '<li><span style="background: #f7f7f7;">订单编号：'+data[i].orderNo+'</span><div><a href="#" target="_blank"> <img src="'+data[i].fileUrl+'" onerror="" style="text-decoration:none" target="_blank">'+data[i].hotelName+'</a></p><span style="margin-left:-70px;">'+data[i].checkInDates+'<br/>'+data[i].checkInTime+'</span><span class="orange">¥'+data[i].payAmount+'</span><span class="orange">'+data[i].info+'</span><span class="sj">'+data[i].checkOutDates+'<br/>'+data[i].checkOutTime+'</span><span class="ddxx-box" style="margin-left:0"><button class="zf">立即支付</button><a href="#" style="margin-left:13px;height:28px; line-height:30px;display: inline-block;" target="_blank">订单详情</a></span></div></li>';

@@ -129,22 +129,22 @@ a:hover{outline:none;text-decoration:none;}
 
 
 /*低部结束*/
-.sidebar{width:50px;height:304px;background:#e6e6e6;position:fixed;right:0;top:65%;margin-top:-152px; z-index: 10;-moz-border-radius:4px 0px 0px 4px;-webkit-border-radius:4px 0px 0px 4px;border-radius:4px 0px 0px 4px;}
+.sidebar{width:50px;height:185px;background:#e6e6e6;position:fixed;right:0;top:65%;margin-top:-60px; z-index: 10;-moz-border-radius:4px 0px 0px 4px;-webkit-border-radius:4px 0px 0px 4px;border-radius:4px 0px 0px 4px;}
 .sidebar li{ border-bottom:1px solid #fff; text-align:center; font-size:14px;}
 .sidebar li a{ width:50px; height:60px; display:block;color:#333333;}
 .sidebar li a:hover{display:block;color:#fff;background-color:#f72323}
 .wsc{ position:relative;}
-.wsc a span{width:19px;height:16px;background:url(/index_files/sider.png) no-repeat 0 0px;background-size:100%;display:inline-block; margin-top:10px;}
-.wsc a:hover span{width:19px;height:16px;background:url(/index_files/siderhover.png) no-repeat 0 0px;background-size:100%;display:inline-block;}
+.wsc a span{width:19px;height:16px;background:url(../index_files/sider.png) no-repeat 0 0px;background-size:100%;display:inline-block; margin-top:10px;}
+.wsc a:hover span{width:19px;height:16px;background:url(../index_files/siderhover.png) no-repeat 0 0px;background-size:100%;display:inline-block;}
 
-.dd a span{width:19px;height:22px;background:url(/index_files/sider.png) no-repeat 0 -18px;background-size:100%;display:inline-block; margin-top:10px;}
-.dd a:hover span{width:19px;height:22px;background:url(/index_files/siderhover.png) no-repeat 0 -18px;background-size:100%;display:inline-block;}
-.sc a span{width:19px;height:18px;background:url(/index_files/sider.png) no-repeat 0 -40px;background-size:100%;display:inline-block; margin-top:10px;}
-.sc a:hover span{width:19px;height:18px;background:url(/index_files/siderhover.png) no-repeat 0 -40px;background-size:100%;display:inline-block;}
-.kf a span{width:19px;height:22px;background:url(/index_files/sider.png) no-repeat 0 -60px;background-size:100%;display:inline-block; margin-top:8px;}
-.kf a:hover span{width:19px;height:22px;background:url(/index_files/siderhover.png) no-repeat 0 -60px;background-size:100%;display:inline-block;}
-.db a span{width:19px;height:6px;background:url(/index_files/sider.png) no-repeat 3px -84px;background-size:100%;display:inline-block; margin-top:15px;}
-.db a:hover span{width:19px;height:6px;background:url(/index_files/siderhover.png) no-repeat 3px -84px;background-size:100%;display:inline-block;}
+.dd a span{width:19px;height:22px;background:url(../index_files/sider.png) no-repeat 0 -18px;background-size:100%;display:inline-block; margin-top:10px;}
+.dd a:hover span{width:19px;height:22px;background:url(../index_files/siderhover.png) no-repeat 0 -18px;background-size:100%;display:inline-block;}
+.sc a span{width:19px;height:18px;background:url(../index_files/sider.png) no-repeat 0 -40px;background-size:100%;display:inline-block; margin-top:10px;}
+.sc a:hover span{width:19px;height:18px;background:url(../index_files/siderhover.png) no-repeat 0 -40px;background-size:100%;display:inline-block;}
+.kf a span{width:19px;height:22px;background:url(../index_files/sider.png) no-repeat 0 -60px;background-size:100%;display:inline-block; margin-top:8px;}
+.kf a:hover span{width:19px;height:22px;background:url(../index_files/siderhover.png) no-repeat 0 -60px;background-size:100%;display:inline-block;}
+.db a span{width:19px;height:6px;background:url(../index_files/sider.png) no-repeat 3px -84px;background-size:100%;display:inline-block; margin-top:15px;}
+.db a:hover span{width:19px;height:6px;background:url(../index_files/siderhover.png) no-repeat 3px -84px;background-size:100%;display:inline-block;}
 .chat-tips {border: 1px solid #ddd;position: absolute;right: 60px;top: 0px;background-color: #ffffff;display: none; -moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius:4px;}
 .wsc:hover .chat-tips {display: block;}
 img{border:none;outline:none;}

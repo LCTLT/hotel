@@ -59,7 +59,7 @@ function toast(message){
 	document.body.appendChild(toast);
 	setTimeout(function() {
 		document.body.removeChild(toast);
-	}, 3000);
+	}, 2000);
 }
 
 /**

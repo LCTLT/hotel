@@ -10,7 +10,13 @@
 		<link rel="stylesheet" type="text/css" href="login_files/hygllogin.css">
 		<script type="text/javascript" src="js/login.js"></script>
 	</head>
-	<body>
+	<script type="text/javascript">
+		function loadlogin() {
+			var sjh = $("#sjh");
+			sjh.focus();
+		}
+	</script>
+	<body onload="loadlogin()">
 		<div class="header" style="height:85px; overflow:hidden;">
 			<div class="logo-in">
 				<a href="index" class="logo" style="margin-top: 8px;"><img src="login_files/dllogo.jpg"></a>

@@ -69,7 +69,7 @@ function loginout() {
 						class="search_button" href="javascript:cpss();">搜索</a>
 					</c:when>
 					<c:otherwise>
-						<input type="text" class="search_text" placeholder="酒店省份"
+						<input type="text" class="search_text" placeholder="酒店所在省份、酒店名称"
 						id="kw" onkeydown="if(event.keyCode == 13){querylist('');}" value="${cpsss}"> <a
 						class="search_button" href="javascript:querylist('')">搜索</a>
 					</c:otherwise>

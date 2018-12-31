@@ -27,3 +27,12 @@
     </div>
 </div>
 <!--页面底部结束-->
+<!--页面侧栏开始-->
+<div class="sidebar">
+    <ul>
+        <li class="dd"><a href="javaScript:infomember();"><span></span><p>订单</p></a></li>
+        <li class="sc"><a href="javascript:;"><span></span> <p>收藏</p></a></li>
+        <li class="db top" style=" border-bottom:none;"><a href="javascript:;"><span></span><p>TOP</p></a></li>
+    </ul>
+</div>
+<!--页面侧栏结束-->
