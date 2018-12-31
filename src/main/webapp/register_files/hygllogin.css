@@ -42,7 +42,7 @@ a:focus{outline:none;}
 .login b{ font-size:16px; color:#333;}
 .login h3{height:40px; border-bottom:1px solid #e1e1e1; line-height:40px; padding-left:15px; margin-bottom:30px; font-size:16px; font-weight:normal;}
 .login em{position:absolute; background:#fff;  right:10px; top:12px; height:14px; width:14px; display:inline-block; font-style:normal; cursor:pointer; background: url(/xtfsq/themes/images/cancle.png?timestamp=2015090216) no-repeat;}
-.loginTipWarn{ width:300px; height:22px;line-height:22px; position:absolute; left:88px; top:42px;box-sizing:border-box; padding-left:28px; background:#ffebeb url(/xtfsq/themes/images/warn.png?timestamp=2015090216) no-repeat; border:1px solid #f72323; color:#f72323; background-position:5px center;margin-left: 2px;}
+.loginTipWarn{ width:300px; height:22px;line-height:22px; position:absolute; left:88px; top:42px;box-sizing:border-box; padding-left:28px; background:#ffebeb url(../login_files/warn.png) no-repeat; border:1px solid #f72323; color:#f72323; background-position:5px center;margin-left: 2px;}
 label{ vertical-align:middle; color:#828282; margin-left:5px; line-height:12px;}
 u{text-decoration:none;}
 .login input.dagou-in{ height:12px; width:12px; border:0; vertical-align:middle; margin-top:0px;}
