@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import dao.reception.ReceptionMapper;
@@ -20,8 +21,7 @@ public class ReceptionServiceImpl implements ReceptionService {
 
 	@Autowired
 	private ReceptionMapper receptionMapper;
-	
-	
+
 	public int getRegister(User user) {
 		return receptionMapper.getRegister(user);
 	}
@@ -37,23 +37,21 @@ public class ReceptionServiceImpl implements ReceptionService {
 	public List<Level> second(Level level) {
 		return receptionMapper.second(level);
 	}
-
+	@Cacheable("getPrice") //开启redis缓存，key为getPrice
 	public List<Dictionarydate> getPrice() {
 		return receptionMapper.getPrice();
 	}
-
+	@Cacheable("getStar")
 	public List<Dictionarydate> getStar() {
 		return receptionMapper.getStar();
 	}
-
+	@Cacheable("getImages")
 	public List<Hotel> getImages() {
 		return receptionMapper.getImages();
 	}
-
 	public Hotel getHotel(Integer hotelId) {
 		return receptionMapper.getHotel(hotelId);
 	}
-
 	public List<House> getHouseList(Integer houseId) {
 		return receptionMapper.getHouseList(houseId);
 	}

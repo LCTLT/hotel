@@ -7,10 +7,38 @@
 		select
 		a.id,a.orderNo,b.hotelName,a.checkInDate,a.checkOutDate,a.payAmount,a.orderStatus,c.info,b.fileUrl
 		from `order` a INNER JOIN hotel b on a.hotelId = b.hotelId
-		Inner join dictionarydate c on a.orderStatus = c.dictCode
-		where c.typeCode = 'orderStatus'
+		Inner join
+		dictionarydate c on a.orderStatus = c.dictCode
+		where c.typeCode =
+		'orderStatus'
 		<if test="status != -1">
 			and a.orderStatus = #{status}
 		</if>
 	</select>
+
+	<!-- 收藏列表  -->
+	<select id="getMycollection" resultType="pojo.Mycollection">
+		SELECT *,(SELECT hotelName
+		FROM hotel WHERE hotel.hotelId=mycollection.hotelById) as
+		hotelName,
+		(SELECT fileUrl FROM hotel WHERE hotel.hotelId=mycollection.hotelById) as
+		fileUrl 
+		  FROM mycollection
+		  WHERE conbyUserId = (SELECT id FROM `user` WHERE phone=#{phone})
+	</select>
+	
+	<select id="getHotelById" resultType="int">
+		SELECT COUNT(*) FROM mycollection WHERE hotelById=#{hid} AND
+		  conbyUserId=(SELECT id FROM `user` WHERE phone=#{phone})
+	</select>
+
+	<!-- 收藏的操作 -->
+	<insert id="insertCons">
+		INSERT INTO mycollection(conbyUserId,hotelById) VALUES (#{conbyUserId},#{hotelByid});
+	</insert>
+	
+	<delete id="deleteCons">
+		DELETE FROM mycollection WHERE hotelById=#{scid}
+	</delete>
+
 </mapper>

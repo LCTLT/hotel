@@ -1,8 +1,6 @@
 package service.reception.impl;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -10,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dao.reception.OrderMapper;
-import pojo.Dictionarydate;
+import pojo.Mycollection;
 import pojo.Order;
 import service.reception.OrderService;
 @Service
@@ -37,5 +35,17 @@ public class OrderServiceImpl implements OrderService{
 		}
 		
 		return queryOrderList;
+	}
+	public List<Mycollection> getMycollection(String phone) {
+		return orderMapper.getMycollection(phone);
+	}
+	public int getHotelById(Integer hid,String phone) {
+		return orderMapper.getHotelById(hid,phone);
+	}
+	public int deleteCons(Integer scid) {
+		return orderMapper.deleteCons(scid);
+	}
+	public int insertCons(Integer conbyUserId, Integer hotelByid) {
+		return orderMapper.insertCons(conbyUserId, hotelByid);
 	}
 }

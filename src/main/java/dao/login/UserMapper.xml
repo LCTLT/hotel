@@ -5,7 +5,7 @@
 	
 	
 	<select id="loginInfo" resultType="pojo.User">
-		select phone,pwd from user where phone=#{phone} and pwd=#{password}
+		select id,name,phone,pwd,idcard,sex,email from user where phone=#{phone} and pwd=#{password}
 	</select>
 	
 	<select id="loginUser" resultType="int" parameterType="String">

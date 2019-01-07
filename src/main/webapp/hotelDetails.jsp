@@ -66,6 +66,12 @@
 					<div id="allmap" style="width: 500px; height: 300px;"></div>
 				</div>
 				<form id="form">
+					<!-- 获取收藏信息（是否存在收藏表中） -->
+					<input type="hidden" id="getConById" value="${getConById}">
+					<!-- 获取酒店id值（用于收藏或取消收藏指定的酒店） -->
+					<input type="hidden" id="hotelIds" value="${hotel.hotelId}">
+					<!-- 用于获取session用户id -->
+					<input type="hidden" id="conuserids" value="${user.id}">
 					<!-- 地址 -->
 					<input type="hidden" id="hotelAddress" value="${hotel.hotelAddress}">
 					<!-- 酒店名称 -->
@@ -77,6 +83,12 @@
 					<div class="cp-right">
 						<p>${hotel.hotelName}</p>
 						<span class="price">¥<b>${hotel.hotelPrice}</b><em>起</em></span>
+						<div class="bdsharebuttonbox bdshare-button-style0-16" style="margin-top: 35px;" data-bd-bind="1546396910416">
+			                    <!-- <a id="fx" href="javascript:;" class="bds_more fx"></a> -->
+				                <div style="float:right;margin: 10px 10px 0 0;">
+									<a href="javascript:void(0);" id="sc" class="sc"><span>收藏</span></a>
+				                </div>
+		                    </div>
 						<div class="cpxxxx">
 							<ul>
 								<li>详细地址： <i>${hotel.hotelAddress}</i>
@@ -366,5 +378,39 @@ var hotelIntros = $("#hotelIntros").val();
 	});      
 	map.addControl(ctrl);
 	ctrl.setAnchor(BMAP_ANCHOR_BOTTOM_RIGHT);  
+</script>
+
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	var getConById = $("#getConById").val();
+	if(getConById==1){
+		$("#sc").removeClass();
+		$("#sc").addClass("ysc");
+	}else{
+		$("#sc").removeClass();
+		$("#sc").addClass("sc");
+	}
+	
+	var hotelIds = $("#hotelIds").val();
+	var conuserId = $("#conuserids").val();
+	
+	 $("#sc").click(function(){
+		if($(this).attr("class") == "sc"){
+			$(this).removeClass();
+			$(this).addClass("ysc");
+			$.get("insertCon",{conuserid:conuserId,hotelid:hotelIds},function(data){
+				
+			})
+		}else{
+			
+			$(this).removeClass();
+			$(this).addClass("sc");
+			$.get("deleteCon",{scid:hotelIds},function(data){
+				toast("取消收藏成功");
+			});
+		}
+	}); 
+});
 </script>
 </html>

@@ -13,6 +13,19 @@ function infomember(){
 	}
 }
 
+function infoCollection() {
+	var sj = $("#sj").val();
+	if(sj != ""){
+		location.href="JavaScript:openHycenter('memberMyCollection.jsp')";
+	}else{
+		if (confirm("您还未登录,是否去登录？")) {
+			location.href = "login.jsp";
+		}else{
+			location.href="#";
+		}
+	}
+}
+
 </script>
 <!--页面底部开始-->
 <div class="footer-top">
@@ -46,7 +59,7 @@ function infomember(){
 <div class="sidebar">
     <ul>
         <li class="dd"><a href="javaScript:infomember();"><span></span><p>订单</p></a></li>
-        <li class="sc"><a href="javascript:;"><span></span> <p>收藏</p></a></li>
+        <li class="sc"><a href="javascript:infoCollection();"><span></span> <p>收藏</p></a></li>
         <li class="db top" style=" border-bottom:none;"><a href="javascript:;"><span></span><p>TOP</p></a></li>
     </ul>
 </div>

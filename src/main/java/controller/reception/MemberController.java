@@ -2,7 +2,6 @@ package controller.reception;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 
 import pojo.Dictionarydate;
 import pojo.Level;
+import pojo.Mycollection;
 import pojo.Order;
 import service.reception.OrderService;
 import service.reception.ReceptionService;
@@ -33,7 +33,7 @@ public class MemberController {
 	 *进入会员中心默认查询订单 
 	 */
 	@RequestMapping("memberOrder")
-	public String memberOrder(HttpServletRequest request,Level level) {
+	public String memberOrder(HttpServletRequest request,Level level,@RequestParam(value="pagelist",required=false)String pagelist) {
 		//left.jsp查询
 		List<Level> list = receptionService.first(level);
 		List<Level> list2 = receptionService.second(level);
@@ -45,6 +45,7 @@ public class MemberController {
 		request.setAttribute("getAll", getAll);
 		request.setAttribute("getprice", getprice);
 		request.setAttribute("getstar", getstar);
+		
 		
 		return "member";
 	}
@@ -91,6 +92,44 @@ public class MemberController {
 				return "2";
 			}
 		}
+	}
+	
+	
+	/**
+	 * 查询收藏
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping("getInfoCollection")
+	public void getInfoConn(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam(value="phone")String phone) throws IOException {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		List<Mycollection> list = orderService.getMycollection(phone);
+		
+		out.print(JSON.toJSONString(list));
+	}
+	
+	//取消收藏
+	@RequestMapping("deleteCon")
+	public void deleteConn(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam(value="scid",required=false)Integer scid) throws IOException {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		out.print(orderService.deleteCons(scid));
+	}
+	
+	//添加收藏
+	@RequestMapping("insertCon")
+	public void insertConn(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam(value="conuserid",required=false)Integer conbyUserId,
+			@RequestParam(value="hotelid",required=false)Integer hotelByid) throws IOException {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		out.println(orderService.insertCons(conbyUserId, hotelByid));
 	}
 	
 	

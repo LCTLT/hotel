@@ -6,6 +6,15 @@
 <link rel="stylesheet" type="text/css" href="hotel_files/share.css">
 <script type="text/javascript" src="hotel_files/jquery_002.js"></script>
 <script type="text/javascript" src="hotel_files/common.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var phone = $("#phoneM");
+		var item = phone.text();
+		if(item != ''){
+			phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
+		}
+	})
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>乐游旅游官方网站_中国专业旅游服务平台_快乐旅游 就在乐游！</title>
 <meta name="description"
@@ -27,6 +36,8 @@
 	color: red;
 }
 </style>
+
+
 </head>
 <body>
 	<!-- 嵌入头部 -->
@@ -37,7 +48,7 @@
 
 	<!--页面主体开始-->
 	<div class="main main-cplist">
-
+	
 		<div class="main-in">
 			<div class="cxtj">
 				<div class="cxtj_xz">
@@ -129,14 +140,14 @@
 					<c:if test="${not empty list}">
 						<c:forEach items="${list }" var="hotelx">
 							<div class="cpzs">
-								<a href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}"
+								<a href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}&phone=${user.phone}"
 									target="_blank"> <img src="${hotelx.fileUrl }"
-									onerror="hotels/hotelDetails?hotelId=${hotelx.hotelId}">
+									onerror="hotels/hotelDetails?hotelId=${hotelx.hotelId}&phone=${user.phone}">
 									<!-- <div class="cpbq">跟团游</div> -->
 								</a>
 								<div class="cpmc">
 									<div class="cppic">
-										<a href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}"
+										<a href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}&phone=${user.phone}"
 											target="_blank">${hotelx.hotelName } </a>
 									</div>
 									<div class="clear"></div>
@@ -151,7 +162,7 @@
 								<div class="jg">
 									<span><em>¥</em><b>${hotelx.hotelPrice }</b>起</span>
 									<button style="outline: none; margin-top: 15px;" type="button"
-										onclick="javascript:window.open('/hotels/hotelDetails?hotelId=${hotelx.hotelId}')">立即预订</button>
+										onclick="javascript:window.open('/hotels/hotelDetails?hotelId=${hotelx.hotelId}&phone=${user.phone}')">立即预订</button>
 								</div>
 							</div>
 						</c:forEach>
@@ -186,14 +197,10 @@
 		</div>
 	</div>
 	<script src="hotel_files/jquery.js"></script>
-	<input type="hidden" value="${mk}" id="mk">
+	<input type="hidden" value="${mk}" id="mk" name="${mktype}" ids="${ywbm}">
 	<script type="text/javascript">
 		$(function() {
-			var phone = $("#phoneM");
-			var item = phone.text();
-			if(item != ''){
-				phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
-			}
+			check($("#mk"));
 		});
 
 		function loginout() {

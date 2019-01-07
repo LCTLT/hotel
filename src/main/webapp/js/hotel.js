@@ -1,4 +1,39 @@
 /**********************多条件查询js开始******************************/
+//侧边栏默认选中
+function check(obj){
+	var $obj = $(obj);
+	var name = $obj.val();
+	var type = $obj.attr("name");
+	var id = $obj.attr("ids");
+
+	console.log("1name="+name);
+	console.log("1type="+type);
+	console.log("1id="+id);
+	var fig = true;
+	$("#spans #"+type+"").each(function(index,i){
+		$("#spans").children("#"+type).replaceWith('<span style="color: red; margin-left: 10px;"'+
+				'name="'+name+'" id="'+type+'">'+name+'<a href="javascript:void(0)" onclick="del(this)">'+
+				'<img src="images/x.png" alt="删除" style="padding-left: 4px; height: 14px;" />'+
+		'</a></span>');
+		fig = false;
+	});
+	
+	if(fig){
+		$("#spans").append('<span style="color: red; margin-left: 10px;"'+
+				'name="'+name+'" id="'+type+'">'+name+'<a href="javascript:void(0)" onclick="del(this)">'+
+				'<img src="images/x.png" alt="删除" style="padding-left: 4px; height: 14px;" />'+
+		'</a></span>');
+	}
+	//设置样式
+	$("#"+type+"All").parent().children("dd").each(function(index,item){
+		//清除所有样式
+		$(item).removeClass();
+		if($(item).text() == name){
+			$(item).addClass("current");
+		}
+	});
+}
+
 //删除条件
 function del(obj){
 	//变为全部
@@ -295,7 +330,7 @@ function xzxllb(lbid,xlqy,ssfl,ywbm){
 	var mktype="";
 	window.location.href="/hotels/cpss?cpss=&mdd="+lbid+"&mk="+xlqy+"&mktype="+ssfl+"&ywbm="+ywbm;
 }
-// 产品搜索
+//产品搜索
 function cpss(){
 	var pattern=new RegExp("\\\\","g");/// /查找所有的"\"
 	var cpss=$("#kw").val().replace(pattern,"");
@@ -425,7 +460,7 @@ $(function(){
 
 $(function(){
 	$(".sidebar .top").on("click",function(){ $('body,html').animate({scrollTop: "0px"}, 300); });	
-	
+
 	$("#tccancle").on("click",function(e){$(".tczz,.tc").hide()});
 });
 $(function(){

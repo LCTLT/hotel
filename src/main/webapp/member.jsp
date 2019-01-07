@@ -14,6 +14,19 @@
 
 <link rel="stylesheet" type="text/css" href="css/member.css">
 <script type="text/javascript" src="js/member.js"></script>
+<style type="text/css">
+	.tc{ min-height:0rem;width:20rem; padding: 10px; float:right; background:#FFF; border-radius:4px; position:relative;}
+	.tc em{position:absolute; background:#fff;  right:10px; top:12px; height:14px; width:14px; display:inline-block; font-style:normal; cursor:pointer; background: url(/xtfsq/themes/images/cancle.png) no-repeat;}
+	.tc p{width:90%;/* position:absolute;left:50%;margin-left: -40%; */margin:.5rem auto;font-size:16px; text-align:center;}
+	 
+	/*弹出框*/
+	.tck{width:70%;width:280px; height:auto;z-index:9999; position:fixed; left:50%; top:50%; margin-left:-140px; margin-top:-100px; display:none; border-radius:5px; background:#fff; border:1px solid #fff; color:#333; padding:0px;}
+	.tck .row{border-top:1px solid #eee;width:100%;margin:0px;background:#fff;padding:3px 0px 3px;}
+	.tck .row div{text-align:center;line-height:30px;cursor: pointer;}
+	.tck .row div:first-child{ border-right:1px solid #eee;}
+	.tck span{ padding:15px; display:inline-block;}
+	.col-xs-6 {width: 50%;float: left;}
+</style>
 
 </head>
 <body style="margin: 0; padding: 0;">
@@ -21,7 +34,7 @@
 	<%@ include file="common/hread.jsp"%>
 	<!-- 嵌入页面导航 -->
 	<%@ include file="common/left.jsp"%>
-	
+
 	<div class="content">
 		<div class="content-in">
 			<div class="content-left">
@@ -29,46 +42,45 @@
 				<ul>
 					<li class="current"><a
 						href="javascript:openHycenter('memberMyOrder.jsp');">我的订单</a></li>
-					<li><a
-						href="javascript:openHycenter('memberMydata.jsp');">我的资料</a></li>
+					<li id="wdsc"><a
+						href="javascript:openHycenter('memberMyCollection.jsp');">我的收藏</a>
+						</li>
+					<li><a href="javascript:openHycenter('memberMydata.jsp');">我的资料</a></li>
 					<li><a
 						href="javascript:openHycenter('memeberMyPassword.jsp');">修改密码</a></li>
 				</ul>
 			</div>
 			<iframe id="hycenter" name="hycenter"
 				style="width: 953px; height: 620px; z-index: 2; visibility: inherit; margin-left: 20px; padding-bottom: 20px; background: rgb(255, 255, 255) none repeat scroll 0% 0%;"
-				scrolling="no" onload="iFrameHeight2();"
-				src="memberMyOrder.jsp" frameborder="0"> 
-
-				</iframe>
+				scrolling="no" onload="iFrameHeight2();" src="memberMyOrder.jsp"
+				frameborder="0"> </iframe>
 		</div>
 	</div>
 
 	<!-- 嵌入页面底部 -->
 	<%@ include file="common/bottom.jsp"%>
 
-	<div class="tczz"
-		style="width: 100%; height: 100%; background-color: #000; background-color: rgba(0, 0, 0, 0.5); filter: alpha(opacity = 50); BORDER-LEFT: medium none; /*IE8支持*/ position: fixed; left: 0; top: 0; /* filter:alpha(Opacity=20);  */ z-index: 9998; display: none; pointer-events: auto;"></div>
-	<div class="tck">
-		<span></span>
-		<div id="tsk" class="row">
-			<div id="qxsc" class="col-xs-6">否</div>
-			<div id="qdsc">是</div>
-		</div>
-	</div>
-<script type="text/javascript">
-	$(function() {
-		var phone = $("#phoneM");
-		var item = phone.text();
-		phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
+	<div class="tczz" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); border-left: medium none; position: fixed; left: 0px; top: 0px; z-index: 9998; pointer-events: auto; display: none;"></div>
+	<div class="tck" style="display: none;">
+    	<span>确定取消收藏吗？</span>
+    	<div id="tsk" class="row">
+        <div id="qxsc" class="col-xs-6">否</div>
+        <div id="qdsc">是</div>
+    </div>
+</div>
+	<script type="text/javascript">
+		$(function() {
+			var phone = $("#phoneM");
+			var item = phone.text();
+			phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
 
-	});
+		});
 
-	function loginout() {
-		if (confirm("确认退出登录吗？")) {
-			location.href = "loginout";
+		function loginout() {
+			if (confirm("确认退出登录吗？")) {
+				location.href = "loginout";
+			}
 		}
-	}
-</script>
+	</script>
 </body>
 </html>

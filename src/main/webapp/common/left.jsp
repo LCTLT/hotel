@@ -11,22 +11,22 @@
                     	<div class="xllb_zbybt"><em class="zbytb"></em><span>酒店宾馆</span><i></i></div>
                         <ul style="height:50px; ">
                          	<c:forEach items="${first}" var="first">
-                         	<li class="xlxl" onclick="xzxllb('1f8ec47126fe44439481a91dfd1f029a','${first.id}','${first.type}','')">${first.name}</li>
+                         	<li class="xlxl" onclick="xzxllb('${first.id}','hotelsdd','${first.name}','1')">${first.name}</li>
                          	</c:forEach>
                         </ul>
                        <div class="xllb-mbzk xllb-zby">
                            <div class="xllb_diqu xllb_zby">
                           	<span style="font-size: 16px; width: 400px;"><em><img alt="" src="index_files/hotel.png" height="25px" width="25px"></em>酒店类型(Hotel type)</span><br>
                           	<c:forEach items="${first}" var="first">
-                          	<a href="javascript:xzxllb('1f8ec47126fe44439481a91dfd1f029a','${first.id}','${first.type}','');">${first.name}</a>
+                          	<a href="javascript:xzxllb('${first.id}','hotelsdd','${first.name}','1');">${first.name}</a>
                            	</c:forEach>
                           	<br><span style="font-size: 16px; width: 400px;"><em><img alt="" src="index_files/city.png" height="25px" width="25px"></em>所在城市(City where)</span><br>
                            	<c:forEach items="${second}" var="second">
-                           	<a href="javascript:xzxllb('1f8ec47126fe44439481a91dfd1f029a','${second.id}','${second.type}','');">${second.name}</a>
+                           	<a href="javascript:xzxllb('${second.id}','citysdd','${second.name}','3');">${second.name}</a>
                            	</c:forEach>
                            	<br><br><span style="font-size: 16px; width: 400px;"><em><img alt="" src="index_files/money.png" height="25px" width="25px"></em>价格范围(Price range)</span><br>
                             <c:forEach items="${getprice}" var="price" varStatus="ss">
-	                            <a href="javascript:xzxllb('0c4702fedf7542148507ae2cbf3f450c','${price.info}','${price.typeCode}','${price.dictCode}');">
+	                            <a href="javascript:xzxllb('${price.info}','${price.typeCode}');">
 		                             ${price.info}元
 		                            <c:if test="${ss.first}">
 		                           		以下
@@ -38,7 +38,7 @@
                            	</c:forEach>
                            	<br><span style="font-size: 16px; width: 400px;"><em><img alt="" src="index_files/stars.png" height="25px" width="25px"></em>星级档次(Star grade)</span><br>
                            	<c:forEach items="${getstar}" var="star">
-                           	<a href="javascript:xzxllb('a9898141093a41dd8bac692e2c636f37','${star.info}','${star.typeCode}','${star.dictCode}');">${star.info}</a>
+                           		<a href="javascript:xzxllb('${star.dictCode}','${star.typeCode}','${star.info}');">${star.info}</a>
                            	</c:forEach>
                             </div>
                       </div>
@@ -175,3 +175,22 @@
     </div>
 </div>
 <!--页面导航结束-->
+<script>
+	function xzxllb(name,type,id,level){
+		console.log(id);
+		console.log(type);
+		console.log(name);
+		if(type == "price"){
+			if(name <= 1000){
+				id=name+"元以下";
+			}else if(name >=2000){
+				id=name+"元以上";
+			}else{
+				id=name+"元";
+			}
+		}else if(level == null || level == undefined){
+			level = 0;
+		}
+		location = "/hotels/cpss?cpss=&mk="+id+"&mktype="+type+"&ywbm="+name+"&level="+level;
+	}
+</script>
