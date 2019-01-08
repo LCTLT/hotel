@@ -29,4 +29,8 @@ public interface OrderMapper {
 	 * 统计订单数量
 	 */
 	Integer getQueryCount(@Param("userId")Integer userId,@Param("status")Integer status);
+	/**
+	 * 查看订单详情
+	 */
+	List<Order> getOrderList(@Param("orderNo")String orderNo);
 }

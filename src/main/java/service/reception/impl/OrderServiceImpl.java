@@ -65,4 +65,11 @@ public class OrderServiceImpl implements OrderService{
 	public Integer getQueryCount(Integer userId,Integer status) {
 		return orderMapper.getQueryCount(userId,status);
 	}
+	/**
+	 * 查看订单详情
+	 */
+	public List<Order> getOrderList( String orderNo) {
+		// TODO Auto-generated method stub
+		return orderMapper.getOrderList(orderNo);
+	}
 }

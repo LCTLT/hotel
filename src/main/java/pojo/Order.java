@@ -42,8 +42,27 @@ public class Order {
 	private String hotelName;
 	private String fileUrl;
 	private String info;
-
-
+    private String productNo;//酒店编码
+    private String houseType;//房间类型
+    private String hotelAddress;//酒店地址
+	public String getHotelAddress() {
+		return hotelAddress;
+	}
+	public void setHotelAddress(String hotelAddress) {
+		this.hotelAddress = hotelAddress;
+	}
+	public String getProductNo() {
+		return productNo;
+	}
+	public void setProductNo(String productNo) {
+		this.productNo = productNo;
+	}
+	public String getHouseType() {
+		return houseType;
+	}
+	public void setHouseType(String houseType) {
+		this.houseType = houseType;
+	}
 	public String getCheckInDates() {
 		return checkInDates;
 	}

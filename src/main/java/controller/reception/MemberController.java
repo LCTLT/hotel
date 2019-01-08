@@ -20,6 +20,7 @@ import pojo.Level;
 import pojo.Mycollection;
 import pojo.Order;
 import pojo.User;
+import service.login.UserService;
 import service.reception.OrderService;
 import service.reception.ReceptionService;
 import util.CheckUtil;
@@ -30,6 +31,8 @@ public class MemberController {
 	private ReceptionService receptionService;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private UserService userService;
 	/*
 	 *进入会员中心默认查询订单 
 	 */
@@ -69,6 +72,17 @@ public class MemberController {
 		List<Order> order = orderService.getQueryOrderList(status,user.getId());
 		
 		out.print(JSON.toJSONString(order));
+	}
+	/**
+	 * 查看订单详情
+	 */
+	@RequestMapping("getOrderList")
+	public String getOrderList(@RequestParam("order")String orderNo,HttpServletRequest request) {
+		List<Order> list = orderService.getOrderList(orderNo);
+		request.setAttribute("list",list);
+	//	User user = userService.loginInfo(phone, CheckUtil.getSha1(password));
+		//request.getSession().setAttribute("user", user);
+		return "memberDetails";
 	}
 	/**
 	 * 订单字典
