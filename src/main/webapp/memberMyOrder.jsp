@@ -78,9 +78,9 @@
 				+'<span style="margin-left:-70px;">'+data[i].checkInDates+'<br/>'+data[i].checkInTime+'</span><span class="orange">¥'+data[i].payAmount+'</span>'
 				+'<span class="orange">'+data[i].info+'</span><span class="sj">'+data[i].checkOutDates+'<br/>'+data[i].checkOutTime+'</span>';
 				if(data[i].orderStatus == 0){
-					option +='<span class="ddxx-box" style="margin-left:0"><button class="zf" onclick="zfb(this)">立即支付</button><a href="javascript:void(0);" style="margin-left:12px;margin-top:10px;height:28px; line-height:30px;display: inline-block;" target="_blank">订单详情</a></span></div></li>';
+					option +='<span class="ddxx-box" style="margin-left:0"><button class="zf" onclick="zfb(this,'+data[i].id+')">立即支付</button><a href="getOrderList?order='+data[i].orderNo+'" style="margin-left:12px;margin-top:10px;height:28px; line-height:30px;display: inline-block;" target="_blank">订单详情</a></span></div></li>';
 				}else{
-					option +='<a href="#" style="margin-left:55px;height:28px; line-height:65px;display: inline-block;" target="_blank">订单详情</a></span></div></li>';
+					option +='<a href="getOrderList?order='+data[i].orderNo+'" style="margin-left:55px;height:28px; line-height:65px;display: inline-block;" target="_blank">订单详情</a></span></div></li>';
 				}
 			}
 			//计算页面高度
@@ -92,7 +92,7 @@
 		});
 	}
 	//支付
-	function zfb(obj){
+	function zfb(obj,id){
 		var $obj = $(obj);
 		//订单号
 		var orderNo = $obj.parent().parent().prev().text();
@@ -103,6 +103,7 @@
 		//酒店名称
 		var hotelName = $obj.parent().parent().children("a:first").text();
 		//访问支付接口,考虑安全性参数不直接显示 
+		window.parent.document.getElementById("orderId").value=id;
 		window.parent.document.getElementById("orderNo").value=array[1];
 		window.parent.document.getElementById("price").value=price;
 		window.parent.document.getElementById("hotelName").value=hotelName;

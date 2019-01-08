@@ -20,7 +20,6 @@ import pojo.Level;
 import pojo.Mycollection;
 import pojo.Order;
 import pojo.User;
-import service.login.UserService;
 import service.reception.OrderService;
 import service.reception.ReceptionService;
 import util.CheckUtil;
@@ -31,21 +30,16 @@ public class MemberController {
 	private ReceptionService receptionService;
 	@Autowired
 	private OrderService orderService;
-	@Autowired
-	private UserService userService;
 	/*
 	 *进入会员中心默认查询订单 
 	 */
 	@RequestMapping("memberOrder")
-	public String memberOrder(HttpServletRequest request,Level level,@RequestParam(value="pagelist",required=false)String pagelist) {
-		//统计订单数量
+	public String memberOrder(HttpServletRequest request,Level level) {
 		User user = (User)request.getSession().getAttribute("user");
 		if(user == null) {
 			request.setAttribute("errorLogin", "请先登录");
 			return "login";
 		}else {
-			Integer count = orderService.getQueryCount(user.getId(),-1);
-			request.setAttribute("count", count);
 			//left.jsp查询
 			List<Level> list = receptionService.first(level);
 			List<Level> list2 = receptionService.second(level);
@@ -77,11 +71,20 @@ public class MemberController {
 	 * 查看订单详情
 	 */
 	@RequestMapping("getOrderList")
-	public String getOrderList(@RequestParam("order")String orderNo,HttpServletRequest request) {
-		List<Order> list = orderService.getOrderList(orderNo);
-		request.setAttribute("list",list);
-	//	User user = userService.loginInfo(phone, CheckUtil.getSha1(password));
-		//request.getSession().setAttribute("user", user);
+	public String getOrderList(@RequestParam("order")String orderNo,Level level,HttpServletRequest request) {
+		List<Order> lists = orderService.getOrderList(orderNo);
+		request.setAttribute("list",lists);
+		//left.jsp查询
+		List<Level> list = receptionService.first(level);
+		List<Level> list2 = receptionService.second(level);
+		List<Level> getAll = receptionService.allLevel(null);
+		List<Dictionarydate> getprice = receptionService.getPrice();
+		List<Dictionarydate> getstar = receptionService.getStar();
+		request.setAttribute("first", list);
+		request.setAttribute("second", list2);
+		request.setAttribute("getAll", getAll);
+		request.setAttribute("getprice", getprice);
+		request.setAttribute("getstar", getstar);
 		return "memberDetails";
 	}
 	/**

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,16 +52,12 @@
 				</ul>
 			</div>
 	<div>
-		<form action='zfb' method='post' name='form1' style='display:none'>
-			<input type='hidden' name='orderNo' id='orderNo' value="">
-			<input type='hidden' name='price' id='price' value="">
-			<input type='hidden' name='hotelName' id='hotelName' value="">
-		</form>
 	</div>
-			<iframe id="hycenter" name="hycenter"
-				style="width: 953px; height: 620px; z-index: 2; visibility: inherit; margin-left: 20px; padding-bottom: 20px; background: rgb(255, 255, 255) none repeat scroll 0% 0%;"
-				scrolling="no"
-				frameborder="0"></iframe>
+		<iframe id="hycenter" name="hycenter"
+			style="width: 953px; height: 620px; z-index: 2; visibility: inherit; margin-left: 20px; padding-bottom: 20px; background: rgb(255, 255, 255) none repeat scroll 0% 0%;"
+			scrolling="no"
+			frameborder="0">
+		</iframe>
 		</div>
 	</div>
 
@@ -75,11 +72,23 @@
         <div id="qdsc">是</div>
     </div>
 </div>
+<form action='zfb' method='post' name='form1' style='display:none'>
+	<input type='hidden' name='orderId' id='orderId' value="">
+	<input type='hidden' name='orderNo' id='orderNo' value="">
+	<input type='hidden' name='price' id='price' value="">
+	<input type='hidden' name='hotelName' id='hotelName' value="">
+</form>
+<input type="hidden" value="${message}" id="message">
 <script type="text/javascript">
 		$(function() {
 			var phone = $("#phoneM");
 			var item = phone.text();
 			phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
+			
+			var message = $("#message").val();
+			if(message != null && message == "finl"){
+				toast("支付失败");
+			}
 		});
 		function sub(){
 			document.form1.submit();

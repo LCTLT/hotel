@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,36 +29,40 @@
 
 	    <div class="main">
 	    	<div class="main-in">
-	        	<div class="ddxx_adr"><span>您的位置</span> &gt; <span>会员中心</span> &gt; <span>我的订单</span> &gt; <span>订单详情</span></div>
+	        	<div class="ddxx_adr"><span>您的位置</span> &gt; <span><a class="hyzx" href="javascript:sessionphone();">会员中心</a></span> &gt; <span><a href="javascript:openHycenter('memberMyOrder.jsp');">我的订单</a></span> &gt; <span>订单详情</span></div>
 	            <div class="ddxq">
+	            <c:forEach items="${list}" var="list">
 	            	<ul>
 	                	<li>
 	                    	<div class="title">产品信息</div>
 	                    	<div style="height:auto; overflow:hidden;">
-	                        	<img src="memberDetails_files/9fd1ee780a7c4d539322c7ea1d79c0a4.jpg" style="float:left; cursor:pointer;" onclick="goView('b210ea079b7b4f4a9e2632b04426fb5c');" width="100px" height="75px"><p style="float:left; margin-left:15px; width:80%;">产品编号：CPCS18102510274376</p>
-	                            <br><p class="ddmc" onclick="goView('b210ea079b7b4f4a9e2632b04426fb5c');">五星泰国海景沙美版6天5晚跟团游，1晚沙美岛豪华度假酒店小别墅+2晚芭提雅国五海景房布莱顿酒店海景房+1晚曼谷皇家喜来登酒店180°落地河景房+1晚曼谷高人气绿宝石酒店</p>
+	                        	<img src="${list.fileUrl}" style="float:left; cursor:pointer;" onclick="goView('b210ea079b7b4f4a9e2632b04426fb5c');" width="100px" height="75px"><p style="float:left; margin-left:15px; width:80%;">产品编号：${list.productNo}</p>
+	                            <br><p class="ddmc" onclick="goView('b210ea079b7b4f4a9e2632b04426fb5c');">${list.hotelAddress}</p>
 	                        </div>
 	                    </li>
 	                    <li style="padding-bottom:0;">
 	                    	<div class="title">报名信息</div>
 	                        <ul class="ddxx ddx-box" style="padding-bottom: 10px;">
-	                            <li><span>订单编号：</span><span>DDCS18112710416163</span></li>
-	                            <li><span>订单状态：</span><i>待确认</i></li>
-	                            <li><span>订单金额：</span><u>¥3990.00</u>（支付宝支付）</li>
+	                            <li><span>订单编号：</span><span>${list.orderNo}</span></li>
+	                            <li><span>订单状态：</span><i> <c:if test="${list.orderStatus eq 0}">待支付</c:if><c:if test="${list.orderStatus eq 2}">已超时</c:if><c:if test="${list.orderStatus eq 1}">已支付</c:if><c:if test="${orderStatus eq 3}">已取消</c:if> </i></li>
+	                            <li><span>订单金额：</span><u>¥${list.payAmount}</u>（支付宝支付）</li>
 	                            <li><span>出发城市：</span><span>长沙市</span></li>
-	                            <li><span>订购数量：</span><span>1间</span></li>
-	                            <li><span>入住天数：</span><span>6天</span></li>
-	                            <li><span>入住日期：</span><span>2018-11-28</span></li>
-	                            <li><span>退房日期：</span><span>2018-12-03</span></li>
-	                            <li><span>房间型号：</span><span>单人间</span></li>
+	                            <li><span>订购数量：</span><span>${list.count}间</span></li>
+	                            <li><span>入住天数：</span><span>${list.bookingDays}天</span></li>
+	                            <li><span>入住日期：</span><span><fmt:formatDate value="${list.checkInDate}" pattern="yyyy:MM:dd:HH:mm:ss"/></span></li>
+	                            <li><span>退房日期：</span><span><fmt:formatDate value="${list.checkOutDate}" pattern="yyyy:MM:dd:HH:mm:ss"/></span></li>
+	                            <li><span>房间型号：</span><span>${list.houseType}</span></li>
 	                        </ul>
+	                        </c:forEach>
 	                    </li>
 	                    <li>
 	                    	<div class="title">联系信息</div>
 	                        <ul class="ddxx">
-	                        	<li><span>姓名：</span><span>啦啦啦</span></li>
-	                            <li><span>手机：</span><span>17674143747</span></li>
-	                            <li><span>邮箱：</span><span>iii@qq.vvv</span></li>
+	                       
+	                        	<li><span>姓名：</span><span>${user.name}</span></li>
+	                            <li><span>手机：</span><span>${user.phone}</span></li>
+	                            <li><span>邮箱：</span><span>${user.email}</span></li>
+	               
 	                        </ul>
 	                    </li>
 	                </ul>

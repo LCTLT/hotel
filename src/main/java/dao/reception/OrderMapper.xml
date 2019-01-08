@@ -59,14 +59,8 @@
 	<select id="getQueryDic" resultType="pojo.Dictionarydate">
 		select id,typeCode,dictCode,info,typeName from dictionarydate where typeCode = 'orderStatus'
 	</select>
-	<!-- 统计订单数量 -->
-	<select id="getQueryCount" resultType="int">
-		select count(id) from `order`
-		<where>
-		userid = #{userId}
-			<if test="status!=-1">
-		    	 and a.orderStatus = #{status}
-			</if>
-		</where>
-	</select>
+	<!-- 支付成功修改订单状态已付款 -->
+	<update id="updateOrderStatus">
+		update `order` set orderStatus = 1 where id = #{id}
+	</update>
 </mapper>

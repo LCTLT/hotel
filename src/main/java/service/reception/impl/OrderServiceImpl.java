@@ -60,16 +60,16 @@ public class OrderServiceImpl implements OrderService{
 		return orderMapper.getQueryDic();
 	}
 	/**
-	 * 统计订单数量
-	 */
-	public Integer getQueryCount(Integer userId,Integer status) {
-		return orderMapper.getQueryCount(userId,status);
-	}
-	/**
 	 * 查看订单详情
 	 */
 	public List<Order> getOrderList( String orderNo) {
 		// TODO Auto-generated method stub
 		return orderMapper.getOrderList(orderNo);
+	}
+	/**
+	 * 支付成功修改订单状态已付款
+	 */
+	public Integer updateOrderStatus(Integer id) {
+		return orderMapper.updateOrderStatus(id);
 	}
 }
