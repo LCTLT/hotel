@@ -2,26 +2,30 @@ package service.reception.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import dao.reception.OrderMapper;
+import pojo.Dictionarydate;
 import pojo.Mycollection;
 import pojo.Order;
 import service.reception.OrderService;
 @Service
 public class OrderServiceImpl implements OrderService{
+	static SimpleDateFormat forms = null;
+	static {
+		forms = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss");
+	}
+	
 	@Autowired
 	OrderMapper orderMapper;
 	/*
 	 * 查询订单
 	 */
-	public List<Order> getQueryOrderList(@Param("status")Integer status){
-		List<Order> queryOrderList = orderMapper.getQueryOrderList(status);
+	public List<Order> getQueryOrderList(Integer status,Integer userId){
+		List<Order> queryOrderList = orderMapper.getQueryOrderList(status,userId);
 		try {
-			SimpleDateFormat forms = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss");
 			for (Order order : queryOrderList) {
 				String[] item = forms.format(order.getCheckInDate()).split("/");
 				order.setCheckInDates(item[0]);
@@ -47,5 +51,18 @@ public class OrderServiceImpl implements OrderService{
 	}
 	public int insertCons(Integer conbyUserId, Integer hotelByid) {
 		return orderMapper.insertCons(conbyUserId, hotelByid);
+	}
+	/*
+	 * 查询订单字典
+	 */
+	@Cacheable("getQueryDic")
+	public List<Dictionarydate> getQueryDic(){
+		return orderMapper.getQueryDic();
+	}
+	/**
+	 * 统计订单数量
+	 */
+	public Integer getQueryCount(Integer userId,Integer status) {
+		return orderMapper.getQueryCount(userId,status);
 	}
 }

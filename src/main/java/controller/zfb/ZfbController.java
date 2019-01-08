@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
@@ -27,15 +29,14 @@ import util.Pay;
 @Controller
 public class ZfbController {
 	/**
-	 * 调用支付宝接口
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 * @throws AlipayApiException
+	 * 调用支付宝接口，考虑安全性只能使用Post请求
 	 * 作者： lgx
 	 */
-	@RequestMapping("/zfb")
-	public void index(HttpServletRequest request,HttpServletResponse response) throws IOException, AlipayApiException{
+	@RequestMapping(value="zfb",method=RequestMethod.POST)
+	public void index(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam("orderNo")String orderNo,
+			@RequestParam("price")Double price,
+			@RequestParam("hotelName")String hotelName) throws IOException, AlipayApiException{
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		//获得初始化的AlipayClient
@@ -46,32 +47,33 @@ public class ZfbController {
 		alipayRequest.setReturnUrl("http://localhost:8080/hotels/return_url");
 		alipayRequest.setNotifyUrl("http://localhost:8080/hotels/notify_url");
 
-		Pay pay = new Pay("3",200,"假发"); //这里存放商品信息
+		Pay pay = new Pay("4",price,hotelName); //这里存放商品信息
 		
 		alipayRequest.setBizContent(JSON.toJSONString(pay));
 
 		//请求
 		String result = alipayClient.pageExecute(alipayRequest).getBody();
-
+		response.addHeader("P3P","CP=IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT");
+ 
 		//输出
 		out.println(result);
 	}
 
 	//同步
 	@RequestMapping("/return_url")
-	public String return_url(Map<String,String> params) throws AlipayApiException{
+	public String return_url(@RequestParam("params")Map<String,String> params) throws AlipayApiException{
 		boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.CHARSET, AlipayConfig.SIGN_TYPE); //调用SDK验证签名
 		if(signVerified){
 			System.out.println("支付成功！");
-			return "success";//跳转的页面
+			return "redirect:memberOrder";//跳转的页面
 		}else{
 			System.out.println("支付失败！");
-			return "fail";
+			return "redirect:memberOrder";
 		}
 	}
 	//异步
 	@RequestMapping("/notify_url")
-	public String notify_url(Map<String,String> params) throws AlipayApiException{
+	public String notify_url(@RequestParam("params")Map<String,String> params) throws AlipayApiException{
 		boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.CHARSET, AlipayConfig.SIGN_TYPE); //调用SDK验证签名
 		if(signVerified){
 			System.out.println("支付成功！");

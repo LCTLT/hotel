@@ -9,11 +9,12 @@
 		from `order` a INNER JOIN hotel b on a.hotelId = b.hotelId
 		Inner join
 		dictionarydate c on a.orderStatus = c.dictCode
-		where c.typeCode =
-		'orderStatus'
-		<if test="status != -1">
-			and a.orderStatus = #{status}
+		<where>
+		c.typeCode ='orderStatus' and userid = #{userId}
+		<if test="status!=-1">
+	     and a.orderStatus = #{status}
 		</if>
+		</where>
 	</select>
 
 	<!-- 收藏列表  -->
@@ -40,5 +41,18 @@
 	<delete id="deleteCons">
 		DELETE FROM mycollection WHERE hotelById=#{scid}
 	</delete>
-
+	<!-- 查询订单字典 -->
+	<select id="getQueryDic" resultType="pojo.Dictionarydate">
+		select id,typeCode,dictCode,info,typeName from dictionarydate where typeCode = 'orderStatus'
+	</select>
+	<!-- 统计订单数量 -->
+	<select id="getQueryCount" resultType="int">
+		select count(id) from `order`
+		<where>
+		userid = #{userId}
+			<if test="status!=-1">
+		    	 and a.orderStatus = #{status}
+			</if>
+		</where>
+	</select>
 </mapper>

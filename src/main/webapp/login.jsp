@@ -45,5 +45,6 @@
         		<a target="_blank" href="#" style="display:inline-block;text-decoration:none;height:20px;color:#9d9d9d;line-height:20px;"><img src="login_files/footer_beian.png" style="display: inline-block;vertical-align:middle;margin-right:3px;"><i style="font-style: normal;vertical-align:middle;margin-right:3px;">粤公网安备 44010602001894号</i></a>
 				&nbsp;&nbsp;&nbsp;<a target="_blank" href="#" style="display:inline-block;text-decoration:none;height:20px;color:#9d9d9d;"><i style="font-style: normal;vertical-align:middle;margin-right:3px;">沪ICP备15034440号</i></a>
             </div>
-         </div> 
+         </div>
+         <input type="hidden" value="${errorLogin}" id="errorLogin"> 
 </body></html>

@@ -1,18 +1,3 @@
-/***********************我的Js开始*************************/
-
-
-
-
-
-/***********************我的Js结束*************************/
-
-function iFrameHeight2(){
-	var height=$("#hycenter").contents().find("body").height();
-	var width=$("#hycenter").contents().find("body").width();
-	$("#hycenter").height(height);
-	$("#hycenter").width(width);
-} 
-
 function openHycenter(src){$("#hycenter").attr("src",src);}
 
 $(function(){
@@ -27,12 +12,6 @@ $(function(){
 		$(this).addClass("current").siblings().removeClass("current");
 	});
 })
-
-function xzxllb(lbid,xlqy,ssfl,ywbm){
-	var mk="";
-	var mktype="";
-	window.location.href="/hotels/cpss?cpss=&mdd="+lbid+"&mk="+xlqy+"&mktype="+ssfl+"&ywbm="+ywbm;
-}
 
 // 产品搜索
 function cpss(){

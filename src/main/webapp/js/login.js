@@ -1,6 +1,5 @@
 
 if(window.top.location.href!=location.href)window.top.location.href=window.top.location.href;
-			
 			function login(){
 					if(!(/(^[1][3456789][0-9]{9}$)/.test($("#sjh").val()))){
 						$("#loginTip").removeClass("loginTipInfo").addClass("loginTipWarn");
@@ -33,4 +32,9 @@ if(window.top.location.href!=location.href)window.top.location.href=window.top.l
 				$('input').focus(function(e) {
 					$(this).addClass('current').siblings().removeClass('current');
 				});
+				
+				var errorLogin = $("#errorLogin").val();
+				if(errorLogin != null && errorLogin !=  undefined && errorLogin != ''){
+					toast("请先登录");
+				}
 			});
