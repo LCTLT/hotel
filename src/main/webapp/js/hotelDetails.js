@@ -74,6 +74,7 @@ $(function() {
 				}
 				isclick = false;
 			});
+	
 	$("#submitOrder").click(function(){
 		var dateOpen = $("#dateOpen").val(); //入住日期
 		var dateExit = $("#dateExit").val(); //退房日期
@@ -82,26 +83,25 @@ $(function() {
 		var crrs = $("#crrs").val(); //预定数量
 		var sj = $("#ssj").val(); //手机
 		var zflx = $("#zflx").val(); //支付方式
-		console.log("dateOpen"+dateOpen);
-		console.log("dateExit"+dateExit);
-		console.log("houseList"+houseList);
-		console.log("sykc_label"+sykc_label);
-		console.log("crrs"+crrs);
-		console.log(sj == "");
-		console.log("zflx"+zflx)
 		if(sj == ""){
 			$("#zz").css("display","");
 			$("#hy").css("display","");
 			$("#yzmdl").css("display","");
 			return;
 		}
+		var d = new Date();
+		var str = d.getFullYear()+"-"+((d.getMonth()+1)>=10?+(d.getMonth()+1):"0"+(d.getMonth()+1))+"-"+((d.getDate())>=10?d.getDate():'0'+d.getDate());
 		if(dateOpen == ''){
 			toast("请选择入住日期");
+		}else if(dateOpen<str){
+			toast("入住日期不能小于当前日期！");
 		}else if(dateExit == ''){
 			toast("请输入退房日期");
+		}else if(dateOpen>=dateExit){
+			toast("退房日期必须大于入住日期！");
 		}else if(houseList == 0){
 			toast("请选择房型");
-		}else if(sykc_label == "0"){
+		}else if(parseInt(sykc_label) <= 0){
 			toast("房间已定完");
 		}else if(sykc_label < crrs){
 			toast("房间不足");
@@ -111,7 +111,25 @@ $(function() {
 			toast("暂不支持此支付方式");
 		}else{
 			//访问服务器
-			toast("下单成功");
+			$.ajax({
+				type:"post",
+	    		url:"insertOrder",
+	    		data:$("#form").serialize(),
+	    		dataType:"text",
+	    		async:false,
+	    		success:function(result){
+	    			if(result == 1){
+	    				toast("下单成功！")
+	    				window.location = "memberOrder";
+	    			}else{
+	    				toast("下单失败！")
+	    			}
+	    		},
+	    		error:function(result){
+	    			alert(result.status);
+	    			toast("系统繁忙，请稍后重试"); 
+	    		}
+			});
 		}
 	});
 	$("#cancle").click(function(){
@@ -130,28 +148,28 @@ function yzmdl(){
 	}else if($("#mm").val() == ""||!(/^[a-zA-Z0-9\~\`\!\@#$\%\^\&\*\(\)\_\-\+\=\{\[\}\]\|\\\:\;\"\'\<\,\>\.\?\/]{6,32}$/.test($("#pwd").val()))){
 		toast("密码格式不正确");
 	}else{
-		$.post("loginUser",{phone:$("#sjh").val(),},function(tt){
+		$.post("loginUser",{phone:$("#phone").val()},function(tt){
 			if(tt==2){
 				toast("账号不存在!");
 				return;
-			} 
+			}else{
+				$.post("login",{phone:$("#phone").val(),password:$("#pwd").val()},function(dd){
+					if(dd==1){ 
+						toast("信息验证成功!");
+						//弹出层关闭
+						$("#zz").css("display","none");
+						$("#hy").css("display","none");
+						$("#yzmdl").css("display","none");
+						//页面刷新一次
+						setTimeout(function(){
+							location.reload();
+						}, 1300);
+					}else if(dd==2){
+						toast("账号或密码错误!");
+					}							
+				});
+			}
 		});
-		$.post("login",{phone:$("#phone").val(),password:$("#pwd").val()},function(dd){
-			if(dd==1){ 
-				toast("信息验证成功!");
-				//弹出层关闭
-				$("#zz").css("display","none");
-				$("#hy").css("display","none");
-				$("#yzmdl").css("display","none");
-				//页面刷新一次
-				setTimeout(function(){
-					location.reload();
-				}, 1300);
-			}else if(dd==2){
-				toast("账号或密码错误!");
-			}							
-		});
-
 	}
 }
 

@@ -15,6 +15,10 @@
 	href="http://www.loyoyo.com/favicon.ico?timestamp=2015090216">
 <link rel="stylesheet" type="text/css"
 	href="member_files/hygl.css?timestamp=2015090216">
+	<!-- 您的密钥 -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
+	
+	<link rel="stylesheet" type="text/css" href="css/member.css">
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript">
 	$(function() {

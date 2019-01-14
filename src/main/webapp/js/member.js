@@ -1,10 +1,13 @@
 function openHycenter(src){$("#hycenter").attr("src",src);}
 
 $(function(){
-	if(""=="sc"){
+	var sjId = $("#sjId").val();
+	if(sjId == 1){
 		$("#wdsc").addClass("current").siblings().removeClass("current");
-		openHycenter("memberMyOrder.jsp");
+		openHycenter("memberMyCollection.jsp");
+		return;
 	}else{
+		$("#wdsc").addClass("current").siblings().removeClass("current");
 		openHycenter("memberMyOrder.jsp");
 	}
 

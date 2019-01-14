@@ -3,24 +3,30 @@ package pojo;
 import java.sql.Date;
 
 /**
- * ÓÃ»§±í
+ * ï¿½Ã»ï¿½ï¿½ï¿½
  * @author Administrator
  *
  */
 public class User {
-	private int id;//Ö÷¼üid
-	private String name;//ÐÕÃû
-	private String phone;//ÊÖ»úºÅ£¨µÇÂ¼ÕËºÅ£©
-	private String pwd;//µÇÂ¼ÃÜÂë
-	private int sex;//ÐÔ±ð
-	private Date birthday;//³öÉúÈÕÆÚ
-	private String email;//ÓÊÏä
-	private String address;//µØÖ·
-	private int status;//ÓÃ»§È¨ÏÞ
+	private int id;//ï¿½ï¿½ï¿½ï¿½id
+	private String name;//ï¿½ï¿½ï¿½ï¿½
+	private String phone;//ï¿½Ö»ï¿½ï¿½Å£ï¿½ï¿½ï¿½Â¼ï¿½ËºÅ£ï¿½
+	private String pwd;//ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½
+	private int sex;//ï¿½Ô±ï¿½
+	private Date birthday;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String email;//ï¿½ï¿½ï¿½ï¿½
+	private String address;//ï¿½ï¿½Ö·
+	private int status;//ï¿½Ã»ï¿½È¨ï¿½ï¿½
+	private String idcard;
 	
 	
 	
-	
+	public String getIdcard() {
+		return idcard;
+	}
+	public void setIdcard(String idcard) {
+		this.idcard = idcard;
+	}
 	public int getId() {
 		return id;
 	}

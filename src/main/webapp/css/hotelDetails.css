@@ -85,9 +85,9 @@
 
 img {
 	max-width: 100%;
-} /*产品详情图片处理*/
+} 
 
-/*验证码登录*/
+
 .yzmdl ul li {
 	margin-top: 10px;
 	padding-left: 120px;
@@ -125,8 +125,7 @@ img {
 	font-size: 16px;
 	text-align: center;
 }
-
-/*弹出框*/
+/*������*/
 .tck {
 	width: 70%;
 	width: 280px;
@@ -171,4 +170,15 @@ img {
 .col-xs-6 {
 	width: 50%;
 	float: left;
+}
+dd a {
+	color: #fff;
+}
+
+.mddheight {
+	height: auto !important;
+}
+
+.mddheight2 {
+	height: 44px !important;
 }

@@ -2,6 +2,8 @@ package service.reception.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,9 @@ import dao.reception.OrderMapper;
 import pojo.Dictionarydate;
 import pojo.Mycollection;
 import pojo.Order;
+import pojo.Rawstock;
+import pojo.Realtimeinventory;
+import pojo.User;
 import service.reception.OrderService;
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -52,6 +57,10 @@ public class OrderServiceImpl implements OrderService{
 	public int insertCons(Integer conbyUserId, Integer hotelByid) {
 		return orderMapper.insertCons(conbyUserId, hotelByid);
 	}
+	//修改我的资料
+	public int updateMydata(User user) {
+		return orderMapper.updateMydata(user);
+	}
 	/*
 	 * 查询订单字典
 	 */
@@ -71,5 +80,25 @@ public class OrderServiceImpl implements OrderService{
 	 */
 	public Integer updateOrderStatus(Integer id) {
 		return orderMapper.updateOrderStatus(id);
+	}
+	
+	public int insertOrder(Order order) {
+		return orderMapper.insertOrder(order);
+	}
+	public Rawstock selectRawstock(Integer houseId, Integer hotelId) {
+		return orderMapper.selectRawstock(houseId, hotelId);
+	}
+	//查询临时库存
+	public List<Realtimeinventory> getQueryRealTime(@Param("dateOpen")String dateOpen,@Param("dateExit")String dateExit,
+			@Param("hotelId")Integer hotelId,@Param("houseId")Integer houseId){
+		return orderMapper.getQueryRealTime(dateOpen, dateExit,hotelId,houseId);
+	}
+	//增加临时库存
+	public int insertRealTime(Realtimeinventory realtimeinventory) {
+		return orderMapper.insertRealTime(realtimeinventory);
+	}
+	//下单成功修改库存
+	public int updateRealTime(@Param("id")Integer id,@Param("store")Integer store) {
+		return orderMapper.updateRealTime(id, store);
 	}
 }

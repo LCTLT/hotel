@@ -287,15 +287,20 @@ public class ReceptionController {
 	 * 进入酒店详情
 	 */
 	@RequestMapping("hotelDetails")
-	public String hotelDetails(@RequestParam(value = "phone", required = false) String phone,
-			@RequestParam("hotelId") Integer hotelId,
+	public String hotelDetails(@RequestParam("hotelId") Integer hotelId,
 			@RequestParam(value = "cpss", required = false) String hotelName,
 			@RequestParam(value = "mk", required = false) String id,
 			@RequestParam(value = "mktype", required = false) String typeId,
 			@RequestParam(value = "ywbm", required = false) Integer ywbm, HttpServletRequest request) {
 		Hotel hotel = receptionService.getHotel(hotelId);
 		List<House> houseList = receptionService.getHouseList(hotel.getHotelId());
-		int getConById = orderService.getHotelById(hotelId,phone);//查询收藏表信息
+		User user = (User)request.getSession().getAttribute("user");
+		int getConById =0;
+		if(user!=null) {
+			getConById = orderService.getHotelById(hotelId,user.getPhone());//查询收藏表信息
+		}else {
+			getConById = orderService.getHotelById(hotelId,"");//查询收藏表信息
+		}
 		Level level = new Level();
 		
 		List<Level> list = receptionService.first(level);

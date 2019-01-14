@@ -57,7 +57,7 @@ public class ZfbController {
 		alipayRequest.setReturnUrl("http://localhost:8080/hotels/return_url");
 		alipayRequest.setNotifyUrl("http://localhost:8080/hotels/notify_url");
 
-		Pay pay = new Pay("19",price,hotelName); //这里存放商品信息
+		Pay pay = new Pay(orderNo,price,hotelName); //这里存放商品信息
 		
 		alipayRequest.setBizContent(JSON.toJSONString(pay));
 

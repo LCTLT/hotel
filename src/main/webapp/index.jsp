@@ -16,6 +16,7 @@
 	href="http://www.loyoyo.com/xtfsq/themes/default/ppgl/loyoyo.com/favicon.ico?timestamp=2015090216">
 <link rel="stylesheet" type="text/css" href="index_files/cpglindex.css">
 <script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
 </head>
 <body id="main">
 	<!-- 嵌入头部 -->
@@ -28,31 +29,13 @@
 			<div class="banner_box">
 				<div class="banner">
 					<ul>
+					<c:forEach var="img" items="${images}">
 						<li class="index"><a
-							href="javascript:ckcp('9884548135d04123ae6ce655d55815f8','01');"><img
-								src="index_files/29adeeaee0154a57a0cf8af579f04220.jpg"
-								onerror="this.src='/xtfsq/themes/images/banner.jpg?timestamp=2015090216'"
+							href="/hotels/hotelDetails?hotelId=${img.hotelId}"><img src="${img.fileUrl}"
+								onerror="/xtfsq/themes/images/default.jpg?timestamp=2015090216'"
 								width="770" height="460" /></a><span class="gg_img">广告</span></li>
-						<li><a
-							href="javascript:ckcp('2d77b4d840c34d04b432ff4231a5d207','01');"><img
-								src="static/images/北京京都信苑饭店.jpg"
-								onerror="this.src='/xtfsq/themes/images/banner.jpg?timestamp=2015090216'"
-								width="770" height="460" /></a><span class="gg_img">广告</span></li>
-						<li><a
-							href="javascript:ckcp('5acab775bb244ba6832cfdb31262b707','01');"><img
-								src="static/images/创业大酒店(上海外滩中心店).jpg"
-								onerror="this.src='/xtfsq/themes/images/banner.jpg?timestamp=2015090216'"
-								width="770" height="460" /></a><span class="gg_img">广告</span></li>
-						<li><a
-							href="javascript:ckcp('14a1c65114624ce3a39311a78ef67c07','01');"><img
-								src="static/images/昆明航湾半岛观光酒店.jpg"
-								onerror="this.src='/xtfsq/themes/images/banner.jpg?timestamp=2015090216'"
-								width="770" height="460" /></a><span class="gg_img">广告</span></li>
-						<li><a
-							href="javascript:ckcp('2a38ee2c282c4040ac86d67f1b7f8c86','01');"><img
-								src="static/images/长春和润艺术酒店.jpg"
-								onerror="this.src='/xtfsq/themes/images/banner.jpg?timestamp=2015090216'"
-								width="770" height="460" /></a><span class="gg_img">广告</span></li>
+					
+					</c:forEach>
 					</ul>
 					<ol>
 						<li class="current"></li>

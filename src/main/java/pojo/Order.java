@@ -20,7 +20,6 @@ public class Order {
 	private int id;//主键id
 	private String orderNo;//订单编号
 	private int hotelId;//酒店id
-	private int count;//预订房间数量
 	private int bookingDays;//预订天数
 	private Date checkInDate;//入住日期
 	private String checkInDates;//入住日期
@@ -45,6 +44,37 @@ public class Order {
     private String productNo;//酒店编码
     private String houseType;//房间类型
     private String hotelAddress;//酒店地址
+    private int houseId;
+    private int houseCount; //预定房间数量
+    private int userId;//下单用户
+    private String remarks; //订单库存恢复状态
+    
+    
+    
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public int getHouseId() {
+		return houseId;
+	}
+	public void setHouseId(int houseId) {
+		this.houseId = houseId;
+	}
+	public int getHouseCount() {
+		return houseCount;
+	}
+	public void setHouseCount(int houseCount) {
+		this.houseCount = houseCount;
+	}
 	public String getHotelAddress() {
 		return hotelAddress;
 	}
@@ -122,12 +152,6 @@ public class Order {
 	}
 	public void setHotelId(int hotelId) {
 		this.hotelId = hotelId;
-	}
-	public int getCount() {
-		return count;
-	}
-	public void setCount(int count) {
-		this.count = count;
 	}
 	public int getBookingDays() {
 		return bookingDays;

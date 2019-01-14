@@ -19,8 +19,10 @@
 		}
 	</script></head>
 	<body>
-<script type="text/javascript" src="js/memberDetails.js">
-</script>
+<script type="text/javascript" src="js/memberDetails.js"></script>
+<!-- 您的密钥 -->
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
 <!-- 嵌入头部 -->
 <%@ include file="common/hread.jsp"%>
 
@@ -31,8 +33,7 @@
 	    	<div class="main-in">
 	        	<div class="ddxx_adr"><span>您的位置</span> &gt; <span><a class="hyzx" href="javascript:sessionphone();">会员中心</a></span> &gt; <span><a href="javascript:openHycenter('memberMyOrder.jsp');">我的订单</a></span> &gt; <span>订单详情</span></div>
 	            <div class="ddxq">
-	            <c:forEach items="${list}" var="list">
-	            	<ul>
+	            <ul>
 	                	<li>
 	                    	<div class="title">产品信息</div>
 	                    	<div style="height:auto; overflow:hidden;">
@@ -40,6 +41,7 @@
 	                            <br><p class="ddmc" onclick="goView('b210ea079b7b4f4a9e2632b04426fb5c');">${list.hotelAddress}</p>
 	                        </div>
 	                    </li>
+	                    <c:forEach items="${list}" var="list">
 	                    <li style="padding-bottom:0;">
 	                    	<div class="title">报名信息</div>
 	                        <ul class="ddxx ddx-box" style="padding-bottom: 10px;">
@@ -53,16 +55,14 @@
 	                            <li><span>退房日期：</span><span><fmt:formatDate value="${list.checkOutDate}" pattern="yyyy:MM:dd:HH:mm:ss"/></span></li>
 	                            <li><span>房间型号：</span><span>${list.houseType}</span></li>
 	                        </ul>
-	                        </c:forEach>
-	                    </li>
+	                     </li>
+	              </c:forEach>
 	                    <li>
 	                    	<div class="title">联系信息</div>
 	                        <ul class="ddxx">
-	                       
 	                        	<li><span>姓名：</span><span>${user.name}</span></li>
 	                            <li><span>手机：</span><span>${user.phone}</span></li>
 	                            <li><span>邮箱：</span><span>${user.email}</span></li>
-	               
 	                        </ul>
 	                    </li>
 	                </ul>

@@ -18,6 +18,8 @@
 	href="member_files/pagination.css?timestamp=2015090216">
 <script type="text/javascript"
 	src="member_files/jquery-qrcode.min.js?timestamp=2015090216"></script>
+	<!-- 您的密钥 -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
 </head>
 <body>
 	<div class="content-right" style="padding: 20px 30px 40px 30px">
@@ -74,7 +76,7 @@
 			for (var i = 0; i < data.length; i++) {
 				data[i].hotelName = data[i].hotelName.substring(0,5)+"...";
 				option += '<li><span style="background: #f7f7f7;">订单编号：'+data[i].orderNo+'</span>'
-				+'<div><a href="#" target="_blank"><img src="'+data[i].fileUrl+'" onerror="" style="text-decoration:none" target="_blank">'+data[i].hotelName+'</a></p>'
+				+'<div><a href="getOrderList?order='+data[i].orderNo+'" target="_blank"><img src="'+data[i].fileUrl+'" onerror="" style="text-decoration:none" target="_blank">'+data[i].hotelName+'</a></p>'
 				+'<span style="margin-left:-70px;">'+data[i].checkInDates+'<br/>'+data[i].checkInTime+'</span><span class="orange">¥'+data[i].payAmount+'</span>'
 				+'<span class="orange">'+data[i].info+'</span><span class="sj">'+data[i].checkOutDates+'<br/>'+data[i].checkOutTime+'</span>';
 				if(data[i].orderStatus == 0){
@@ -86,6 +88,9 @@
 			//计算页面高度
 			var pageHeight = 90;
 			var height = parseInt(data.length)*178+pageHeight;
+			if(data.length == 0){
+				height = 245;
+			}
 			window.parent.document.getElementById("hycenter").style.height=height+"px";
 			ddxx.html(option);
 			

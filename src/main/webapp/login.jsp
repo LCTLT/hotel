@@ -27,6 +27,7 @@
 			 <div class="content-in">
 				<div class="login">
                 	<div class="i18n">会员登录</div>
+                	<input type="hidden" id="callback" name="callback" value="<%=request.getParameter("callback")%>"/>
 					<span id="loginTip" class="loginTipInfo"></span>
 					<form id="dlform" style="margin-top:28px;" action="post">
 						<ul>

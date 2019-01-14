@@ -12,6 +12,10 @@
 	href="member_files/pagination.css?cachesj=2015090217">
 <link rel="stylesheet" type="text/css"
 	href="member_files/hygl.css?cachesj=2015090217">
+	<link rel="stylesheet" type="text/css" href="css/member.css">
+	<!-- 您的密钥 -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
+	
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript">
 	var handlerflag = true;
@@ -30,41 +34,14 @@
 						var option = '';
 						for (var i = 0; i < result.length; i++) {
 							var times = result[i].hotelByConTime;
-							option += '<li><div><a href="/module/cpgl/view.do?cpid=388e7999823e4287a22a1ff59c20973d" target="_blank"> <img src="'+result[i].fileUrl+'"'
-							+' onerror="this.src="/xtfsq/themes/images/default.jpg?timestamp=2015090162"></a><a class="hygl_scmc"'
-								+' href="/module/cpgl/view.do?cpid=388e7999823e4287a22a1ff59c20973d target="_blank" style="border: 1px solid while; width: 260px;">'+result[i].hotelName+'</a><span>收藏时间：'+times.substring(0,19)+'</span><span'
+							option += '<li><div><a href="/hotels/hotelDetails?hotelId='+result[i].hotelById+'" target="_blank"> <img src="'+result[i].fileUrl+'"'
+							+' onerror="this.src="/hotels/hotelDetails?hotelId='+result[i].hotelById+'"></a><a class="hygl_scmc"'
+								+' href="/hotels/hotelDetails?hotelId='+result[i].hotelById+'" target=" _blank" style="border: 1px solid while; width: 260px;">'+result[i].hotelName+'</a><span>收藏时间：'+times.substring(0,19)+'</span><span'
 								+' class="wdsc_qx" onclick="del('+result[i].hotelById+',this);"'
 								+' style="display: none;">取消收藏</span></div></li>';
 						}
 						console.log(option);
 						wdsclb.html(option);
-						
-					/* if (result.length > 10) {
-						$('.M-box2').pagination({
-							pageCount : Math.ceil(result.total / 10),
-							coping : true,
-							current : page,
-							homePage : '首页',
-							endPage : '末页',
-							prevContent : '上页',
-							nextContent : '下页',
-							callback : function(index) {
-								current = index.getCurrent();
-								$(".wdsclb").html("");
-								$('body,html').animate({
-									scrollTop : 0
-								}, 0);
-								loadScList(current, setHeight);
-								$(".wdsclb li").mouseenter(function(e) {
-									$(".wdsc_qx", this).show();
-								});
-								$(".wdsclb li").mouseleave(function(e) {
-									$(".wdsc_qx", this).hide();
-								});
-							}
-						});
-					}
-					typeof (callback) == 'function' && callback(); */
 				},
 				error : function() {
 					parent.toast("系统繁忙，请稍后重试");
@@ -94,7 +71,6 @@
 							dataType : "json",
 							async : false,
 							success : function(result) {
-								alert(result);
 								$("#qdsc", parent.document).unbind("click");
 								$(".tczz,.tck", parent.document).hide();
 								parent.toast("取消成功");

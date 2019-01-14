@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ page import="java.util.List" %>
+<%@ page import="java.util.Collection" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +16,7 @@
 			phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
 		}
 	})
+	
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>乐游旅游官方网站_中国专业旅游服务平台_快乐旅游 就在乐游！</title>
@@ -31,17 +34,18 @@
 <!-- 分页插件js css -->
 <script src="js/paging.js"></script>
 <link rel="stylesheet" type="text/css" href="css/paging.css">
+<!-- 您的密钥 -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
 <style>
 .px ul li:hover {
 	color: red;
 }
 </style>
 
-
 </head>
 <body>
 	<!-- 嵌入头部 -->
-	<%@ include file="common/hread.jsp"%>
+	<%@ include file="common/hread.jsp" %>
 	<!-- 嵌入页面导航 -->
 	<%@ include file="common/left.jsp"%>
 
@@ -140,14 +144,13 @@
 					<c:if test="${not empty list}">
 						<c:forEach items="${list }" var="hotelx">
 							<div class="cpzs">
-								<a href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}&phone=${user.phone}"
+								<a href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}"
 									target="_blank"> <img src="${hotelx.fileUrl }"
-									onerror="hotels/hotelDetails?hotelId=${hotelx.hotelId}&phone=${user.phone}">
-									<!-- <div class="cpbq">跟团游</div> -->
+									onerror="hotels/hotelDetails?hotelId=${hotelx.hotelId}">
 								</a>
 								<div class="cpmc">
 									<div class="cppic">
-										<a href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}&phone=${user.phone}"
+										<a href="/hotels/hotelDetails?hotelId=${hotelx.hotelId}"
 											target="_blank">${hotelx.hotelName } </a>
 									</div>
 									<div class="clear"></div>
@@ -162,7 +165,7 @@
 								<div class="jg">
 									<span><em>¥</em><b>${hotelx.hotelPrice }</b>起</span>
 									<button style="outline: none; margin-top: 15px;" type="button"
-										onclick="javascript:window.open('/hotels/hotelDetails?hotelId=${hotelx.hotelId}&phone=${user.phone}')">立即预订</button>
+										onclick="javascript:window.open('/hotels/hotelDetails?hotelId=${hotelx.hotelId}')">立即预订</button>
 								</div>
 							</div>
 						</c:forEach>
@@ -187,15 +190,18 @@
 	<!-- 嵌入页面底部 -->
 	<%@ include file="common/bottom.jsp"%>
 
-	<div class="tczz"
-		style="width: 100%; height: 100%; background-color: #000; background-color: rgba(0, 0, 0, 0.5); filter: alpha(opacity = 50); BORDER-LEFT: medium none; /*IE8支持*/ position: fixed; left: 0; top: 0; /* filter:alpha(Opacity=20);  */ z-index: 9998; display: none; pointer-events: auto;"></div>
-	<div class="tck">
-		<span></span>
-		<div id="tsk" class="row">
-			<div id="qxsc" class="col-xs-6">否</div>
-			<div id="qdsc">是</div>
+	<div class="tczz" style="width: 100%;
+	 height: 100%; background-color: rgba(0, 0, 0, 0.5);
+	  border-left: medium none; position: fixed;
+	   left: 0px; top: 0px; z-index: 9998; pointer-events: auto; display: none;"></div>
+	   
+	   <div class="tck" style="display: none;">
+	    	<span>确定取消收藏吗？</span>
+	    	<div id="tsk" class="row">
+	        <div id="qxsc" class="col-xs-6">否</div>
+	        <div id="qdsc">是</div>
+	    	</div>
 		</div>
-	</div>
 	<script src="hotel_files/jquery.js"></script>
 	<input type="hidden" value="${mk}" id="mk" name="${mktype}" ids="${ywbm}">
 	<script type="text/javascript">
@@ -204,9 +210,17 @@
 		});
 
 		function loginout() {
-			if (confirm("确认退出登录吗？")) {
-				location.href = "loginout";
-			}
+			$(".tczz,.tck",parent.document).show();
+			$(".tck span",parent.document).html("确认退出登录，您将失去很多体验？");
+			$("#qdsc", parent.document).unbind("click").bind(
+					"click",function() {
+						location.href="loginout";
+					});
+			
+			$("#qxsc", parent.document).bind("click", function() {
+				$("#qxsc", parent.document).unbind("click");
+				$(".tczz,.tck", parent.document).hide();
+			});
 		}
 	</script>
 </body>

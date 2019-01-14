@@ -1,5 +1,6 @@
 
 if(window.top.location.href!=location.href)window.top.location.href=window.top.location.href;
+			
 			function login(){
 					if(!(/(^[1][3456789][0-9]{9}$)/.test($("#sjh").val()))){
 						$("#loginTip").removeClass("loginTipInfo").addClass("loginTipWarn");
@@ -15,12 +16,14 @@ if(window.top.location.href!=location.href)window.top.location.href=window.top.l
 								return;
 							} 
 						});
-						$.post("login",{phone:$("#sjh").val(),password:$("#mm").val()},function(dd){
+						$.post("login",{phone:$("#sjh").val(),password:$("#mm").val(),callback:$("#callback").val()},function(dd){
 							if(dd==1){
 								window.location="index";
 							}else if(dd==2){
 								$("#loginTip").removeClass("loginTipInfo").addClass("loginTipWarn");
 								$("#loginTip").html("账号或密码错误!");
+							}else{
+								window.location.href=dd;
 							}							
 						});
 						
@@ -32,9 +35,4 @@ if(window.top.location.href!=location.href)window.top.location.href=window.top.l
 				$('input').focus(function(e) {
 					$(this).addClass('current').siblings().removeClass('current');
 				});
-				
-				var errorLogin = $("#errorLogin").val();
-				if(errorLogin != null && errorLogin !=  undefined && errorLogin != ''){
-					toast("请先登录");
-				}
 			});

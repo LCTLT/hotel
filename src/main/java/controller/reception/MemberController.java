@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +18,18 @@ import pojo.Dictionarydate;
 import pojo.Level;
 import pojo.Mycollection;
 import pojo.Order;
+import pojo.Rawstock;
+import pojo.Realtimeinventory;
 import pojo.User;
 import service.reception.OrderService;
 import service.reception.ReceptionService;
 import util.CheckUtil;
+import util.ProductRandomUtil;
 
 @Controller
-public class MemberController {
+public class MemberController{
+	private static Object objs = new Object();
+	
 	@Autowired
 	private ReceptionService receptionService;
 	@Autowired
@@ -34,7 +38,8 @@ public class MemberController {
 	 *进入会员中心默认查询订单 
 	 */
 	@RequestMapping("memberOrder")
-	public String memberOrder(HttpServletRequest request,Level level) {
+	public String memberOrder(HttpServletRequest request,Level level,
+			@RequestParam(value="sjId",required=false)String sjId) {
 		User user = (User)request.getSession().getAttribute("user");
 		if(user == null) {
 			request.setAttribute("errorLogin", "请先登录");
@@ -51,10 +56,13 @@ public class MemberController {
 			request.setAttribute("getAll", getAll);
 			request.setAttribute("getprice", getprice);
 			request.setAttribute("getstar", getstar);
+			if(sjId != null && !sjId.equals("")) {
+				request.setAttribute("sjId", sjId);
+			}
 		}
 		return "member";
 	}
-	
+
 	/*
 	 * 查询订单
 	 */
@@ -64,7 +72,7 @@ public class MemberController {
 		PrintWriter out = response.getWriter();
 		User user = (User)request.getSession().getAttribute("user");
 		List<Order> order = orderService.getQueryOrderList(status,user.getId());
-		
+
 		out.print(JSON.toJSONString(order));
 	}
 	/**
@@ -97,7 +105,7 @@ public class MemberController {
 	public void dicOrder(HttpServletResponse response) throws IOException {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		
+
 		List<Dictionarydate> queryDic = orderService.getQueryDic();
 		out.print(JSON.toJSONString(queryDic));
 	}
@@ -131,8 +139,8 @@ public class MemberController {
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * 查询收藏
 	 * @param request
@@ -140,25 +148,25 @@ public class MemberController {
 	 * @throws IOException
 	 */
 	@RequestMapping("getInfoCollection")
-	public void getInfoConn(HttpServletRequest request,HttpServletResponse response,
-			@RequestParam(value="phone")String phone) throws IOException {
+	public void getInfoConn(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		List<Mycollection> list = orderService.getMycollection(phone);
+		User user = (User)request.getSession().getAttribute("user");
+		List<Mycollection> list = orderService.getMycollection(user.getPhone());
 		
 		out.print(JSON.toJSONString(list));
 	}
-	
+
 	//取消收藏
 	@RequestMapping("deleteCon")
 	public void deleteConn(HttpServletRequest request,HttpServletResponse response,
 			@RequestParam(value="scid",required=false)Integer scid) throws IOException {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		
+
 		out.print(orderService.deleteCons(scid));
 	}
-	
+
 	//添加收藏
 	@RequestMapping("insertCon")
 	public void insertConn(HttpServletRequest request,HttpServletResponse response,
@@ -166,9 +174,109 @@ public class MemberController {
 			@RequestParam(value="hotelid",required=false)Integer hotelByid) throws IOException {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		
+
 		out.println(orderService.insertCons(conbyUserId, hotelByid));
 	}
+	/**
+	 * 我的资料
+	 */
+	@RequestMapping("getmemberMyData")
+	public String getmemberMyData(HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute("user");//获取session角色用户
+		request.setAttribute("user", user);
+		return "memberMydata";
+	}
 	
+	@RequestMapping("getMyData")
+	public void updatememberMydata(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam(value="xm",required=false)String xm,
+			@RequestParam(value="xb",required=false)Integer xb,
+			@RequestParam(value="zjh",required=false)String zjh,
+			@RequestParam(value="yx",required=false)String yx,
+			@RequestParam(value="dz",required=false)String dz) throws IOException {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		User user = new User();
+		user = (User)request.getSession().getAttribute("user");
+		user.setName(xm);
+		user.setSex(xb);
+		user.setIdcard(zjh);
+		user.setEmail(yx);
+		user.setAddress(dz);
+		user.setPhone(user.getPhone());
+		int i = orderService.updateMydata(user);
+		out.print(i);
+	}
 	
+	/**
+	 * 查询库存
+	 */
+	@RequestMapping("selectRawstock")
+	@ResponseBody
+	public String selectRawstock(@RequestParam(value="houseId",required=false)Integer houseId,
+			@RequestParam(value="hotelId",required=false)Integer hotelId,
+			@RequestParam(value="dateExit",required=false)String dateExit,
+			@RequestParam(value="dateOpen",required=false)String dateOpen,
+			HttpServletRequest request) {
+		//查询临时库存表是否有这个时间段的库存
+		List<Realtimeinventory> realList = orderService.getQueryRealTime(dateOpen, dateExit,hotelId,houseId);
+		//没有
+		if(realList == null || realList.size() == 0) {
+			//增加一条临时库存
+			//查询实时库存
+			Rawstock rawstocks = orderService.selectRawstock(houseId,hotelId);
+			//增加到临时库存
+			Realtimeinventory realtimeinventory = new Realtimeinventory();
+			realtimeinventory.setHotelId(rawstocks.getHotelId());
+			realtimeinventory.setHouseId(rawstocks.getHouseId());
+			realtimeinventory.setRecordDate(dateOpen);
+			realtimeinventory.setRecordStopDate(dateExit);
+			realtimeinventory.setStore(rawstocks.getStore());
+			int result = orderService.insertRealTime(realtimeinventory);
+			//库存增加成功
+			if(result > 0) {
+				//查询临时库存表库存
+				realList = orderService.getQueryRealTime(dateOpen, dateExit, hotelId, houseId);
+			}
+		}else if(realList.get(0).getStore() <= 0){
+			realList.get(0).setStore(0);
+		}
+		return ""+realList.get(0).getStore();
+	}
+	//添加订单
+	@RequestMapping("insertOrder")
+	@ResponseBody
+	public String insertOrder(HttpServletRequest request,Order order)  {
+		//生成订单号
+		String orderNo = ProductRandomUtil.productNo();
+		order.setOrderNo(orderNo);
+		//验证库存是否足够
+		synchronized (objs) {
+			List<Realtimeinventory> realList = orderService.getQueryRealTime(order.getCheckInDates(), order.getCheckOutDates(), order.getHotelId(), order.getHouseId());
+			if(realList == null) {
+				return "0";
+			}else if(realList.get(0).getStore() <= 0) {
+				return "0";
+			}else {
+				//库存足够，下单
+				int i = orderService.insertOrder(order);
+				//下单成功，扣减库存
+				if(i > 0) {
+					System.out.println("本次共有"+realList.size()+"笔库存需要扣减");
+					for (Realtimeinventory realtimeinventory : realList) {
+						System.out.println("扣减前：库存编号="+realtimeinventory.getId()+"\t库存数"+realtimeinventory.getStore());
+						//扣减
+						realtimeinventory.setStore(realtimeinventory.getStore()-order.getHouseCount());
+						System.out.println("扣减后：库存编号="+realtimeinventory.getId()+"\t库存数"+realtimeinventory.getStore());
+						orderService.updateRealTime(realtimeinventory.getId(),realtimeinventory.getStore());
+					}
+					//库存扣减成功
+					return "1";
+					//下单失败
+				}else {
+					return "0";
+				}
+			}
+		}
+	}
 }

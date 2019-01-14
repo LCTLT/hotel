@@ -14,24 +14,42 @@ function sessionphone() {
 		if (sj != "") {
 			location.href = "memberOrder";
 		} else {
-			if (confirm("您还未登录,是否去登录？")) {
-				location.href = "login.jsp";
-			}
+			 $(".tczz,.tck",parent.document).show();
+				$(".tck span",parent.document).html("您还未登录，是否去登录？");
+				$("#qdsc", parent.document).unbind("click").bind("click",function() {
+							location.href="login.jsp";
+						});
+				
+				$("#qxsc", parent.document).bind("click", function() {
+					$("#qxsc", parent.document).unbind("click");
+					$(".tczz,.tck", parent.document).hide();
+				});
 		}
 	}
 
 
 function loginout() {
-	if (confirm("确认退出登录吗？")) {
-		location.href = "loginout";
-	}
+	$(".tczz,.tck",parent.document).show();
+	$(".tck span",parent.document).html("确认退出登录，您将失去很多体验？");
+	$("#qdsc", parent.document).unbind("click").bind(
+			"click",function() {
+				location.href="loginout";
+			});
+	
+	$("#qxsc", parent.document).bind("click", function() {
+		$("#qxsc", parent.document).unbind("click");
+		$(".tczz,.tck", parent.document).hide();
+	});
 }
+		
+	
 </script>
 <!--页面顶部开始-->
 <div class="headpiece">
 	<div class="headpiece-in">
 	<input type="hidden" id="sj" value="${user.phone}">
-		<span class="left"> <c:if test="${empty user}">
+		<span class="left">
+		 <c:if test="${empty user}">
 				<a class="dl" href="login.jsp">请登录</a>
 				<a href="register.jsp" class="zc">快速注册</a>
 			</c:if> <c:if test="${not empty user}">
@@ -49,11 +67,15 @@ function loginout() {
 <div class="header">
 	<div class="header-in">
 		<div class="logo">
-			<a href="index"><img src="hotelDetails_files/sylogo.png"
-				width="204" height="110"></a>
+			<a href="index"><img src="hotelDetails_files/sylogo.png" width="204" height="110"></a>
 		</div>
+		
 		<div class="search">
-			<div class="cfd"></div>
+			<div class="cfd">
+				<div id="allmapa"></div>
+				<span id="allmaps" style="font-size: 16px;"><img src="static/images/mp28941887_1440383069404_3.gif" width="50px" height="50px"></span>
+			</div>
+		
 			<div class="search-in">
 				<div class="xl_search">
 					<p>线路</p>
@@ -82,3 +104,39 @@ function loginout() {
 	</div>
 </div>
 <!--页面头部结束-->
+<script type="text/javascript">
+	var mapa = $("#allmaps");
+
+	// 百度地图API功能
+	var map = new BMap.Map("allmapa");
+	var point = new BMap.Point(113.03770447,25.78226398);
+
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mks = new BMap.Marker(r.point);
+			map.addOverlay(mks);
+			map.panTo(r.point);
+			console.log(r);
+			var allmap =  $("#maps");
+			allmap.html(r.address.city);
+		}
+		else {
+			alert('failed'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+	//关于状态码
+	//BMAP_STATUS_SUCCESS	检索成功。对应数值“0”。
+	//BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”。
+	//BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”。
+	//BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”。
+	//BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”。
+	//BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”。
+	//BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
+	//BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
+	//BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
+		
+		setTimeout(function(){
+			mapa.html("您当前的位置：<br><span><b id='maps'></b></span>");
+		},5000);
+</script>

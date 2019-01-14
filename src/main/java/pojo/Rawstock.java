@@ -7,7 +7,7 @@ package pojo;
 public class Rawstock {
 	
 	private int id;//主键id
-	private int productType;//酒店类型
+	private int houseId;//酒店类型
 	private int hotelId;//房型id
 	private int store;//库存
 		
@@ -17,11 +17,11 @@ public class Rawstock {
 		public void setId(int id) {
 			this.id = id;
 		}
-		public int getProductType() {
-			return productType;
+		public int getHouseId() {
+			return houseId;
 		}
-		public void setProductType(int productType) {
-			this.productType = productType;
+		public void setHouseId(int houseId) {
+			this.houseId = houseId;
 		}
 		public int getHotelId() {
 			return hotelId;

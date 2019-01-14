@@ -15,6 +15,8 @@
 
 <link rel="stylesheet" type="text/css" href="css/member.css">
 <script type="text/javascript" src="js/member.js"></script>
+<!-- 您的密钥 -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
 <style type="text/css">
 	.tc{ min-height:0rem;width:20rem; padding: 10px; float:right; background:#FFF; border-radius:4px; position:relative;}
 	.tc em{position:absolute; background:#fff;  right:10px; top:12px; height:14px; width:14px; display:inline-block; font-style:normal; cursor:pointer; background: url(/xtfsq/themes/images/cancle.png) no-repeat;}
@@ -99,5 +101,6 @@
 			}
 		}
 </script>
+<input type="hidden" id="sjId" value="${sjId}">
 </body>
 </html>

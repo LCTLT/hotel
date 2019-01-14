@@ -32,7 +32,7 @@ function validCard(cardId,csrq,xb){
         	arr[0]="身份证号校验错误";
         	return arr;
         }else{
-        	if(xb!=null&&((cardId.substr(16,1)%2==0&&xb=="01")||(cardId.substr(16,1)%2!=0&&xb=="02"))){
+        	if(xb!=null&&((cardId.substr(16,1)%2==0&&xb=="00")||(cardId.substr(16,1)%2!=0&&xb=="01"))){
             	arr[0]="身份证性别校验错误";
             	return arr;
             }

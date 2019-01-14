@@ -7,6 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import pojo.Dictionarydate;
 import pojo.Mycollection;
 import pojo.Order;
+import pojo.Rawstock;
+import pojo.Realtimeinventory;
+import pojo.User;
 
 public interface OrderService {
 	/*
@@ -22,6 +25,8 @@ public interface OrderService {
 	int deleteCons(@Param("scid")Integer scid);
 	//添加收藏
 	int insertCons(@Param("conbyUserId")Integer conbyUserId,@Param("hotelByid")Integer hotelByid);
+	//修改我的资料
+	int updateMydata(User user);
 	/*
 	 * 查询订单字典
 	 */
@@ -34,4 +39,16 @@ public interface OrderService {
 	 * 支付成功修改订单状态已付款
 	 */
 	Integer updateOrderStatus(Integer id);
+	
+	//添加订单
+	int insertOrder(Order order);
+	//查询库存
+	Rawstock selectRawstock(Integer houseId,Integer hotelId);
+	//查询临时库存
+	List<Realtimeinventory> getQueryRealTime(@Param("dateOpen")String dateOpen,@Param("dateExit")String dateExit,
+			@Param("hotelId")Integer hotelId,@Param("houseId")Integer houseId);
+	//增加临时库存
+	int insertRealTime(Realtimeinventory realtimeinventory);
+	//下单成功扣减库存
+	int updateRealTime(@Param("id")Integer id,@Param("store")Integer store);
 }

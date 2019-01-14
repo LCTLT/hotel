@@ -5,24 +5,15 @@ function infomember(){
 	if (sj != "") {
 		location.href = "memberOrder";
 	} else {
-		if (confirm("您还未登录,是否去登录？")) {
-			location.href = "login.jsp";
-		}else{
-			location.href="#";
-		}
+		location.href="login.jsp?callback="+location.href;
 	}
 }
-
 function infoCollection() {
 	var sj = $("#sj").val();
 	if(sj != ""){
-		location.href="JavaScript:openHycenter('memberMyCollection.jsp')";
+		location.href="memberOrder?sjId=1";
 	}else{
-		if (confirm("您还未登录,是否去登录？")) {
-			location.href = "login.jsp";
-		}else{
-			location.href="#";
-		}
+		location.href="login.jsp?callback="+location.href;
 	}
 }
 

@@ -15,6 +15,7 @@
 	     and a.orderStatus = #{status}
 		</if>
 		</where>
+		order by id desc
 	</select>
     
      <!-- 查看订单详情 -->
@@ -51,7 +52,10 @@
 	<insert id="insertCons">
 		INSERT INTO mycollection(conbyUserId,hotelById) VALUES (#{conbyUserId},#{hotelByid});
 	</insert>
-	
+	<update id="updateMydata">
+		UPDATE `user` SET `name`=#{name},sex=#{sex},idcard=#{idcard}
+		,email=#{email},address=#{address} WHERE phone = #{phone}
+	</update>
 	<delete id="deleteCons">
 		DELETE FROM mycollection WHERE hotelById=#{scid}
 	</delete>
@@ -62,5 +66,47 @@
 	<!-- 支付成功修改订单状态已付款 -->
 	<update id="updateOrderStatus">
 		update `order` set orderStatus = 1 where id = #{id}
+	</update>
+	
+		<!-- 添加订单 -->
+	<insert id="insertOrder">
+		INSERT INTO `order`(id,orderNo,hotelId,houseId,houseCount
+		,checkInDate,checkOutDate,orderStatus
+		,payAmount,payType,place,userId) VALUES(null
+		,#{orderNo},#{hotelId},#{houseId},#{houseCount},#{checkInDates},#{checkOutDates},#{orderStatus},#{payAmount},#{payType},#{place},#{userId});
+	</insert>
+	<!-- 查询库存 -->
+	<select id="selectRawstock" resultType="pojo.Rawstock">
+		SELECT * FROM rawstock where houseId = #{houseId} and hotelId = #{hotelId}
+	</select>
+	<!-- 查询临时库存 -->
+	<select id="getQueryRealTime" resultType="pojo.Realtimeinventory">
+		select id,store from realtimeinventory where
+		houseId = #{houseId} and hotelId = #{hotelId} and (
+		#{dateOpen} BETWEEN recordDate and recordStopDate
+		or
+		#{dateExit} BETWEEN recordDate and recordStopDate)
+	</select>
+	<!-- 增加临时库存 -->
+	<insert id="insertRealTime">
+		insert into realtimeinventory values(null,#{hotelId},#{houseId},#{recordDate},#{recordStopDate},#{store})
+	</insert>
+	<!-- 下单成功扣减库存 -->
+	<update id="updateRealTime">
+		update realtimeinventory set store = #{store} where
+		id = #{id}
+	</update>
+	<!-- 订单超时 -->
+	<update id="updateOrderTime">
+		update `order` set orderStatus = 2 where orderStatus = 0
+	</update>
+	<!-- 查询需要回库的订单 -->
+	<select id="getOrderListCount" resultType="pojo.Order">
+		SELECT id,hotelId,houseId,checkInDate,checkOutDate,houseCount from `order`
+		where NOW() &lt; checkOutDate and remarks = '0' and (orderStatus = 2 or orderStatus = 3)
+	</select>
+	<!-- 更新订单回库状态 -->
+	<update id="updateOrderRollback">
+		update `order` set remarks = #{remarks} where id =#{id}
 	</update>
 </mapper>
