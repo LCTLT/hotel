@@ -1,6 +1,7 @@
 package controller.login;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,6 @@ public class UserController {
 		User user = userService.loginInfo(phone, CheckUtil.getSha1(password));
 		if (user != null) {
 			request.getSession().setAttribute("user", user);
-
 			if (callback != "" && !"null".equals(callback)) {
 				return callback;
 			}
@@ -54,5 +54,13 @@ public class UserController {
 			return "2";
 		}
 	}
-
+	/**
+	 * 当前位置
+	 */
+	@RequestMapping("address")
+	@ResponseBody
+	public String address(HttpSession session,@RequestParam("address")String address) {
+		session.setAttribute("address", address);
+		return "";
+	}
 }

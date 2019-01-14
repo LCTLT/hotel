@@ -154,7 +154,7 @@ function yzmdl(){
 				return;
 			}else{
 				$.post("login",{phone:$("#phone").val(),password:$("#pwd").val()},function(dd){
-					if(dd==1){ 
+					if(dd == "1"){ 
 						toast("信息验证成功!");
 						//弹出层关闭
 						$("#zz").css("display","none");
@@ -164,7 +164,7 @@ function yzmdl(){
 						setTimeout(function(){
 							location.reload();
 						}, 1300);
-					}else if(dd==2){
+					}else if(dd == "2"){
 						toast("账号或密码错误!");
 					}							
 				});

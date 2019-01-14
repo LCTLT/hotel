@@ -113,7 +113,7 @@
 							<h4>订单信息</h4>
 							<ul>
 								<li><span style="letter-spacing: 6px;">出发地:</span>
-									<input type="text" value="" id="cfd" name="place">
+									<input type="text" value="${sessionScope.address}" id="cfd" name="place">
 								</li>
 								<li><span>入住日期：</span> <input name="checkInDates"
 									id="dateOpen" type="text"
@@ -307,7 +307,6 @@ setTimeout(function(){
 							toast("您选择地址没有解析到结果!");
 						}
 					});
-	 $("#cfd").val($("#maps").html());
 },500);
 </script>
 

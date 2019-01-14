@@ -103,10 +103,13 @@ function loginout() {
 		</div>
 	</div>
 </div>
+<input type="hidden" id="address" value="${sessionScope.address}">
+<c:choose>
+<c:when test="${empty sessionScope.address}">
 <!--页面头部结束-->
 <script type="text/javascript">
 	var mapa = $("#allmaps");
-
+	var address;
 	// 百度地图API功能
 	var map = new BMap.Map("allmapa");
 	var point = new BMap.Point(113.03770447,25.78226398);
@@ -117,7 +120,19 @@ function loginout() {
 			var mks = new BMap.Marker(r.point);
 			map.addOverlay(mks);
 			map.panTo(r.point);
-			mapa.html("您当前的位置：<br><span><b id='maps'>"+r.address.city+"</b></span>");
+			address = r.address.city;
+			mapa.html("您当前的位置：<br><span><b id='maps'>"+address+"</b></span>");
+			//请求session保存
+			$.ajax({
+				type:"POST",
+				url:"address",
+				data:{address:address},
+				dataType:"text",
+				async:false,
+				success:function(result){
+				},
+				error:function(){toast("系统繁忙，请稍后重试");}
+			});
 		}
 		else {
 			alert('failed'+this.getStatus());
@@ -132,7 +147,16 @@ function loginout() {
 	//BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”。
 	//BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
 	//BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
-	//BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
-		
-	 	
+	//BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)		 	
 </script>
+</c:when>
+<c:otherwise>
+<script>
+	$(function(){
+		if($("#address").val() != ""){
+			$("#allmaps").html("您当前的位置：<br><span><b id='maps'>"+$("#address").val()+"</b></span>");
+		}
+	});
+</script>
+</c:otherwise>
+</c:choose>
