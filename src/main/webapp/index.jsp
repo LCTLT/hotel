@@ -15,6 +15,7 @@
 <link rel="shortcut icon" type="image/x-icon"
 	href="http://www.loyoyo.com/xtfsq/themes/default/ppgl/loyoyo.com/favicon.ico?timestamp=2015090216">
 <link rel="stylesheet" type="text/css" href="index_files/cpglindex.css">
+<link rel="stylesheet" type="text/css" href="css/index.css">
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
 </head>
@@ -123,15 +124,18 @@
 
 	<!-- 嵌入页面底部 -->
 	<%@ include file="common/bottom.jsp"%>
-	<div class="tczz"
-		style="width: 100%; height: 100%; background-color: #000; background-color: rgba(0, 0, 0, 0.5); filter: alpha(opacity = 50); BORDER-LEFT: medium none; /*IE8支持*/ position: fixed; left: 0; top: 0; /* filter:alpha(Opacity=20);  */ z-index: 9998; display: none; pointer-events: auto;"></div>
-	<div class="tck">
-		<span></span>
-		<div id="tsk" class="row">
-			<div id="qxsc" class="col-xs-6">否</div>
-			<div id="qdsc">是</div>
+	<div class="tczz" style="width: 100%;
+	 height: 100%; background-color: rgba(0, 0, 0, 0.5);
+	  border-left: medium none; position: fixed;
+	   left: 0px; top: 0px; z-index: 9998; pointer-events: auto; display: none;"></div>
+	   
+	   <div class="tck" style="display: none;">
+	    	<span>确定取消收藏吗？</span>
+	    	<div id="tsk" class="row">
+	        <div id="qxsc" class="col-xs-6">否</div>
+	        <div id="qdsc">是</div>
+	    	</div>
 		</div>
-	</div>
 </body>
 
 
