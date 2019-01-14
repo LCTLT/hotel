@@ -72,8 +72,6 @@ function loginout() {
 		
 		<div class="search">
 			<div class="cfd">
-				<div id="allmapa"></div>
-				<span id="allmaps" style="font-size: 16px;"><img src="static/images/mp28941887_1440383069404_3.gif" width="50px" height="50px"></span>
 			</div>
 		
 			<div class="search-in">
@@ -104,35 +102,3 @@ function loginout() {
 	</div>
 </div>
 <!--页面头部结束-->
-<script type="text/javascript">
-	var mapa = $("#allmaps");
-
-	// 百度地图API功能
-	var map = new BMap.Map("allmapa");
-	var point = new BMap.Point(113.03770447,25.78226398);
-
-	var geolocation = new BMap.Geolocation();
-	geolocation.getCurrentPosition(function(r){
-		if(this.getStatus() == BMAP_STATUS_SUCCESS){
-			var mks = new BMap.Marker(r.point);
-			map.addOverlay(mks);
-			map.panTo(r.point);
-			mapa.html("您当前的位置：<br><span><b id='maps'>"+r.address.city+"</b></span>");
-		}
-		else {
-			alert('failed'+this.getStatus());
-		}        
-	},{enableHighAccuracy: true})
-	//关于状态码
-	//BMAP_STATUS_SUCCESS	检索成功。对应数值“0”。
-	//BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”。
-	//BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”。
-	//BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”。
-	//BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”。
-	//BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”。
-	//BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
-	//BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
-	//BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
-		
-	 	
-</script>

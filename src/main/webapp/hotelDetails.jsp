@@ -308,7 +308,7 @@ setTimeout(function(){
 						}
 					});
 	 $("#cfd").val($("#maps").html());
-}, 5050);
+},500);
 </script>
 
 <script type="text/javascript">
