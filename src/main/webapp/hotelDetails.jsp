@@ -219,7 +219,7 @@
 							style="width: 255px;" placeholder="手机号" maxlength="11"></li>
 						<li>密&nbsp;&nbsp;&nbsp;&nbsp;码：<input id="pwd"
 							type="password" name="sjh" style="width: 255px;" placeholder="密码"
-							maxlength="11"></li>
+							maxlength="11" onkeydown="if(event.keyCode == 13){yzmdl()}"></li>
 						<li><button class="three" onclick="yzmdl();"
 								style="width: 260px; margin-top: 15px;">确&nbsp;&nbsp;&nbsp;定</button></li>
 					</ul>

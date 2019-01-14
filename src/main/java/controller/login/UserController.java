@@ -29,7 +29,7 @@ public class UserController {
 		User user = userService.loginInfo(phone, CheckUtil.getSha1(password));
 		if (user != null) {
 			request.getSession().setAttribute("user", user);
-			if (callback != "" && !"null".equals(callback)) {
+			if (callback != null && !callback.equals("") && !"null".equals(callback)) {
 				return callback;
 			}
 			return "1";
