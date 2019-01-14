@@ -117,12 +117,12 @@
 								</li>
 								<li><span>入住日期：</span> <input name="checkInDates"
 									id="dateOpen" type="text"
-									onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"
-									placeholder="不能小于当前日期" /></li>
+									onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm' ,minDate:'%y-%M-{%d}'});"
+									placeholder="不能小于当前日期" readonly/></li>
 								<li><span>退房日期：</span> <input name="checkOutDates"
 									id="dateExit" type="text"
-									onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"
-									placeholder="不能小于入住日期" /></li>
+									onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:'#F{$dp.$D(\'dateOpen\')}'});"
+									placeholder="不能小于入住日期" readonly/></li>
 								<li><span>房&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型：</span>
 									<select name="houseId" id="houseList">
 										<option value="0" selected>请选择</option>
