@@ -113,11 +113,5 @@
 		phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
 
 	});
-
-	function loginout() {
-		if (confirm("确认退出登录吗？")) {
-			location.href = "loginout";
-		}
-	}
 </script>
 </body></html>

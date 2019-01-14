@@ -95,11 +95,6 @@
 		function sub(){
 			document.form1.submit();
 		}
-		function loginout() {
-			if (confirm("确认退出登录吗？")) {
-				location.href = "loginout";
-			}
-		}
 </script>
 <input type="hidden" id="sjId" value="${sjId}">
 </body>

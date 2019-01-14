@@ -1,6 +1,10 @@
 package controller.login;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +43,10 @@ public class UserController {
 	}
 
 	@RequestMapping("loginout")
-	public String loginout(HttpServletRequest request) {
+	@ResponseBody
+	public String loginout(HttpServletRequest request){
 		request.getSession().removeAttribute("user");
-		return "redirect:index";
+		return "1";
 	}
 
 	@RequestMapping(value = "loginUser",method = RequestMethod.POST)

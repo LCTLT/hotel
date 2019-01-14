@@ -206,20 +206,6 @@
 		$(function() {
 			check($("#mk"));
 		});
-
-		function loginout() {
-			$(".tczz,.tck",parent.document).show();
-			$(".tck span",parent.document).html("确认退出登录，您将失去很多体验？");
-			$("#qdsc", parent.document).unbind("click").bind(
-					"click",function() {
-						location.href="loginout";
-					});
-			
-			$("#qxsc", parent.document).bind("click", function() {
-				$("#qxsc", parent.document).unbind("click");
-				$(".tczz,.tck", parent.document).hide();
-			});
-		}
 	</script>
 </body>
 </html>

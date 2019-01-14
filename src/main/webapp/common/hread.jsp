@@ -17,7 +17,7 @@ function sessionphone() {
 			 $(".tczz,.tck",parent.document).show();
 				$(".tck span",parent.document).html("您还未登录，是否去登录？");
 				$("#qdsc", parent.document).unbind("click").bind("click",function() {
-							location.href="login.jsp";
+							location.href="login.jsp?callBack="+location.href;
 						});
 				
 				$("#qxsc", parent.document).bind("click", function() {
@@ -26,14 +26,28 @@ function sessionphone() {
 				});
 		}
 	}
-
+function loginHref(){
+	location = "login.jsp?callback="+location.href;
+}
 
 function loginout() {
 	$(".tczz,.tck",parent.document).show();
 	$(".tck span",parent.document).html("确认退出登录，您将失去很多体验？");
 	$("#qdsc", parent.document).unbind("click").bind(
 			"click",function() {
-				location.href="loginout";
+				$.ajax({
+					type:"POST",
+					url:"loginout",
+					dataType:"text",
+					async:false,
+					success:function(result){
+						if(result == "1"){
+							location = location.href;
+						}
+						
+					},
+					error:function(){toast("系统繁忙，请稍后重试");}
+				});
 			});
 	
 	$("#qxsc", parent.document).bind("click", function() {
@@ -50,7 +64,7 @@ function loginout() {
 	<input type="hidden" id="sj" value="${user.phone}">
 		<span class="left">
 		 <c:if test="${empty user}">
-				<a class="dl" href="login.jsp">请登录</a>
+				<a class="dl" href="javascript:loginHref();">请登录</a>
 				<a href="register.jsp" class="zc">快速注册</a>
 			</c:if> <c:if test="${not empty user}">
 				您好，<a class="dl" id="phoneM" href="javaScript:void(0);">${user.phone}</a>

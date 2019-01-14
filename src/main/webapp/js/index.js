@@ -452,11 +452,5 @@ $(function() {
 
 });
 
-function loginout() {
-	if(confirm("确认退出登录吗？")){
-		location.href="loginout";
-	}
-}
-
 
 

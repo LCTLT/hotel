@@ -28,7 +28,7 @@ if(window.top.location.href!=location.href)window.top.location.href=window.top.l
 						});
 						
 					}
-					
+
 			}
 			$(function(){
 				$(".sidebar").hide();
