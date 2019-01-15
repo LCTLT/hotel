@@ -27,43 +27,45 @@
 				var csrq = $("#csrq").val();
 				var yx = $("#yx").val();
 				var dz = $("#dz").val();
+				var zjh = $("#zjh").val();
+				var zjlx = $("#zjlx").val();
 				if(/^[\u4E00-\u9FA5a-zA-Z]{2,30}$/.test(xm) == false&&$.trim(xm)!=""){
-					toast('姓名格式不正确');
+					parent.toast('姓名格式不正确');
 					return false;
 				}else if(xb.trim()==""){
-					toast("请选择性别");
+					parent.toast("请选择性别");
 					return false;
 				}else if($.trim(zjlx)==""){
-					toast("请选择证件类型"); 
+					parent.toast("请选择证件类型"); 
 					return false;
 				}else if($.trim(zjh)==""){
-					toast("请输入证件号"); 
+					parent.toast("请输入证件号"); 
 					return false;
 				}else if(zjlx=="01"){
 					var temp = validCard(zjh,csrq,xb);
 					if(temp[0]!="true"){
-						toast("temp[0]");
+						parent.toast(temp[0]);
 						return false;
 					}
 				}else if(zjlx=="02" && !/^(1[45][0-9]{7}|G[0-9]{8}|P[0-9]{7}|S[0-9]{7,8}|D[0-9]+|E[0-9]{8}|[a-zA-Z0-9]+)$/.test(zjh)){
-					toast("无效护照"); 
+					parent.toast("无效护照"); 
 					return false;
 				}else if(zjlx=="03" && !/^[a-zA-Z0-9\(\)]+$/.test(zjh)){
-					toast("证件号格式不正确"); 
+					parent.toast("证件号格式不正确"); 
 					return false;
 				}
 				if(csrq.trim()==""){toast("请选择出生日期"); 
 				return false;}
 				if(new Date()<=Date.parse(csrq.replace(/-/g, "/"))){
-					toast("出生日期不能大于今天"); 
+					parent.toast("出生日期不能大于今天"); 
 					return false;
 				}
 				if(!(/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(yx))&&$.trim(yx)!=""){
-					toast('邮箱格式不正确');
+					parent.toast('邮箱格式不正确');
 					return false;
 				}
 				if(!(/^[^\~\`\!\@#$\%\^\&\*\(\)\_\-\+\=\{\[\}\]\|\\\:\;\"\'\<\,\>\.\?\/]+$/.test(dz))&&$.trim(dz)!=''){
-					toast('地址格式不正确');
+					parent.toast('地址格式不正确');
 					return false;
 				}
 				
@@ -91,7 +93,7 @@
 					    		dataType:"json",
 					    		async:false,
 					    		success:function(result){
-					    			toast("保存成功");
+					    			parent.toast("保存成功");
 				    				//window.location.href="/module/hygl/page.do?page=edit&toast=1";
 					    		},
 					    		error:function(result){parent.toast("系统繁忙，请稍后重试");}
@@ -141,12 +143,12 @@
 					<li><div>姓名</div> <input id="xm" name="xm" type="text"
 						placeholder="请输入姓名" value="${user.name }" maxlength="30"></li>
 					<li><div>性别</div> <select id="xb" name="xb">
-							<option value="03">请选择</option>
+							<option value="">请选择</option>
 							<option value="00">女</option>
 							<option value="01">男</option>
 					</select></li>
 					<li><div>证件类型</div> <select id="zjlx" name="zjlx">
-							<option value="00">请选择</option>
+							<option value="">请选择</option>
 							<option value="01" selected="">身份证</option>
 							<option value="02">护照</option>
 							<option value="03">其他</option>
