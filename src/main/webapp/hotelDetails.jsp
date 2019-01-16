@@ -376,7 +376,7 @@ setTimeout(function(){
 		//天数
 		var dateOpen = $("#dateOpen").val();
 		var dateExit = $("#dateExit").val();
-		var day = DateDiff(dateOpen,dateExit);
+		var day = daysBetween(dateOpen,dateExit);
 		//计算总价格
 		var sum = 0;
 		if (crjg == "0") {
@@ -390,17 +390,13 @@ setTimeout(function(){
 		totalPrice.text(sum);
 		$("#prices").val(sum);
 	}
-	function DateDiff(sDate1, sDate2) {  //sDate1和sDate2是yyyy-MM-dd格式
-		  
-	    var aDate, oDate1, oDate2, iDays;
-	    aDate = sDate1.split("-");
-	    oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);  //转换为yyyy-MM-dd格式
-	    aDate = sDate2.split("-");
-	    oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
-	    iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24);   //把相差的毫秒数转换为天数
-	  
-	    return iDays;  //返回相差天数
-	}
+	function daysBetween(sDate1,sDate2){
+		//Date.parse() 解析一个日期时间字符串，并返回1970/1/1 午夜距离该日期时间的毫秒数
+		var time1 = Date.parse(new Date(sDate1));
+		var time2 = Date.parse(new Date(sDate2));
+		var nDays = Math.abs(parseInt((time2 - time1)/1000/3600/24));
+		return nDays;
+	};
 </script>
 <script type="text/javascript">
 	// 百度地图API功能
