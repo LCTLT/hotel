@@ -1,19 +1,15 @@
-function openHycenter(src){$("#hycenter").attr("src",src);}
-
+function openHycenter(src,obj){
+	$("#hycenter").attr("src",src);
+	$("#"+obj).addClass("current").siblings().removeClass("current");
+}
 $(function(){
 	var sjId = $("#sjId").val();
 	if(sjId == 1){
-		$("#wdsc").addClass("current").siblings().removeClass("current");
-		openHycenter("memberMyCollection.jsp");
+		openHycenter("memberMyCollection.jsp",'coll');
 		return;
 	}else{
-		$("#wdsc").addClass("current").siblings().removeClass("current");
-		openHycenter("memberMyOrder.jsp");
+		openHycenter("memberMyOrder.jsp",'wdsc');
 	}
-
-	$(".content-left ul li").click(function(){
-		$(this).addClass("current").siblings().removeClass("current");
-	});
 })
 
 // 产品搜索

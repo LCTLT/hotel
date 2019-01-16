@@ -9,12 +9,10 @@
 <script type="text/javascript" src="member_files/common.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>乐游旅游</title>
-<link rel="shortcut icon" type="image/x-icon"
-	href="http://www.loyoyo.com/xtfsq/themes/default/ppgl/loyoyo.com/favicon.ico?timestamp=2015090216">
 <link rel="stylesheet" type="text/css" href="member_files/hygl.css">
-
 <link rel="stylesheet" type="text/css" href="css/member.css">
 <script type="text/javascript" src="js/member.js"></script>
+<script type="text/javascript" src="index_files/jquery.js"></script>
 <!-- 您的密钥 -->
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
 <style type="text/css">
@@ -43,14 +41,14 @@
 			<div class="content-left">
 				<h4>会员中心</h4>
 				<ul>
-					<li class="current"><a
-						href="javascript:openHycenter('memberMyOrder.jsp');">我的订单</a></li>
 					<li id="wdsc"><a
-						href="javascript:openHycenter('memberMyCollection.jsp');">我的收藏</a>
+						href="javascript:openHycenter('memberMyOrder.jsp','wdsc');">我的订单</a></li>
+					<li id="coll"><a
+						href="javascript:openHycenter('memberMyCollection.jsp','coll');">我的收藏</a>
 						</li>
-					<li><a href="javascript:openHycenter('memberMydata.jsp');">我的资料</a></li>
-					<li><a
-						href="javascript:openHycenter('memeberMyPassword.jsp');">修改密码</a></li>
+					<li id="my"><a href="javascript:openHycenter('memberMydata.jsp','my');">我的资料</a></li>
+					<li id="pass"><a
+						href="javascript:openHycenter('memeberMyPassword.jsp','pass');">修改密码</a></li>
 				</ul>
 			</div>
 	<div>

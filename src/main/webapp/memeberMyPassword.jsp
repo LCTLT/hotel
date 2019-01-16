@@ -96,7 +96,7 @@
 			var phone = $("#phoneM");
 			var item = phone.text();
 			phone.text(item.substring(0, 3) + "****" + item.substring(7, 11));
-
+			window.parent.document.getElementById("hycenter").style.height="280px";
 		});
 	</script>
 </body>

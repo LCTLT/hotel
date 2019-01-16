@@ -11,7 +11,6 @@
 		<meta httpequiv="XUACompatible" content="IE=EmulateIE">
 		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
 		<title>乐游旅游</title>
-		<link rel="shortcut icon" type="image/x-icon" href="http://www.loyoyo.com/xtfsq/themes/default/ppgl/loyoyo.com/favicon.ico?timestamp=2015090216">
 		<link rel="stylesheet" type="text/css" href="memberDetails_files/ddglview.css">
 	<script type="text/javascript">
 		function goView(cpid){
@@ -34,6 +33,7 @@
 	        	<div class="ddxx_adr"><span>您的位置</span> &gt; <span><a class="hyzx" href="javascript:sessionphone();">会员中心</a></span> &gt; <span><a href="javascript:openHycenter('memberMyOrder.jsp');">我的订单</a></span> &gt; <span>订单详情</span></div>
 	            <div class="ddxq">
 	            <ul>
+	             <c:forEach items="${list}" var="list">
 	                	<li>
 	                    	<div class="title">产品信息</div>
 	                    	<div style="height:auto; overflow:hidden;">
@@ -41,7 +41,6 @@
 	                            <br><p class="ddmc" onclick="goView('b210ea079b7b4f4a9e2632b04426fb5c');">${list.hotelAddress}</p>
 	                        </div>
 	                    </li>
-	                    <c:forEach items="${list}" var="list">
 	                    <li style="padding-bottom:0;">
 	                    	<div class="title">报名信息</div>
 	                        <ul class="ddxx ddx-box" style="padding-bottom: 10px;">
@@ -49,7 +48,7 @@
 	                            <li><span>订单状态：</span><i> <c:if test="${list.orderStatus eq 0}">待支付</c:if><c:if test="${list.orderStatus eq 2}">已超时</c:if><c:if test="${list.orderStatus eq 1}">已支付</c:if><c:if test="${orderStatus eq 3}">已取消</c:if> </i></li>
 	                            <li><span>订单金额：</span><u>¥${list.payAmount}</u>（支付宝支付）</li>
 	                            <li><span>出发城市：</span><span>长沙市</span></li>
-	                            <li><span>订购数量：</span><span>${list.count}间</span></li>
+	                            <li><span>订购数量：</span><span>${list.houseCount}间</span></li>
 	                            <li><span>入住天数：</span><span>${list.bookingDays}天</span></li>
 	                            <li><span>入住日期：</span><span><fmt:formatDate value="${list.checkInDate}" pattern="yyyy:MM:dd:HH:mm:ss"/></span></li>
 	                            <li><span>退房日期：</span><span><fmt:formatDate value="${list.checkOutDate}" pattern="yyyy:MM:dd:HH:mm:ss"/></span></li>

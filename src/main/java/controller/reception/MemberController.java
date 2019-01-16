@@ -71,6 +71,9 @@ public class MemberController{
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		User user = (User)request.getSession().getAttribute("user");
+		if(user == null) {
+			return;
+		}
 		List<Order> order = orderService.getQueryOrderList(status,user.getId());
 
 		out.print(JSON.toJSONString(order));
@@ -152,6 +155,9 @@ public class MemberController{
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		User user = (User)request.getSession().getAttribute("user");
+		if(user == null) {
+			return;
+		}
 		List<Mycollection> list = orderService.getMycollection(user.getPhone());
 		
 		out.print(JSON.toJSONString(list));
@@ -174,7 +180,6 @@ public class MemberController{
 			@RequestParam(value="hotelid",required=false)Integer hotelByid) throws IOException {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-
 		out.println(orderService.insertCons(conbyUserId, hotelByid));
 	}
 	/**
@@ -220,26 +225,30 @@ public class MemberController{
 			HttpServletRequest request) {
 		//查询临时库存表是否有这个时间段的库存
 		List<Realtimeinventory> realList = orderService.getQueryRealTime(dateOpen, dateExit,hotelId,houseId);
-		//没有
-		if(realList == null || realList.size() == 0) {
-			//增加一条临时库存
-			//查询实时库存
-			Rawstock rawstocks = orderService.selectRawstock(houseId,hotelId);
-			//增加到临时库存
-			Realtimeinventory realtimeinventory = new Realtimeinventory();
-			realtimeinventory.setHotelId(rawstocks.getHotelId());
-			realtimeinventory.setHouseId(rawstocks.getHouseId());
-			realtimeinventory.setRecordDate(dateOpen);
-			realtimeinventory.setRecordStopDate(dateExit);
-			realtimeinventory.setStore(rawstocks.getStore());
-			int result = orderService.insertRealTime(realtimeinventory);
-			//库存增加成功
-			if(result > 0) {
-				//查询临时库存表库存
-				realList = orderService.getQueryRealTime(dateOpen, dateExit, hotelId, houseId);
+		try {
+			//没有
+			if(realList == null || realList.size() == 0) {
+				//增加一条临时库存
+				//查询实时库存
+				Rawstock rawstocks = orderService.selectRawstock(houseId,hotelId);
+				//增加到临时库存
+				Realtimeinventory realtimeinventory = new Realtimeinventory();
+				realtimeinventory.setHotelId(rawstocks.getHotelId());
+				realtimeinventory.setHouseId(rawstocks.getHouseId());
+				realtimeinventory.setRecordDate(dateOpen);
+				realtimeinventory.setRecordStopDate(dateExit);
+				realtimeinventory.setStore(rawstocks.getStore());
+				int result = orderService.insertRealTime(realtimeinventory);
+				//库存增加成功
+				if(result > 0) {
+					//查询临时库存表库存
+					realList = orderService.getQueryRealTime(dateOpen, dateExit, hotelId, houseId);
+				}
+			}else if(realList.get(0).getStore() <= 0){
+				realList.get(0).setStore(0);
 			}
-		}else if(realList.get(0).getStore() <= 0){
-			realList.get(0).setStore(0);
+		}catch(Exception ex) {
+			ex.printStackTrace();
 		}
 		return ""+realList.get(0).getStore();
 	}
@@ -252,30 +261,35 @@ public class MemberController{
 		order.setOrderNo(orderNo);
 		//验证库存是否足够
 		synchronized (objs) {
-			List<Realtimeinventory> realList = orderService.getQueryRealTime(order.getCheckInDates(), order.getCheckOutDates(), order.getHotelId(), order.getHouseId());
-			if(realList == null) {
-				return "0";
-			}else if(realList.get(0).getStore() <= 0) {
-				return "0";
-			}else {
-				//库存足够，下单
-				int i = orderService.insertOrder(order);
-				//下单成功，扣减库存
-				if(i > 0) {
-					System.out.println("本次共有"+realList.size()+"笔库存需要扣减");
-					for (Realtimeinventory realtimeinventory : realList) {
-						System.out.println("扣减前：库存编号="+realtimeinventory.getId()+"\t库存数"+realtimeinventory.getStore());
-						//扣减
-						realtimeinventory.setStore(realtimeinventory.getStore()-order.getHouseCount());
-						System.out.println("扣减后：库存编号="+realtimeinventory.getId()+"\t库存数"+realtimeinventory.getStore());
-						orderService.updateRealTime(realtimeinventory.getId(),realtimeinventory.getStore());
-					}
-					//库存扣减成功
-					return "1";
-					//下单失败
-				}else {
+			try {
+				List<Realtimeinventory> realList = orderService.getQueryRealTime(order.getCheckInDates(), order.getCheckOutDates(), order.getHotelId(), order.getHouseId());
+				if(realList == null) {
 					return "0";
+				}else if(realList.get(0).getStore() <= 0) {
+					return "0";
+				}else {
+					//库存足够，下单
+					int i = orderService.insertOrder(order);
+					//下单成功，扣减库存
+					if(i > 0) {
+						System.out.println("本次共有"+realList.size()+"笔库存需要扣减");
+						for (Realtimeinventory realtimeinventory : realList) {
+							System.out.println("扣减前：库存编号="+realtimeinventory.getId()+"\t库存数"+realtimeinventory.getStore());
+							//扣减
+							realtimeinventory.setStore(realtimeinventory.getStore()-order.getHouseCount());
+							System.out.println("扣减后：库存编号="+realtimeinventory.getId()+"\t库存数"+realtimeinventory.getStore());
+							orderService.updateRealTime(realtimeinventory.getId(),realtimeinventory.getStore());
+						}
+						//库存扣减成功
+						return "1";
+						//下单失败
+					}else {
+						return "0";
+					}
 				}
+			}catch(Exception ex) {
+				ex.printStackTrace();
+				return "0";
 			}
 		}
 	}

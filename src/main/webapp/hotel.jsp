@@ -19,18 +19,12 @@
 	
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>乐游旅游官方网站_中国专业旅游服务平台_快乐旅游 就在乐游！</title>
-<meta name="description"
-	content="乐游旅游，全国旅游连锁品牌，综合性旅游服务平台，提供出境游、国内游、周边游、自由行、机票预订、酒店预订主题定制等旅游全产业链服务，已在全国15个省30多个地市建立1600余家连锁门店。快乐旅游，就在乐游，全国旅游咨询热线：4000-121-888">
-<meta name="keywords"
-	content="乐游旅游,乐游旅游官网,旅游连锁,旅行社加盟,旅游分销平台,乐游美国,乐游邮轮,乐年汇">
+<title>酒店查询</title>
 <link rel="stylesheet" type="text/css" href="hotel_files/cpgllist.css">
 <link rel="stylesheet" type="text/css" href="hotel_files/pagination.css">
 <link rel="stylesheet" type="text/css" href="css/hotel.css">
 <link rel="stylesheet" type="text/css" href="css/paging.css">
 <script type="text/javascript" src="js/hotel.js"></script>
-<!-- 分页插件js css -->
-<script src="js/paging.js"></script>
 <link rel="stylesheet" type="text/css" href="css/paging.css">
 <!-- 您的密钥 -->
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>

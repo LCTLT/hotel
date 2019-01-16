@@ -1,7 +1,5 @@
 package pojo;
 
-import java.sql.Date;
-
 /**
  * 我的收藏表
  * @author Administrator

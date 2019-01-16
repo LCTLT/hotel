@@ -18,11 +18,8 @@
 	
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript">
-	var handlerflag = true;
 	function loadScList() {
 		var phone = $("#phone").val();
-		if (handlerflag) {
-			handlerflag = false;
 			$.ajax({
 				type : "POST",
 				url : "getInfoCollection",
@@ -40,21 +37,18 @@
 								+' class="wdsc_qx" onclick="del('+result[i].hotelById+',this);"'
 								+' style="display: none;">取消收藏</span></div></li>';
 						}
-						console.log(option);
 						wdsclb.html(option);
+						var pageHeight = 90;
+						var height = parseInt(result.length)*160+pageHeight;
+						if(result.length == 3){
+							height = 380;
+						}
+						window.parent.document.getElementById("hycenter").style.height=height+"px";
 				},
 				error : function() {
 					parent.toast("系统繁忙，请稍后重试");
 				}
 			});
-			handlerflag = true;
-		}
-	}
-
-	function setHeight() {
-		var height = $(".content-right").height() + 90;
-		$(window.parent.document).find("#hycenter").css("height",
-				"" + height + "px");
 	}
 
 	function del(scid,dels) {

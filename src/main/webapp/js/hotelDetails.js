@@ -83,6 +83,8 @@ $(function() {
 		var crrs = $("#crrs").val(); //预定数量
 		var sj = $("#ssj").val(); //手机
 		var zflx = $("#zflx").val(); //支付方式
+		console.log("剩余库存="+sykc_label);
+		console.log("预定数量="+crrs);
 		if(sj == ""){
 			$("#zz").css("display","");
 			$("#hy").css("display","");
@@ -103,7 +105,7 @@ $(function() {
 			toast("请选择房型");
 		}else if(parseInt(sykc_label) <= 0){
 			toast("房间已定完");
-		}else if(sykc_label < crrs){
+		}else if(parseInt(sykc_label) < parseInt(crrs)){
 			toast("房间不足");
 		}else if(zflx == 0){
 			toast("请选择支付方式");

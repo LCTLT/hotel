@@ -21,15 +21,14 @@
      <!-- 查看订单详情 -->
     <select id="getOrderList" resultType="pojo.Order">
     select
-		a.id,a.orderNo,b.hotelName,a.checkInDate,a.checkOutDate,a.payAmount,a.orderStatus,c.info,b.fileUrl,
+	a.id,a.orderNo,b.hotelName,a.checkInDate,a.checkOutDate,a.payAmount,a.orderStatus,c.info,b.fileUrl,
     b.fileUrl,b.productNo,b.hotelAddress,b.hotelPrice,a.checkInDate,a.checkOutDate,
-    a.count,a.place,b.productNo,a.payAmount,
-    (SELECT h.houseType from house h where h.houseId= a.houseId) AS houseType,
+    a.houseCount,a.place,b.productNo,a.payAmount,
+    (SELECT h.houseType from house h where h.houseId = a.houseId) AS houseType,
     (select datediff(checkOutDate,checkInDate) from `order` WHERE orderNo=#{orderNo}) as bookingDays
-		from `order` a INNER JOIN hotel b on a.hotelId = b.hotelId
-		Inner join
-		dictionarydate c on a.orderStatus = c.dictCode
-		where	c.typeCode ='orderStatus'  and a.orderNo=#{orderNo}
+	from `order` a INNER JOIN hotel b on a.hotelId = b.hotelId
+	Inner join dictionarydate c on a.orderStatus = c.dictCode
+	where c.typeCode ='orderStatus'  and a.orderNo=#{orderNo}
     </select>
     
 	<!-- 收藏列表  -->

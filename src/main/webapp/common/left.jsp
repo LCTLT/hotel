@@ -177,9 +177,6 @@
 <!--页面导航结束-->
 <script>
 	function xzxllb(name,type,id,level){
-		console.log(id);
-		console.log(type);
-		console.log(name);
 		if(type == "price"){
 			if(name <= 1000){
 				id=name+"元以下";

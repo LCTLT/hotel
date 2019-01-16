@@ -8,12 +8,6 @@
 <script type="text/javascript" src="index_files/common.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>首页</title>
-<meta name="description"
-	content="乐游旅游，全国旅游连锁品牌，综合性旅游服务平台，提供出境游、国内游、周边游、自由行、机票预订、酒店预订主题定制等旅游全产业链服务，已在全国15个省30多个地市建立1600余家连锁门店。快乐旅游，就在乐游，全国旅游咨询热线：4000-121-888">
-<meta name="keywords"
-	content="乐游旅游,乐游旅游官网,旅游连锁,旅行社加盟,旅游分销平台,乐游美国,乐游邮轮,乐年汇">
-<link rel="shortcut icon" type="image/x-icon"
-	href="http://www.loyoyo.com/xtfsq/themes/default/ppgl/loyoyo.com/favicon.ico?timestamp=2015090216">
 <link rel="stylesheet" type="text/css" href="index_files/cpglindex.css">
 <link rel="stylesheet" type="text/css" href="css/index.css">
 <script type="text/javascript" src="js/index.js"></script>

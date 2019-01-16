@@ -16,8 +16,6 @@
 }
 
 </style>
-<link rel="shortcut icon" type="image/x-icon"
-	href="http://www.loyoyo.com/xtfsq/themes/default/ppgl/loyoyo.com/favicon.ico?timestamp=2015090216">
 <link rel="stylesheet" type="text/css"
 	href="register_files/hygllogin.css">
 <script type="text/javascript">

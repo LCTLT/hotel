@@ -6,26 +6,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css"
-	href="hotelDetails_files/share.css">
-<script type="text/javascript" src="hotelDetails_files/jquery.js"></script>
-<script type="text/javascript" src="hotelDetails_files/common.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta id="description"
-	content="温馨提示：
-提前3个小时抵达机场，由领队带领大家办理出境手续及换登机牌。乘搭国际航班前往泰国首都—【曼谷】&nbsp;，抵达泰国机场之后，领队帮忙办理落地签/或自备签证，入境泰国后送至酒店休息，养精蓄锐迎接精彩的明天！">
-<meta id="imgurl"
-	content="http://sc-fx-fxtfsq.cloudtravel.net/fxtfsq/xltt/2018/10/25/9fd1ee780a7c4d539322c7ea1d79c0a4.jpg">
 <title>酒店详情</title>
-<meta name="description"
-	content="乐游旅游，全国旅游连锁品牌，综合性旅游服务平台，提供出境游、国内游、周边游、自由行、机票预订、酒店预订主题定制等旅游全产业链服务，已在全国15个省30多个地市建立1600余家连锁门店。快乐旅游，就在乐游，全国旅游咨询热线：4000-121-888">
-<meta name="keywords"
-	content="五星泰国海景沙美版6天5晚跟团游，1晚沙美岛豪华度假酒店小别墅+2晚芭提雅国五海景房布莱顿酒店海景房+1晚曼谷皇家喜来登酒店180°落地河景房+1晚曼谷高人气绿宝石酒店_乐游旅游">
-<link rel="shortcut icon" type="image/x-icon"
-	href="http://www.loyoyo.com/xtfsq/themes/default/ppgl/loyoyo.com/favicon.ico?timestamp=2015090216">
-<link rel="stylesheet" type="text/css"
-	href="hotelDetails_files/cpglview.css">
+<link rel="stylesheet" type="text/css" href="hotelDetails_files/share.css">
+<script type="text/javascript" src="hotelDetails_files/jquery.js"></script>
+<script type="text/javascript" src="hotelDetails_files/common.js"></script>
+<link rel="stylesheet" type="text/css" href="hotelDetails_files/cpglview.css">
 <script type="text/javascript" src="hotelDetails_files/calendar.js"></script>
 <script type="text/javascript" src="hotelDetails_files/jquery-qrcode.js"></script>
 <link rel="stylesheet" type="text/css" href="css/hotelDetails.css">
@@ -41,15 +28,12 @@
 	href="http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.css"
 	rel="stylesheet" type="text/css" />
 <script type="text/javascript"
-	src="http://api.map.baidu.com/api?v=2.0&ak=SsYbaysf6xEvBGFpPeGD6Xn12uhXfqpO"></script>
-<script type="text/javascript"
 	src="http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.js"></script>
-
 <script type="text/javascript"
 	src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
 <link rel="stylesheet"
 	href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
-
+	<!-- 日期控件 -->
 <script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
@@ -121,7 +105,7 @@
 									placeholder="不能小于当前日期" readonly/></li>
 								<li><span>退房日期：</span> <input name="checkOutDates"
 									id="dateExit" type="text"
-									onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:'#F{$dp.$D(\'dateOpen\')}'});"
+									onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:'#F{$dp.$D(\'dateOpen\',{d:1})}'});"
 									placeholder="不能小于入住日期" readonly/></li>
 								<li><span>房&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型：</span>
 									<select name="houseId" id="houseList">
@@ -413,7 +397,7 @@ setTimeout(function(){
 	    oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);  //转换为yyyy-MM-dd格式
 	    aDate = sDate2.split("-");
 	    oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
-	    iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24);  //把相差的毫秒数转换为天数
+	    iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24);   //把相差的毫秒数转换为天数
 	  
 	    return iDays;  //返回相差天数
 	}
@@ -443,7 +427,7 @@ setTimeout(function(){
 		 $("#sc").click(function(){
 				var hotelIds = $("#hotelIds").val();
 				var conuserId = $("#conuserids").val();
-				var phone = $("#phone").val();
+				var phone = $("#ssj").val();
 			 if(phone==""){
 				 $(".tczz,.tck",parent.document).show();
 					$(".tck span",parent.document).html("您还未登录，是否去登录？");

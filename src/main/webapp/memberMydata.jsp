@@ -73,6 +73,7 @@
 			}
 			
 			$(function(){
+				window.parent.document.getElementById("hycenter").style.height="500px";
 				if($("#zjlx").val().trim()=="01"){
 					var temp = validCard($("#zjh").val(),null,null);
 					if(temp[0]=="true"){

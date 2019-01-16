@@ -1,7 +1,5 @@
 package pojo;
 
-import java.util.Date;
-
 /**
  * �Ƶ��
  * @author Administrator
@@ -22,8 +20,6 @@ public class Hotel {
 	private int level1;  //一级分类地址
 	private int level2;  //二级分类地址
 	private int level3;  //三级分类地址
-	private Date hotelCheckinTime;  //入住时间
-	private Date hotelCheckoutTime; //退房时间
 	private String fileUrl;  //酒店图片
 	private String hotelphone;  //酒店电话
 	private String houseTypes; //酒店房型
@@ -148,18 +144,6 @@ public class Hotel {
 	}
 	public void setHotelPrice(double hotelPrice) {
 		this.hotelPrice = hotelPrice;
-	}
-	public Date getHotelCheckinTime() {
-		return hotelCheckinTime;
-	}
-	public void setHotelCheckinTime(Date hotelCheckinTime) {
-		this.hotelCheckinTime = hotelCheckinTime;
-	}
-	public Date getHotelCheckoutTime() {
-		return hotelCheckoutTime;
-	}
-	public void setHotelCheckoutTime(Date hotelCheckoutTime) {
-		this.hotelCheckoutTime = hotelCheckoutTime;
 	}
 	public String getHouseTypes() {
 		return houseTypes;

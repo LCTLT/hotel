@@ -21,8 +21,6 @@ public class House {
 	private String contentFive;//室外景观
 	private Date creationDate;//创建时间
 	private String createBy;//创建人
-	private Date modifyDate;//修改时间
-	private String modifide;//修改人
 	
 	
 	public int getHouseId() {
@@ -91,23 +89,11 @@ public class House {
 	public void setCreateBy(String createBy) {
 		this.createBy = createBy;
 	}
-	public String getModifide() {
-		return modifide;
-	}
-	public void setModifide(String modifide) {
-		this.modifide = modifide;
-	}
 	public Date getCreationDate() {
 		return creationDate;
 	}
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
-	}
-	public Date getModifyDate() {
-		return modifyDate;
-	}
-	public void setModifyDate(Date modifyDate) {
-		this.modifyDate = modifyDate;
 	}
 	
 }

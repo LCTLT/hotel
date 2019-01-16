@@ -1,7 +1,5 @@
 package pojo;
 
-import java.util.Date;
-
 /**
  * ʵʱ���
  * @author Administrator
