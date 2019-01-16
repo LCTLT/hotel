@@ -47,7 +47,7 @@
 	                            <li><span>订单编号：</span><span>${list.orderNo}</span></li>
 	                            <li><span>订单状态：</span><i> <c:if test="${list.orderStatus eq 0}">待支付</c:if><c:if test="${list.orderStatus eq 2}">已超时</c:if><c:if test="${list.orderStatus eq 1}">已支付</c:if><c:if test="${orderStatus eq 3}">已取消</c:if> </i></li>
 	                            <li><span>订单金额：</span><u>¥${list.payAmount}</u>（支付宝支付）</li>
-	                            <li><span>出发城市：</span><span>长沙市</span></li>
+	                            <li><span>出发城市：</span><span>${list.place}</span></li>
 	                            <li><span>订购数量：</span><span>${list.houseCount}间</span></li>
 	                            <li><span>入住天数：</span><span>${list.bookingDays}天</span></li>
 	                            <li><span>入住日期：</span><span><fmt:formatDate value="${list.checkInDate}" pattern="yyyy:MM:dd:HH:mm:ss"/></span></li>

@@ -39,9 +39,10 @@
 						}
 						wdsclb.html(option);
 						var pageHeight = 90;
-						var height = parseInt(result.length)*160+pageHeight;
-						if(result.length == 3){
+						if(result.length <= 3){
 							height = 380;
+						}else{
+							var height = parseInt(result.length)*160+pageHeight;
 						}
 						window.parent.document.getElementById("hycenter").style.height=height+"px";
 				},
